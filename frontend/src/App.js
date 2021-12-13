@@ -1,19 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-import {   Routes,  Route } from 'react-router-dom'
-import Product from './pages/products'
-import ProductD from './pages/product-details'
-import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Router from './components/Router/Router';
 
 function App() {
   return (
-    <React.Fragment>   
-      <Routes>
-        <Route index element={<Product />} />
-        <Route path="teams" element={<ProductD />}/>
-      </Routes>
-      </React.Fragment>
- 
+    <div className="App">
+       <Router/>
+    </div>
   );
 }
 

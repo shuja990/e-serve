@@ -8,13 +8,10 @@ import './assets/styles/icofont.min.css';
 import './assets/styles/responsive.scss';
 import './assets/styles/animate.min.css';
 import './assets/styles/style.scss';
-import { BrowserRouter } from 'react-router-dom'
 ReactDOM.render(
-  <BrowserRouter>
   <React.StrictMode>
     <App />
-  </React.StrictMode>
-  </BrowserRouter>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

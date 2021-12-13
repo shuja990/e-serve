@@ -141,17 +141,14 @@ export class ProductsContent extends Component {
                                         </ul>
 
                                         <span className="price">${data.price}</span>
-{/* 
+
                                         <Link to="#">
                                             <a 
                                                 className="btn btn-primary"
-                                                onClick={(e) => {
-                                                    e.preventDefault(); this.handleAddToCart(data.id)
-                                                }}
                                             >
-                                                Add to Cart
+                                                Contact
                                             </a>
-                                        </Link> */}
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
