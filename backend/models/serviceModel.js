@@ -10,11 +10,11 @@ const serviceSchema = mongoose.Schema(
         type: Number,
         required: true,
     },
-    thumnailImage : {
+    thumbnailImage : {
       type: String,
       required: true,
     },
-    image : [String],
+    images : [String],
     keywords: [String],
     category: {
         type: String,
@@ -22,15 +22,27 @@ const serviceSchema = mongoose.Schema(
     },
     noOfTimesEdited : {
         type: Number,
+        default: 0
     },
     noOfOrders: {
-        type: Number
+        type: Number,
+        default: 0
     },
     clicks: {
-        type: Number
+        type: Number,
+        default: 0
     },
-    ratingsAndComments: [
+    serviceType: {
+      type: String,
+      enum : ['Digital','Physical'],
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'User'
+    },
+    review: [
         {
+            name: {type:String},
             rating: { type: Number },
             comment: { type: String },
             ratedBy: { type : mongoose.Schema.Types.ObjectId, ref: 'User' }
@@ -39,7 +51,6 @@ const serviceSchema = mongoose.Schema(
     promotedPostPayments: {
         paymentMethod: {
           type: String,
-          required: true,
         },
         paymentResult: {
           id: { type: String },

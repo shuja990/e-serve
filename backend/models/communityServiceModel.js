@@ -6,15 +6,11 @@ const CommunityServiceSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    price:{
-        type: Number,
-        required: true,
-    },
-    thumnailImage : {
+    thumbnailImage : {
       type: String,
       required: true,
     },
-    image : [String],
+    images : [String],
     location: {
         type: String,
         required: true,

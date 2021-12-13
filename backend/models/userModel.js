@@ -1,52 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
-const reviewSchema = mongoose.Schema(
-  {
-    Review_title: { type: String },
-    Review_link: { type: String },
-    Unhappy_action: { type: String },
-    Icon: { type:String },
-    review: {type:String},
-    name: {type:String},
-    phone: {type:Number},
-    email: {type:String},
-    comment: {type:String},
-  },
-  {
-    timestamps: true,
-  }
-)
-
-const locationSchema = mongoose.Schema(
-  {
-    Store_name: { type: String },
-    rating: { type: Number },
-    Store_address: { type: String },
-    email: { type: String },
-    website: { type: String },
-    page_content: { type: String },
-    Default_message: { type: String },
-    Customer_service_email: { type:String },
-    Review_links : [String],
-    Reviews: [reviewSchema],
-  },
-  {
-    timestamps: true,
-  }
-) 
-
-const businessSchema = mongoose.Schema(
-  {
-    name: { type: String },
-    logo: { type: String },
-    locations: [locationSchema],
-  },
-  {
-    timestamps: true,
-  }
-) 
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -74,30 +28,26 @@ const userSchema = mongoose.Schema(
     },
     cnic: {
       type: Number,
-      max: 13,
       required: true,
       unique: true
     },
-    favorites: [
-      [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Rent',
-        }
-      ],
-      [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'CommunityService',
-        }
-      ],
-      [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Services',
-        }
-      ]
-
+    rentFavorites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Rent'
+      }
+    ],
+    communityFavorites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CommunityService'
+      }
+    ],
+    serviceFavorites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Services'
+      }
     ],
     itemsRented: [
       {
@@ -138,12 +88,20 @@ const userSchema = mongoose.Schema(
         month: { type: Number },
         year: { type: Number }
       },
-      address: { type: String }
     },
+    address: { type: String },
     isDisputeResolutionStaff: {
       type: String,
       default: false
-    }
+    },
+    review: [
+      {
+          name: {type:String},
+          rating: { type: Number },
+          comment: { type: String },
+          ratedBy: { type : mongoose.Schema.Types.ObjectId, ref: 'User' }
+      }
+    ]
   },
   {
     timestamps: true,

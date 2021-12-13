@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const rentSchema = mongoose.Schema(
   {
-    title: {
+    title: { 
       type: String,
       required: true,
     },
@@ -10,11 +10,11 @@ const rentSchema = mongoose.Schema(
         type: Number,
         required: true,
     },
-    thumnailImage : {
+    thumbnailImage : {
       type: String,
       required: true,
     },
-    image : [String],
+    images : [String],
     location: {
         type: String,
         required: true,
@@ -37,7 +37,7 @@ const rentSchema = mongoose.Schema(
     isRented: {
         type: Boolean,
         required: true,
-        default: true
+        default: false
     },
     promoted: {
         type: Boolean,
@@ -56,7 +56,6 @@ const rentSchema = mongoose.Schema(
     promotedPostPayments: {
       paymentMethod: {
         type: String,
-        required: true,
       },
       paymentResult: {
         id: { type: String },
@@ -66,7 +65,6 @@ const rentSchema = mongoose.Schema(
       },
       isPaid: {
         type: Boolean,
-        required: true,
         default: false,
       },
       paidAt: {

@@ -28,13 +28,16 @@ const adminSchema = mongoose.Schema(
     feedback: [feebackSchema],
     inAppropriateWords: [String],
     websiteVisits: {
-        type: Number
+        type: Number,
+        default: 0
     },
     numberOfOrders: {
-        type: Number
+        type: Number,
+        default: 0
     },
     numberOfSocialShares: {
-        type: Number
+        type: Number,
+        default: 0
     }
   },
   {
