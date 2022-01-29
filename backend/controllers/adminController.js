@@ -17,8 +17,9 @@ const addWord = asyncHandler(async (req, res) => {
 const addWords = asyncHandler(async (req, res) => {
     const word = await Admin.find({})
     if(word){
+        word.inAppropriateWords = []
         word.inAppropriateWords.concat(req.body.word)
-        await word.save()
+        Admin.findOneAndUpdate({},{word})
         res.json({ message: 'Words Added' })
     }
     else {
