@@ -1,18 +1,34 @@
-import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import Paginate from '../../components/Paginate'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { Form } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import FormContainer from '../../components/FormContainer'
+import { listProductDetails, updateProduct } from '../../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../../constants/productConstants'
+import axios from 'axios'
 import {
   listProducts,
   deleteProduct,
   createProduct,
 } from '../../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../../constants/productConstants'
+import { createPaidService } from '../../actions/paidServiceActions'
 
 const CreatePaidService = ({ history, match }) => {
+    const [title, setTitle] = useState('')
+    const [price, setPrice] = useState(0)
+    const [image, setImage] = useState('')
+    const [keywords, setKeywords] = useState('')
+    const [category, setCategory] = useState('')
+    const [countInStock, setCountInStock] = useState(0)
+    const [description, setDescription] = useState('')
+    const [uploading, setUploading] = useState(false)
+
+    
   const pageNumber = match.params.pageNumber || 1
 
   const dispatch = useDispatch()
@@ -70,68 +86,160 @@ const CreatePaidService = ({ history, match }) => {
     dispatch(createProduct())
   }
 
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+
+      const { data } = await axios.post('/api/upload', formData, config)
+
+      setImage(data)
+      setUploading(false)
+    } catch (error) {
+      console.error(error)
+      setUploading(false)
+    }
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    
+    dispatch(createPaidService(
+        {
+            _id: 123,
+            title,
+            price,
+            image,
+            keywords,
+            category,
+            description,
+            countInStock,
+          }
+    ))
+
+    history.push('/paidservices')
+
+    // dispatch(
+    //   updateProduct({
+    //     _id: productId,
+    //     name,
+    //     price,
+    //     image,
+    //     brand,
+    //     category,
+    //     description,
+    //     countInStock,
+    //   })
+    // )
+  }
+
   return (
     <>
-      <Row className='align-items-center'>
-        <Col>
-          <h1>Products</h1>
-        </Col>
-        <Col className='text-right'>
-          <Button className='my-3' onClick={createProductHandler}>
-            <i className='fas fa-plus'></i> Create Product
-          </Button>
-        </Col>
-      </Row>
-      {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-      {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-        <>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(product._id)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Paginate pages={pages} page={page} isAdmin={true} />
-        </>
-      )}
+       <Link to='/admin/productlist' className='btn btn-light my-3'>
+        Go Back
+      </Link>
+      <FormContainer>
+      <h1>Create Service</h1>
+
+        {/* {loadingUpdate && <Loader />} */}
+        {/* {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>} */}
+        {
+        // loading 
+        false
+        ?
+         (
+          <Loader />
+        ) :
+        //  error
+        false
+          ? (
+          <Message variant='danger'>
+              {/* {error} */}
+              error
+              </Message>
+        ) : (
+          <Form onSubmit={submitHandler}>
+            <Form.Group controlId='name'>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type='name'
+                placeholder='Enter name'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='price'>
+              <Form.Label>Price</Form.Label>
+              <Form.Control
+                type='number'
+                placeholder='Enter price'
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='image'>
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter image url'
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              ></Form.Control>
+              <Form.File
+                id='image-file'
+                label='Choose File'
+                custom
+                onChange={uploadFileHandler}
+              ></Form.File>
+              {uploading && <Loader />}
+            </Form.Group>
+
+            <Form.Group controlId='brand'>
+              <Form.Label>Keywords</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter brand'
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='category'>
+              <Form.Label>Category</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter category'
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='description'>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter description'
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Button type='submit' variant='primary'>
+              Create
+            </Button>
+          </Form>
+        )}
+      </FormContainer>
     </>
   )
 }

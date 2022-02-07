@@ -1,7 +1,7 @@
 import React from "react";
 import "./PaidServiceCard.css";
 
-function PaidServiceCard() {
+function PaidServiceCard({paidService}) {
   return (
     <div className="col">
       <div className="card psc h-100 shadow-sm">
@@ -12,7 +12,7 @@ function PaidServiceCard() {
           alt="..."
         />
         <div className="top-right shadow-sm mb-5">Image</div>
-        <div className="label-top shadow-sm">Asus Rog</div>
+        <div className="label-top shadow-sm">{paidService.title}</div>
         <div className="card-body">
           <div className="clearfix">
             {" "}
