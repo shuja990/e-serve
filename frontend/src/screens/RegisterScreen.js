@@ -126,3 +126,4 @@ const RegisterScreen = ({ location, history }) => {
 }
 
 export default RegisterScreen
+ 
