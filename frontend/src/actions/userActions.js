@@ -14,7 +14,7 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_DETAILS_RESET,
-  USER_LIST_FAIL,
+  USER_LIST_FAIL, 
   USER_LIST_SUCCESS,
   USER_LIST_REQUEST,
   USER_LIST_RESET,
@@ -74,7 +74,7 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login'
 }
 
-export const register = (name, email, password) => async (dispatch) => {
+export const register = (name, email, password, cnic, contact) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -88,7 +88,7 @@ export const register = (name, email, password) => async (dispatch) => {
 
     const { data } = await axios.post(
       '/api/users',
-      { name, email, password },
+      { name, email, password, cnic, contact },
       config
     )
 
@@ -303,3 +303,4 @@ export const updateUser = (user) => async (dispatch, getState) => {
     })
   }
 }
+ 
