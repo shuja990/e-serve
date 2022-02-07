@@ -12,6 +12,9 @@ const RegisterScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [contact, setContact] = useState('')
+  const [cnic, setCnic] = useState('')
+
   const [message, setMessage] = useState(null)
 
   const dispatch = useDispatch()
@@ -32,7 +35,7 @@ const RegisterScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      dispatch(register(name, email, password))
+      dispatch(register(name, email, password, cnic, contact))
     }
   }
 
@@ -80,6 +83,28 @@ const RegisterScreen = ({ location, history }) => {
             placeholder='Confirm password'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='contact'>
+          <Form.Label>Contact Number</Form.Label>
+          <Form.Control
+            type='number'
+            min={11}
+            placeholder='Contact Number'
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='cnic'>
+          <Form.Label>CNIC</Form.Label>
+          <Form.Control
+            type='number'
+            placeholder='CNIC'
+            value={cnic}
+            min={13}
+            onChange={(e) => setCnic(e.target.value)}
           ></Form.Control>
         </Form.Group>
 
