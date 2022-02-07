@@ -19,6 +19,7 @@ import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import PaidServices from './pages/PaidServices/PaidServices'
+import PSDetail from './pages/PSDetail/PSDetail'
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
           <Route path='/admin/userlist' component={UserListScreen} />
           <Route path='/order/:id' component={OrderScreen} />
           <Route path='/paidservices' component={PaidServices} />
+          <Route path='/paidservice/:id' component={PSDetail} />
           <Route
             path='/admin/productlist'
             component={ProductListScreen}

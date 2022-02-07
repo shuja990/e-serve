@@ -1,13 +1,25 @@
-import React from 'react';
+import React from "react";
+import PaidServiceCard from "../../components/PaidServiceCard/PaidServiceCard";
 
 function PaidServices() {
-  return <div className='height-full ' >
-       {/* <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1> */}
-      <div className='bg-grey-800'>Paid Services Page</div>
-
-  </div>;
+  return (
+    <div className="height-full "> 
+      <div class="container">
+        {/* map row */}
+        <div class="row">
+          <div class="col-sm ">
+            <PaidServiceCard />
+          </div>
+          <div class="col-sm">
+            <PaidServiceCard />
+          </div>
+          <div class="col-sm">
+            <PaidServiceCard />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default PaidServices;
