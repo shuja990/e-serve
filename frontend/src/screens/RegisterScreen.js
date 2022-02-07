@@ -103,7 +103,7 @@ const RegisterScreen = ({ location, history }) => {
             type='number'
             placeholder='CNIC'
             value={cnic}
-            min={13}
+            min={13} 
             onChange={(e) => setCnic(e.target.value)}
           ></Form.Control>
         </Form.Group>
