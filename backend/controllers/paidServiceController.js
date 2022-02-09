@@ -49,7 +49,7 @@ const deletePaidService = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const createPaidService = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description, createdBy } = req.body
+    const { title,thumbnailImage,images,location,category,description, createdBy, price } = req.body
     // createdBy: req.user._id
   const product = new PaidService({
     title: title,
@@ -59,6 +59,7 @@ const createPaidService = asyncHandler(async (req, res) => {
     location: location,
     category: category,
     description: description,
+    price: price
   })
 
   const createdProduct = await product.save()

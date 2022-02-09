@@ -45,6 +45,7 @@ export const createPaidService = (data) => async (dispatch, getState) => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
+      const { dbData } = await axios.post(`/api/paidservice`, data, config)
       // const { data } = await axios.post(`/api/paidservice`, data, config)
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
@@ -56,7 +57,6 @@ export const createPaidService = (data) => async (dispatch, getState) => {
         type: PAID_SERVICES_LIST_ADD,
         payload: data,
       })
-      const { dbData } = await axios.post(`/api/paidservice`, data, config)
       // console.log("db data paid service creation: "+ dbData);
 
     } catch (error) {
