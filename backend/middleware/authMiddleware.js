@@ -9,6 +9,7 @@ const protect = asyncHandler(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
+    // alert('protect run authorized half')
     try {
       token = req.headers.authorization.split(' ')[1]
 

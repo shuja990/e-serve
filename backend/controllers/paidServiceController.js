@@ -10,8 +10,8 @@ const  getPaidServices = asyncHandler(async (req, res) => {
   res.json({ paidServices })
 })
 
-// @desc    Fetch single product
-// @route   GET /api/products/:id
+// @desc    Fetch single Paid Service
+// @route   GET /api/paidservice/:id
 // @access  Public
 const getPaidServiceById = asyncHandler(async (req, res) => {
   const product = await PaidService.findById(req.params.id)
@@ -24,18 +24,18 @@ const getPaidServiceById = asyncHandler(async (req, res) => {
   }
 })
 
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
+// @desc    Delete a delete Paid Service
+// @route   DELETE /api/paidservice/:id
 // @access  Private/Admin
 const deletePaidService = asyncHandler(async (req, res) => {
   const product = await PaidService.findById(req.params.id)
   if(req.user._id.toString() == product.createdBy.toString()){
     if (product) {
         await product.remove()
-        res.json({ message: 'Product removed' })
+        res.json({ message: 'Paid Service removed' })
     } else {
         res.status(404)
-        throw new Error('Product not found')
+        throw new Error('Paid Service not found')
     }
   }
   else{
@@ -53,7 +53,7 @@ const createPaidService = asyncHandler(async (req, res) => {
     // createdBy: req.user._id
   const product = new PaidService({
     title: title,
-    createdBy: createdBy._id,
+    createdBy: req.user._id,
     thumbnailImage: thumbnailImage,
     // images: images,
     location: location,

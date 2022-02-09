@@ -1,19 +1,42 @@
 import React from "react";
+import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePaidService } from "../../actions/paidServiceActions";
 import "./PaidServiceCard.css";
 
-function PaidServiceCard({paidService}) {
+function PaidServiceCard({ paidService }) {
   // "https://www.freepnglogos.com/uploads/notebook-png/download-laptop-notebook-png-image-png-image-pngimg-2.png"
-  const {title, price, thumbnailImage, keywords, description, category, location}= paidService
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+  const {
+    title,
+    price,
+    thumbnailImage,
+    keywords,
+    description,
+    category,
+    location,
+    _id,
+    createdBy
+  } = paidService;
+  // console.log(userInfo);
+
+  const dispatch = useDispatch();
+  const deleteHandler = (id) => {
+    dispatch(deletePaidService(id));
+    window.location.reload();
+  };
   return (
     <div className="col">
       <div className="card psc h-100 shadow-sm">
         {" "}
-        <img style={{marginTop: '120px'}}
+        <img
+          style={{ marginTop: "120px" }}
           src={thumbnailImage}
           className="card-img-top "
           alt="..."
         />
-        <div className="top-right shadow-sm mb-5">Image</div>
+        <div className="top-right shadow-sm mb-5 w-1 h-2">Image</div>
         <div className="label-top shadow-sm">{title}</div>
         <div className="card-body">
           <div className="clearfix">
@@ -27,15 +50,23 @@ function PaidServiceCard({paidService}) {
               </a>
             </span>{" "}
           </div>
-          <h5 className="card-title">
-           {description}
-          </h5>
+          <h5 className="card-title">{description}</h5>
           <div className="text-center my-4">
             {" "}
             <a href="#" className="btn btn-warning">
               Check offer
             </a>{" "}
           </div>
+          {
+            (userInfo?._id == createdBy || userInfo.isAdmin) && 
+            <Button
+            variant="danger"
+            className="btn-sm"
+            onClick={() => deleteHandler(_id)}
+          >
+            <i className="fas fa-trash"></i>
+          </Button>
+          }
           <div className="clearfix mb-1">
             {" "}
             <span className="float-start">

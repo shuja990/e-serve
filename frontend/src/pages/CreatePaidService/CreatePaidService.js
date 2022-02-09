@@ -147,7 +147,7 @@ const CreatePaidService = ({ history, match }) => {
         Go Back
       </Link>
       <FormContainer>
-      <h1>Create Service</h1>
+      <h1>Create Paid Service</h1>
 
         {/* {loadingUpdate && <Loader />} */}
         {/* {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>} */}
