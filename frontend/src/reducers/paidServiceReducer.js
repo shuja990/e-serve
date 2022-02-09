@@ -4,17 +4,16 @@ import { PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQ
 export const paidServiceListReducer = (state = { paidServices: [] }, action) => {
     switch (action.type) {
       case PAID_SERVICES_LIST_REQUEST:
-        return { loading: true, products: [] }
+        return { loading: true, paidServices: [] }
       case PAID_SERVICES_LIST_SUCCESS:
         return {
-        //   loading: false,
-        //   products: action.payload.products,
-        //   pages: action.payload.pages,
-        //   page: action.payload.page,
+          loading: false,
+          paidServices: action.payload,
+           
         }
       case PAID_SERVICES_LIST_FAIL:
         return { loading: false, error: action.payload }
-
+// action.payload is an array itself
       case PAID_SERVICES_LIST_ADD:
         return { loading: true, paidServices: [...state.paidServices, action.payload] }
       default:

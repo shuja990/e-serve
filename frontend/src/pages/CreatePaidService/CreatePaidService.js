@@ -21,11 +21,11 @@ import { createPaidService } from '../../actions/paidServiceActions'
 const CreatePaidService = ({ history, match }) => {
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState(0)
-    const [image, setImage] = useState('')
+    const [thumbnailImage, setThumbnailImage] = useState('')
     const [keywords, setKeywords] = useState('')
     const [category, setCategory] = useState('')
-    const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState('')
+    const [location, setLocation] = useState('')
     const [uploading, setUploading] = useState(false)
 
     
@@ -101,7 +101,7 @@ const CreatePaidService = ({ history, match }) => {
 
       const { data } = await axios.post('/api/upload', formData, config)
 
-      setImage(data)
+      setThumbnailImage(data)
       setUploading(false)
     } catch (error) {
       console.error(error)
@@ -114,14 +114,14 @@ const CreatePaidService = ({ history, match }) => {
     
     dispatch(createPaidService(
         {
-            _id: 123,
+            _id: Math.floor(Math.random() * 10000000),
             title,
             price,
-            image,
+            thumbnailImage,
             keywords,
             category,
             description,
-            countInStock,
+            location
           }
     ))
 
@@ -132,7 +132,7 @@ const CreatePaidService = ({ history, match }) => {
     //     _id: productId,
     //     name,
     //     price,
-    //     image,
+    //     thumbnailImage,
     //     brand,
     //     category,
     //     description,
@@ -188,12 +188,12 @@ const CreatePaidService = ({ history, match }) => {
             </Form.Group>
 
             <Form.Group controlId='image'>
-              <Form.Label>Image</Form.Label>
+              <Form.Label>thumbnailImage</Form.Label>
               <Form.Control
                 type='text'
                 placeholder='Enter image url'
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
+                value={thumbnailImage}
+                onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
               <Form.File
                 id='image-file'
@@ -208,7 +208,7 @@ const CreatePaidService = ({ history, match }) => {
               <Form.Label>Keywords</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter brand'
+                placeholder='Enter keywords'
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
               ></Form.Control>
@@ -231,6 +231,16 @@ const CreatePaidService = ({ history, match }) => {
                 placeholder='Enter description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId='location'>
+              <Form.Label>Location</Form.Label>
+              <Form.Control
+                type='text'
+                placeholder='Enter location'
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
               ></Form.Control>
             </Form.Group>
 

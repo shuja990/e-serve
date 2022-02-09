@@ -12,6 +12,7 @@ import uploadRoutes from './routes/uploadRoutes.js'
 import communityServiceRoutes from './routes/communityServiceRoutes.js'
 import serviceRoutes from './routes/servicesRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import paidServiceRoutes from './routes/paidServiceRoutes.js'
 
 dotenv.config()
 connectDB()
@@ -30,6 +31,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/communityservice', communityServiceRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/services', serviceRoutes)
+app.use('/api/paidservice', paidServiceRoutes)
 
 app.use('/api/admin', adminRoutes)
 

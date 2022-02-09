@@ -1,4 +1,31 @@
-import { PAID_SERVICES_LIST_ADD, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_SUCCESS } from "../constants/paidServiceConstants"
+import axios from "axios";
+import { PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQUEST, PAID_SERVICES_LIST_SUCCESS, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_SUCCESS } from "../constants/paidServiceConstants"
+
+
+export const paidServicesList = () => async (
+  dispatch
+) => {
+  try {
+    dispatch({ type: PAID_SERVICES_LIST_REQUEST })
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/paidservice`
+    )
+      console.log("paid services from db: " +  JSON.stringify(data));
+    dispatch({
+      type: PAID_SERVICES_LIST_SUCCESS,
+      payload: data.paidServices,
+    })
+  } catch (error) {
+    dispatch({
+      type: PAID_SERVICES_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
 
 export const createPaidService = (data) => async (dispatch, getState) => {
     try {
@@ -9,14 +36,16 @@ export const createPaidService = (data) => async (dispatch, getState) => {
       const {
         userLogin: { userInfo },
       } = getState()
-  
+
+      data.createdBy= userInfo;
+      data.user= userInfo;
+
       const config = {
         headers: {
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-  
-    //   const { data } = await axios.post(`/api/createpaidservice`, {}, config)
+      // const { data } = await axios.post(`/api/paidservice`, data, config)
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
         type: PAID_SERVICE_CREATE_SUCCESS,
@@ -27,6 +56,9 @@ export const createPaidService = (data) => async (dispatch, getState) => {
         type: PAID_SERVICES_LIST_ADD,
         payload: data,
       })
+      const { dbData } = await axios.post(`/api/paidservice`, data, config)
+      // console.log("db data paid service creation: "+ dbData);
+
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -41,3 +73,6 @@ export const createPaidService = (data) => async (dispatch, getState) => {
       })
     }
   }
+
+
+  
