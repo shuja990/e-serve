@@ -15,7 +15,6 @@ import {
   deleteProduct,
   createProduct,
 } from '../../actions/productActions'
-import { PRODUCT_CREATE_RESET } from '../../constants/productConstants'
 import { createPaidService } from '../../actions/paidServiceActions'
 
 const CreatePaidService = ({ history, match }) => {
@@ -75,16 +74,6 @@ const CreatePaidService = ({ history, match }) => {
     createdProduct,
     pageNumber,
   ])
-
-  const deleteHandler = (id) => {
-    if (window.confirm('Are you sure')) {
-      dispatch(deleteProduct(id))
-    }
-  }
-
-  const createProductHandler = () => {
-    dispatch(createProduct())
-  }
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]

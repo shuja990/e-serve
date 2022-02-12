@@ -1,5 +1,6 @@
 import axios from "axios";
-import { PAID_SERVICES_DELETE_FAIL, PAID_SERVICES_DELETE_REQUEST, PAID_SERVICES_DELETE_SUCCESS, PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQUEST, PAID_SERVICES_LIST_SUCCESS, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_SUCCESS } from "../constants/paidServiceConstants"
+import { PAID_SERVICES_DELETE_FAIL, PAID_SERVICES_DELETE_REQUEST, PAID_SERVICES_DELETE_SUCCESS, PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQUEST, PAID_SERVICES_LIST_SUCCESS, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_SUCCESS, PAID_SERVICE_DETAILS_FAIL, PAID_SERVICE_DETAILS_REQUEST, PAID_SERVICE_DETAILS_SUCCESS, PAID_SERVICE_UPDATE_FAIL, PAID_SERVICE_UPDATE_REQUEST, PAID_SERVICE_UPDATE_SUCCESS } from "../constants/paidServiceConstants"
+import { logout } from "./userActions";
 
 
 export const paidServicesList = () => async (
@@ -114,3 +115,67 @@ export const createPaidService = (data) => async (dispatch, getState) => {
 
 
   
+export const listPaidServiceDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: PAID_SERVICE_DETAILS_REQUEST })
+
+    const { data } = await axios.get(`/api/paidservice/${id}`)
+
+    dispatch({
+      type: PAID_SERVICE_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type:PAID_SERVICE_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+  
+
+  export const updatePaidService = (paidService) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: PAID_SERVICE_UPDATE_REQUEST,
+      })
+  
+      const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+  
+      const { data } = await axios.put(
+        `/api/paidservice/${paidService._id}`,
+        paidService,
+        config
+      )
+  
+      dispatch({
+        type: PAID_SERVICE_UPDATE_SUCCESS,
+        payload: data,
+      })
+      dispatch({ type: PAID_SERVICE_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout())
+      }
+      dispatch({
+        type: PAID_SERVICE_UPDATE_FAIL,
+        payload: message,
+      })
+    }
+  }

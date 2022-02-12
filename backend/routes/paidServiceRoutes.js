@@ -12,14 +12,19 @@ import {
 import { protect, admin } from '../middleware/authMiddleware.js'
 
 router.route('/').get(getPaidServices).post( protect, createPaidService)
-
-// router.route('/').get(getPaidServices).post(protect, admin, createPaidService)
-// router.route('/:id/reviews').post(protect, createProductReview)
-// router.get('/top', getTopProducts)
 router
   .route('/:id')
   .get(getPaidServiceById)
   .delete(protect, deletePaidService)
-  .put(protect, admin, updatePaidService)
+  .put(protect, updatePaidService)
+
+// router.route('/').get(getPaidServices).post(protect, admin, createPaidService)
+// router.route('/:id/reviews').post(protect, createProductReview)
+// router.get('/top', getTopProducts)
+// router
+//   .route('/:id')
+//   .get(getPaidServiceById)
+//   .delete(protect, deletePaidService)
+//   .put(protect, admin, updatePaidService)
 
 export default router

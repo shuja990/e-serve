@@ -3,6 +3,9 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePaidService } from "../../actions/paidServiceActions";
 import "./PaidServiceCard.css";
+import { Col, Row } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function PaidServiceCard({ paidService }) {
   // "https://www.freepnglogos.com/uploads/notebook-png/download-laptop-notebook-png-image-png-image-pngimg-2.png"
@@ -11,7 +14,7 @@ function PaidServiceCard({ paidService }) {
   const {
     title,
     price,
-    thumbnailImage,
+    thumbnailImage, 
     keywords,
     description,
     category,
@@ -20,6 +23,12 @@ function PaidServiceCard({ paidService }) {
     createdBy
   } = paidService;
   // console.log(userInfo);
+  // let navigate = useNavigate();
+  const history= useHistory()
+
+  const updateHandler=(id)=>{
+    history.push(`/paidservice/${id}/edit`)
+  }
 
   const dispatch = useDispatch();
   const deleteHandler = (id) => {
@@ -59,15 +68,26 @@ function PaidServiceCard({ paidService }) {
           </div>
           {
             (userInfo?._id == createdBy || userInfo.isAdmin) && 
-            <Button
+           <Row style={{display: 'flex', justifyContent: 'space-between'}}>
+              <Button
             variant="danger"
             className="btn-sm"
             onClick={() => deleteHandler(_id)}
           >
-            <i className="fas fa-trash"></i>
+            <i className="fas fa-trash" ></i>
           </Button>
+
+          <Button
+            variant="success"
+            className="btn-sm"
+            onClick={()=>updateHandler(_id)}
+          >
+                     <i class="fas fa-pen" ></i>
+
+          </Button>
+           </Row>
           }
-          <div className="clearfix mb-1">
+          {/* <div className="clearfix mb-1">
             {" "}
             <span className="float-start">
               <i className="far fa-question-circle" />
@@ -75,7 +95,7 @@ function PaidServiceCard({ paidService }) {
             <span className="float-end">
               <i className="fas fa-plus" />
             </span>{" "}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
