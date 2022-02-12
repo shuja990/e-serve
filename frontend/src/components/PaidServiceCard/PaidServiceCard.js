@@ -26,18 +26,25 @@ function PaidServiceCard({ paidService }) {
   // let navigate = useNavigate();
   const history= useHistory()
 
-  const updateHandler=(id)=>{
+  const updateHandler=(id, e)=>{
+    e.stopPropagation()
     history.push(`/paidservice/${id}/edit`)
   }
 
   const dispatch = useDispatch();
-  const deleteHandler = (id) => {
+  const deleteHandler = (id, e) => {
+    e.stopPropagation()
     dispatch(deletePaidService(id));
     window.location.reload();
   };
+
+  const viewDetailsHandler=(id)=>{
+    history.push(`/paidservice/${id}`)
+
+  }
   return (
     <div className="col">
-      <div className="card psc h-100 shadow-sm">
+      <div className="card psc h-100 shadow-sm" onClick={()=> viewDetailsHandler(_id)} >
         {" "}
         <img
           style={{ marginTop: "120px" }}
@@ -72,7 +79,7 @@ function PaidServiceCard({ paidService }) {
               <Button
             variant="danger"
             className="btn-sm"
-            onClick={() => deleteHandler(_id)}
+            onClick={(e) => deleteHandler(_id, e)}
           >
             <i className="fas fa-trash" ></i>
           </Button>
@@ -80,7 +87,7 @@ function PaidServiceCard({ paidService }) {
           <Button
             variant="success"
             className="btn-sm"
-            onClick={()=>updateHandler(_id)}
+            onClick={(e)=>updateHandler(_id, e)}
           >
                      <i class="fas fa-pen" ></i>
 
