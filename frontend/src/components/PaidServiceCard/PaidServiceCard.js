@@ -5,6 +5,7 @@ import { deletePaidService } from "../../actions/paidServiceActions";
 import "./PaidServiceCard.css";
 import { Col, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import { getUserDetails } from "../../actions/userActions";
 // import { useNavigate } from "react-router-dom";
 
 function PaidServiceCard({ paidService }) {
@@ -42,6 +43,8 @@ function PaidServiceCard({ paidService }) {
     history.push(`/paidservice/${id}`)
 
   }
+  // const createdByName= dispatch(getUserDetails(createdBy))
+
   return (
     <div className="col">
       <div className="card psc h-100 shadow-sm" onClick={()=> viewDetailsHandler(_id)} >
@@ -73,6 +76,11 @@ function PaidServiceCard({ paidService }) {
               Check offer
             </a>{" "}
           </div>
+          <span className="float-end">
+              <a href="#" className="small text-muted">
+               By {"createdByName"}
+              </a>
+            </span>
           {
             (userInfo?._id == createdBy || userInfo.isAdmin) && 
            <Row style={{display: 'flex', justifyContent: 'space-between'}}>

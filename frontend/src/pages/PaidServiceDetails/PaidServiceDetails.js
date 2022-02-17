@@ -96,6 +96,14 @@ const PaidServiceDetails = ({ history, match }) => {
             <Col md={3}>
               <Card>
                 <ListGroup variant='flush'>
+                <ListGroup.Item>
+                    <Row>
+                      <Col>Provider:</Col>
+                      <Col>
+                        <strong>${`provider name`}</strong>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Price:</Col>
