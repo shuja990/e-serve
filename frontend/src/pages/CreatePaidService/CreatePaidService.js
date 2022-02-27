@@ -116,18 +116,6 @@ const CreatePaidService = ({ history, match }) => {
 
     history.push('/paidservices')
 
-    // dispatch(
-    //   updateProduct({
-    //     _id: productId,
-    //     name,
-    //     price,
-    //     thumbnailImage,
-    //     brand,
-    //     category,
-    //     description,
-    //     countInStock,
-    //   })
-    // )
   }
 
   return (

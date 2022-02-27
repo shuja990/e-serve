@@ -32,6 +32,11 @@ const PaidServiceSchema = mongoose.Schema(
         required: true,
         default: true
     },
+    noOfUpdates: {
+      type: Number,
+      required: true,
+      default: 0
+  },
     collectedBy : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

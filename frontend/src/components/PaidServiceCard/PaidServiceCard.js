@@ -21,7 +21,8 @@ function PaidServiceCard({ paidService }) {
     category,
     location,
     _id,
-    createdBy
+    createdBy,
+    noOfUpdates
   } = paidService;
   // console.log(userInfo);
   // let navigate = useNavigate();
@@ -91,15 +92,19 @@ function PaidServiceCard({ paidService }) {
           >
             <i className="fas fa-trash" ></i>
           </Button>
+{
+  noOfUpdates<3 ?
+  
+  <Button
+  variant="success"
+  className="btn-sm"
+  onClick={(e)=>updateHandler(_id, e)}
+>
+           <i class="fas fa-pen" ></i>
 
-          <Button
-            variant="success"
-            className="btn-sm"
-            onClick={(e)=>updateHandler(_id, e)}
-          >
-                     <i class="fas fa-pen" ></i>
-
-          </Button>
+</Button>
+  :''
+}
            </Row>
           }
           {/* <div className="clearfix mb-1">

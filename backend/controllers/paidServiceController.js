@@ -70,7 +70,7 @@ const createPaidService = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updatePaidService = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description } = req.body
+    const { title,thumbnailImage,images,location,category,description, noOfUpdates } = req.body
 
 
   const product = await PaidService.findById(req.params.id)
@@ -82,6 +82,7 @@ const updatePaidService = asyncHandler(async (req, res) => {
             product.location = location
             product.category = category
             product.description = description
+            product.noOfUpdates= noOfUpdates
             const updatedProduct = await product.save()
             res.json(updatedProduct)
           } else {
