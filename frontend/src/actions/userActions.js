@@ -74,7 +74,7 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login'
 }
 
-export const register = (name, email, password, cnic, contact) => async (dispatch) => {
+export const register = (name, email, password, cnic, contact, address) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -88,7 +88,7 @@ export const register = (name, email, password, cnic, contact) => async (dispatc
 
     const { data } = await axios.post(
       '/api/users',
-      { name, email, password, cnic, contact },
+      { name, email, password, cnic, contact, address },
       config
     )
 
@@ -167,7 +167,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-
+    console.log(user)
     const { data } = await axios.put(`/api/users/profile`, user, config)
 
     dispatch({

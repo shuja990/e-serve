@@ -115,7 +115,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
-  if(req.user._id.toString() !== req.params.id)
+  if(req.user._id.toString() !== req.body.id)
   {
     res.status(401)
     throw new Error('Not authorized')
