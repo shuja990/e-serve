@@ -23,6 +23,7 @@ import CreatePaidService from './pages/CreatePaidService/CreatePaidService'
 import PaidServiceUpdate from './pages/PaidServiceUpdate/PaidServiceUpdate'
 import PaidServiceDetails from './pages/PaidServiceDetails/PaidServiceDetails'
 import Dashboard from './pages/module1/dashboard/Dashboard'
+import MapScreen from './pages/Module-8/MapScreen/MapScreen'
 const App = () => {
   return (
     <Router>
@@ -46,6 +47,11 @@ const App = () => {
           <Route exact path='/paidservice/:id' component={PaidServiceDetails} />
           <Route path='/createpaidservice' component={CreatePaidService} />
           <Route path='/paidservice/:id/edit' component={PaidServiceUpdate} />
+
+          {/*  */}
+
+          {/* Map */}
+          <Route path='/map' component={MapScreen} />
 
           {/*  */}
           <Route
