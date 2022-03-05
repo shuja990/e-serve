@@ -6,7 +6,7 @@ import PaidService from '../models/paidServiceModel.js'
 // @access  Public
 const  getPaidServices = asyncHandler(async (req, res) => {
 
-  const paidServices = await PaidService.find({ })
+  const paidServices = await PaidService.find({ }).populate('createdBy', 'name')
   res.json({ paidServices })
 })
 
