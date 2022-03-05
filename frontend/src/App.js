@@ -23,6 +23,10 @@ import CreatePaidService from './pages/CreatePaidService/CreatePaidService'
 import PaidServiceUpdate from './pages/PaidServiceUpdate/PaidServiceUpdate'
 import PaidServiceDetails from './pages/PaidServiceDetails/PaidServiceDetails'
 import Dashboard from './pages/module1/dashboard/Dashboard'
+import CreateRentPost from './pages/module5/CreateRentPost'
+import RentPosts from './pages/module5/RentPostsList'
+import RentPostsPage from './pages/module5/RentPostPage'
+import UpdateRentPost from './pages/module5/UpdateRentPost'
 const App = () => {
   return (
     <Router>
@@ -68,6 +72,12 @@ const App = () => {
             exact
           />
           <Route path='/' component={HomeScreen} exact />
+          {/* Rent Posts */}
+          <Route path='/rentposts' component={RentPosts} exact />
+          <Route path='/createrentpost' component={CreateRentPost} exact />
+          <Route path='/rentposts/:id' component={RentPostsPage} exact />
+          <Route path='/rentposts/:id/edit' component={UpdateRentPost} exact />
+          
         </Container>
       </main>
       <Footer />
