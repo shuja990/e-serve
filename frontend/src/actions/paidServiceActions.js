@@ -119,7 +119,7 @@ export const listPaidServiceDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PAID_SERVICE_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`/api/paidservice/${id}`)
+    const { data } = await axios.get(`http://localhost:5000/api/paidservice/${id}`)
 
     dispatch({
       type: PAID_SERVICE_DETAILS_SUCCESS,
