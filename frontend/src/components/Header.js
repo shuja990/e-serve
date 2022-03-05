@@ -48,6 +48,9 @@ const Header = () => {
                   <LinkContainer to='/createpaidservice'>
                     <NavDropdown.Item>Create Paid Service</NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to='/map'>
+                    <NavDropdown.Item>View Map</NavDropdown.Item>
+                  </LinkContainer>
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
