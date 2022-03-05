@@ -8,7 +8,7 @@ import Rent from '../models/rentModel.js'
 
 const  getRentProducts = asyncHandler(async (req, res) => {
 
-  const products = await Rent.find({ })
+  const products = await Rent.find({ }).populate({path:"createdBy",select:"name _id"})
   res.json({ products })
 })
 
@@ -16,7 +16,7 @@ const  getRentProducts = asyncHandler(async (req, res) => {
 // @route   GET /api/products/:id
 // @access  Public
 const getRentProductById = asyncHandler(async (req, res) => {
-  const product = await Rent.findById(req.params.id)
+  const product = await Rent.findById(req.params.id).populate({path:"createdBy",select:"name _id"})
 
   if (product) {
     res.json(product)
