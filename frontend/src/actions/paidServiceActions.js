@@ -46,7 +46,7 @@ export const createPaidService = (data) => async (dispatch, getState) => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { dbData } = await axios.post(`/api/paidservice`, data, config)
+      const { dbData } = await axios.post(`http://localhost:5000/api/paidservice`, data, config)
       // const { data } = await axios.post(`/api/paidservice`, data, config)
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
@@ -92,7 +92,7 @@ export const createPaidService = (data) => async (dispatch, getState) => {
         },
       }
   
-      await axios.delete(`/api/paidservice/${id}`, config)
+      await axios.delete(`http://localhost:5000/api/paidservice/${id}`, config)
   
       dispatch({
         type: PAID_SERVICES_DELETE_SUCCESS,
@@ -155,7 +155,7 @@ export const listPaidServiceDetails = (id) => async (dispatch) => {
       }
   
       const { data } = await axios.put(
-        `/api/paidservice/${paidService._id}`,
+        `http://localhost:5000/api/paidservice/${paidService._id}`,
         paidService,
         config
       )

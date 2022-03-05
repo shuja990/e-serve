@@ -88,7 +88,7 @@ const CreatePaidService = ({ history, match }) => {
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
+      const { data } = await axios.post('http://localhost:5000/api/upload', formData, config)
 
       setThumbnailImage(data)
       setUploading(false)
@@ -172,12 +172,12 @@ const CreatePaidService = ({ history, match }) => {
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
-              <Form.File
+              {/* <Form.File
                 id='image-file'
                 label='Choose File'
                 custom
                 onChange={uploadFileHandler}
-              ></Form.File>
+              ></Form.File> */}
               {uploading && <Loader />}
             </Form.Group>
 

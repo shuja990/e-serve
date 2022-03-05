@@ -47,21 +47,23 @@ function PaidServiceCard({ paidService }) {
   // const createdByName= dispatch(getUserDetails(createdBy))
 
   return (
-    <div className="col">
-      <div className="card psc h-100 shadow-sm" onClick={()=> viewDetailsHandler(_id)} >
+    <div style={{height: '632px', margin: '20px', marginTop: '30px'}} className="col">
+      <div className="card psc shadow-sm" onClick={()=> viewDetailsHandler(_id)} >
         {" "}
         <img
-          style={{ marginTop: "120px" }}
+          width={450}
+          height={300}
+          style={{objectFit: 'contain'}}
           src={thumbnailImage}
           className="card-img-top "
           alt="..."
         />
-        <div className="top-right shadow-sm mb-5 w-1 h-2">Image</div>
-        <div className="label-top shadow-sm">{title}</div>
-        <div className="card-body">
+        {/* <div className="top-right shadow-sm mb-5 w-1 h-2">Image</div> */}
+        <div className="label-top shadow-sm">{createdBy.name}</div>
+        <div className="card-body mt-0">
           <div className="clearfix">
             {" "}
-            <span className="float-start badge rounded-pill bg-success">
+            <span style={{fontSize: '12px'}} className="float-start p-3 text-white badge rounded-pill bg-success my-3 mr-5">
               {price} PKR
             </span>{" "}
             <span className="float-end">
@@ -70,7 +72,7 @@ function PaidServiceCard({ paidService }) {
               </a>
             </span>{" "}
           </div>
-          <h5 className="card-title">{description}</h5>
+          <h5  className="card-title">{title}</h5>
           <div className="text-center my-4">
             {" "}
             <a href="#" className="btn btn-warning">
@@ -79,7 +81,7 @@ function PaidServiceCard({ paidService }) {
           </div>
           <span className="float-end">
               <a href="#" className="small text-muted">
-               By {"createdByName"}
+               By {createdBy.name}
               </a>
             </span>
           {
