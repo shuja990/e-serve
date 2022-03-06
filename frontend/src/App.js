@@ -75,7 +75,7 @@ const App = () => {
           <Route
             path='/search/:keyword/page/:pageNumber'
             component={HomeScreen}
-            exact
+            exact 
           />
           <Route path='/' component={HomeScreen} exact />
           {/* Rent Posts */}
