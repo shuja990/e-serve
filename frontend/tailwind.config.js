@@ -1,11 +1,11 @@
-module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}",],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+// module.exports = {
+//   content: ["./src/**/*.{js,jsx,ts,tsx}",],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [],
+// }
 
-module.exports = {
-  prefix: 'tw-',
-}
+// module.exports = {
+//   prefix: 'tw-',
+// }

@@ -111,12 +111,14 @@ const CreateRentPost = ({ match, history }) => {
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
-              {/* <Form.File
+              <Form.Control
                 id="image-file"
                 label="Choose File"
                 custom
+                type="file"
                 onChange={uploadFileHandler}
-              ></Form.File> */}
+              ></Form.Control>
+              
               {uploading && <Loader />}
             </Form.Group>
 
@@ -150,11 +152,12 @@ const CreateRentPost = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="description">
-              <Form.Label>is Movable?</Form.Label>
+            <Form.Group controlId="isMovable" className="mt-3 mb-3">
+              {/* <Form.Label></Form.Label> */}
               <Form.Check
                 // type="text"
                 // placeholder="Enter is"
+                label="is Movable?"
                 checked={isMovable}
                 value={isMovable}
                 onChange={(e) => setMovable(e.target.checked)}
