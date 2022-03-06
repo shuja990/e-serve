@@ -157,6 +157,63 @@ export const createPaidService = (data) => async (dispatch, getState) => {
       })
     }
   }
+
+
+  export const updatePSShares =  (paidService, socialType) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: PAID_SERVICE_UPDATE_REQUEST,
+      })
+  
+      const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+     
+      if(socialType==='fb'){
+        paidService.fbShares= paidService.fbShares+1
+      }
+      else if(socialType==='whatsapp'){
+        paidService.whatsappShares= paidService.whatsappShares+1
+      }
+      else if(socialType==='twitter'){
+        paidService.twitterShares= paidService.twitterShares+1
+      }
+      else if(socialType==='email'){
+        paidService.emailShares= paidService.emailShares+1
+      }
+  
+      const { data } = await axios.put(
+        `http://localhost:5000/api/paidservice/${paidService._id}`,
+        paidService,
+        config
+      )
+  
+      dispatch({
+        type: PAID_SERVICE_UPDATE_SUCCESS,
+        payload: data,
+      })
+      dispatch({ type: PAID_SERVICE_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout())
+      }
+      dispatch({
+        type: PAID_SERVICE_UPDATE_FAIL,
+        payload: message,
+      })
+    }
+  }
   
 export const listPaidServiceDetails = (id) => async (dispatch) => {
   try {
