@@ -10,7 +10,7 @@ export const rentPostsList = () => async (
     dispatch({ type: RENT_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/rent`
+      `http://localhost:5000/api/rent`
     )
       console.log("paid services from db: " +  JSON.stringify(data));
     dispatch({
@@ -46,7 +46,7 @@ export const addRentPost = (data) => async (dispatch, getState) => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { dbData } = await axios.post(`/api/rent`, data, config)
+      const { dbData } = await axios.post(`http://localhost:5000/api/rent`, data, config)
       // const { data } = await axios.post(`/api/paidservice`, data, config)
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
@@ -93,7 +93,7 @@ export const addRentPost = (data) => async (dispatch, getState) => {
         },
       }
   
-      await axios.delete(`/api/rent/${id}`, config)
+      await axios.delete(`http://localhost:5000/api/rent/${id}`, config)
   
       dispatch({
         type: RENT_DELETE_SUCCESS,
@@ -120,7 +120,7 @@ export const listRentPostDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: RENT_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`/api/rent/${id}`)
+    const { data } = await axios.get(`http://localhost:5000/api/rent/${id}`)
 console.log("ss",data);
     dispatch({
       type: RENT_DETAILS_SUCCESS,

@@ -111,12 +111,12 @@ const CreateRentPost = ({ match, history }) => {
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
-              <Form.File
+              {/* <Form.File
                 id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandler}
-              ></Form.File>
+              ></Form.File> */}
               {uploading && <Loader />}
             </Form.Group>
 
