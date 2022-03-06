@@ -37,6 +37,10 @@ const PaidServiceSchema = mongoose.Schema(
       required: true,
       default: 0
   },
+  clicks: {
+    type: Number,
+    default: 0
+},
     collectedBy : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
