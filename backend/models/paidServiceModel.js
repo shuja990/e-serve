@@ -41,6 +41,22 @@ const PaidServiceSchema = mongoose.Schema(
     type: Number,
     default: 0
 },
+fbShares: {
+  type: Number,
+ default: 0
+},
+whatsappShares: {
+type: Number,
+default: 0
+},
+emailShares: {
+type: Number,
+default: 0
+},
+twitterShares: {
+type: Number,
+default: 0
+},
     collectedBy : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

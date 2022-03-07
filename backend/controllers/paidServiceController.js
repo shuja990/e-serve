@@ -60,7 +60,11 @@ const createPaidService = asyncHandler(async (req, res) => {
     category: category,
     description: description,
     price: price,
-    clicks: 0
+    clicks: 0,
+    fbShares: 0,
+    twitterShares: 0,
+    emailShares: 0,
+    whatsappShares: 0
   })
 
   const createdProduct = await product.save()
@@ -71,7 +75,7 @@ const createPaidService = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updatePaidService = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description, noOfUpdates, clicks } = req.body
+    const { title,thumbnailImage,images,location,category,description, noOfUpdates, clicks, fbShares, whatsappShares, emailShares, twitterShares } = req.body
 
 
   const product = await PaidService.findById(req.params.id)
@@ -85,6 +89,11 @@ const updatePaidService = asyncHandler(async (req, res) => {
             product.category = category
             product.description = description
             product.noOfUpdates= noOfUpdates
+            product.fbShares= fbShares
+            product.whatsappShares= whatsappShares
+            product.emailShares= emailShares,
+            product.twitterShares=twitterShares
+            
             const updatedProduct = await product.save()
             res.json(updatedProduct)
           } else {

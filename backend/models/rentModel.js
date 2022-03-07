@@ -28,7 +28,8 @@ const rentSchema = mongoose.Schema(
         required: true,
     },
     clicks: {
-        type: Number
+        type: Number,
+        default: 0
     },
     isMovable: {
         type: Boolean,
@@ -46,9 +47,23 @@ const rentSchema = mongoose.Schema(
     promotionType: {
         type : String,
     },
-    socialShares: {
-        type: Number
-    },
+   
+    fbShares: {
+      type: Number,
+     default: 0
+  },
+  whatsappShares: {
+    type: Number,
+   default: 0
+  },
+  emailShares: {
+    type: Number,
+   default: 0
+  },
+  twitterShares: {
+    type: Number,
+   default: 0
+  },
     createdBy : {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

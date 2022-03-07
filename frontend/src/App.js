@@ -28,7 +28,24 @@ import CreateRentPost from './pages/module5/CreateRentPost'
 import RentPosts from './pages/module5/RentPostsList'
 import RentPostsPage from './pages/module5/RentPostPage'
 import UpdateRentPost from './pages/module5/UpdateRentPost'
+import { useDispatch } from 'react-redux'
+import { addWebVisits, getWebVisits } from './actions/webVisitActions'
 const App = () => {
+  
+  const dispatch= useDispatch()
+  const updateWebAppVisit=()=>{
+    const visited= sessionStorage.getItem('visitSession')
+
+    if(!visited){
+      dispatch(addWebVisits())
+    
+
+      // dispatch(addWebVisits())
+    }
+  }
+  updateWebAppVisit()
+  sessionStorage.setItem('visitSession', true)
+
   return (
     <Router>
       <Header />
