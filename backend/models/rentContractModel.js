@@ -36,6 +36,7 @@ const rentContractSchema = mongoose.Schema(
         required: true,
         default: false
     },
+     
     paymentResult: {
       id: { type: String },
       status: { type: String },

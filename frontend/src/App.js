@@ -28,12 +28,32 @@ import CreateRentPost from './pages/module5/CreateRentPost'
 import RentPosts from './pages/module5/RentPostsList'
 import RentPostsPage from './pages/module5/RentPostPage'
 import UpdateRentPost from './pages/module5/UpdateRentPost'
+<<<<<<< HEAD
 import CommunityServicePostsLists from './pages/module6/CommunityServicePostsLists'
 import CreateCommunityServicePost from './pages/module6/CreateCommunityServicePost'
 import CommunityServicePage from './pages/module6/CommunityServicePage'
 import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePost'
 
+=======
+import { useDispatch } from 'react-redux'
+import { addWebVisits, getWebVisits } from './actions/webVisitActions'
+>>>>>>> m-10-analytics
 const App = () => {
+  
+  const dispatch= useDispatch()
+  const updateWebAppVisit=()=>{
+    const visited= sessionStorage.getItem('visitSession')
+
+    if(!visited){
+      dispatch(addWebVisits())
+    
+
+      // dispatch(addWebVisits())
+    }
+  }
+  updateWebAppVisit()
+  sessionStorage.setItem('visitSession', true)
+
   return (
     <Router>
       <Header />

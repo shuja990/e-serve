@@ -1,14 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import Rating from "./Rating";
+import { updateRentClicks } from "../actions/rentActions";
+import { useDispatch } from "react-redux";
 
 const RentProduct = ({ product }) => {
+  const history= useHistory()
+  const dispatch= useDispatch()
+
+  const viewDetailsHandler=(id, rentProduct)=>{
+    dispatch(updateRentClicks(rentProduct))
+    history.push(`/rentposts/${id}`)
+  }
+  
   return (
-    <Card className="my-3 p-3 rounded">
-      <Link to={`/rentposts/${product._id}`}>
+    <Card onClick={()=>viewDetailsHandler(product._id, product)} className="my-3 p-3 rounded">
+       
         <Card.Img src={product.thumbnailImage} variant="top" />
-      </Link>
+      
 
       <Card.Body>
         <Link to={`/rentposts/${product._id}`}>

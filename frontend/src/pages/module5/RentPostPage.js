@@ -14,7 +14,8 @@ import {
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import Meta from "../../components/Meta";
-import { listRentPostDetails } from "../../actions/rentActions";
+import { listRentPostDetails, updateRentShares } from "../../actions/rentActions";
+import PostShare from "../../components/PostShare/PostShare";
 const RentPostsPage = ({match}) => {
   const dispatch = useDispatch();
 //   const match = useParams;
@@ -34,9 +35,14 @@ const RentPostsPage = ({match}) => {
   //     history.push(`/cart/${match.params.id}?qty=${qty}`)
   //   }
 
+  const handleShare=(socialType)=>{
+    
+       dispatch(updateRentShares(rentPost, socialType))   
+  }
+
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="btn btn-light my-3" to="/rentposts">
         Go Back
       </Link>
       {loading ? (
@@ -48,6 +54,7 @@ const RentPostsPage = ({match}) => {
           <Meta title={rentPost.title} />
           <Row>
             <Col md={6}>
+              <PostShare handleShare={handleShare} />
               <Image src={rentPost.thumbnailImage} alt={rentPost.title} fluid />
             </Col>
             <Col md={3}>

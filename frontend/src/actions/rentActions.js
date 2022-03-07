@@ -115,6 +115,106 @@ export const addRentPost = (data) => async (dispatch, getState) => {
   }
 
 
+  export const updateRentClicks =  (rentpost) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: RENT_UPDATE_REQUEST,
+      })
+  
+      const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      rentpost.clicks= rentpost.clicks+1
+
+  
+      const { data } = await axios.put(
+        `/api/rent/${rentpost._id}`,
+        rentpost,
+        config
+      )
+      dispatch({
+        type: RENT_UPDATE_SUCCESS,
+        payload: data,
+      })
+      dispatch({ type: RENT_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout())
+      }
+      dispatch({
+        type: RENT_UPDATE_FAIL,
+        payload: message,
+      })
+    }
+  }
+
+  export const updateRentShares =  (rentpost, socialType) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: RENT_UPDATE_REQUEST,
+      })
+  
+      const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      if(socialType==='fb'){
+        rentpost.fbShares= rentpost.fbShares+1
+      }
+      else if(socialType==='whatsapp'){
+        rentpost.whatsappShares= rentpost.whatsappShares+1
+      }
+      else if(socialType==='twitter'){
+        rentpost.twitterShares= rentpost.twitterShares+1
+      }
+      else if(socialType==='email'){
+        rentpost.emailShares= rentpost.emailShares+1
+      }
+     
+
+  
+      const { data } = await axios.put(
+        `/api/rent/${rentpost._id}`,
+        rentpost,
+        config
+      )
+      dispatch({
+        type: RENT_UPDATE_SUCCESS,
+        payload: data,
+      })
+      dispatch({ type: RENT_DETAILS_SUCCESS, payload: data })
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        dispatch(logout())
+      }
+      dispatch({
+        type: RENT_UPDATE_FAIL,
+        payload: message,
+      })
+    }
+  }
+
   
 export const listRentPostDetails = (id) => async (dispatch) => {
   try {

@@ -62,7 +62,12 @@ const createRentProduct = asyncHandler(async (req, res) => {
     location: location,
     category: category,
     description: description,
-    isMovable: isMovable
+    isMovable: isMovable,
+    clicks: 0,
+    fbShares: 0,
+    twitterShares: 0,
+    emailShares: 0,
+    whatsappShares: 0
   })
 
   const createdProduct = await product.save()
@@ -73,7 +78,7 @@ const createRentProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateRentProduct = asyncHandler(async (req, res) => {
-    const { title,price,thumbnailImage,images,coordinates,location,category,description,isMovable, } = req.body
+    const { title,price,thumbnailImage,images,location,category,description,isMovable, clicks, whatsappShares, emailShares, twitterShares, fbShares } = req.body
 
 
   const product = await Rent.findById(req.params.id)
@@ -87,7 +92,12 @@ const updateRentProduct = asyncHandler(async (req, res) => {
             product.location = location
             product.category = category
             product.description = description
-            product.isMovable = isMovable
+            product.isMovable = isMovable,
+            product.clicks= clicks
+            product.whatsappShares= whatsappShares
+            product.emailShares= emailShares
+            product.twitterShares= twitterShares
+            product.fbShares= fbShares
         
             const updatedProduct = await product.save()
             res.json(updatedProduct)

@@ -13,6 +13,7 @@ import communityServiceRoutes from './routes/communityServiceRoutes.js'
 import serviceRoutes from './routes/servicesRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import paidServiceRoutes from './routes/paidServiceRoutes.js'
+import webAppVisitRoutes from './routes/webAppVisitRoutes.js'
 
 dotenv.config()
 connectDB()
@@ -34,6 +35,10 @@ app.use('/api/services', serviceRoutes)
 app.use('/api/paidservice', paidServiceRoutes)
 
 app.use('/api/admin', adminRoutes)
+
+// web app visits routes
+app.use('/api/visits', webAppVisitRoutes)
+
 
 
 const __dirname = path.resolve()

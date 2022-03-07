@@ -11,7 +11,8 @@ import {
   createProductReview,
 } from '../../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../../constants/productConstants'
-import { listPaidServiceDetails } from '../../actions/paidServiceActions'
+import { listPaidServiceDetails, updatePSShares } from '../../actions/paidServiceActions'
+import PostShare from '../../components/PostShare/PostShare'
 
 const PaidServiceDetails = ({ history, match }) => {
   const [qty, setQty] = useState(1)
@@ -60,6 +61,11 @@ const PaidServiceDetails = ({ history, match }) => {
     // )
   }
 
+  const handleShare=(socialType)=>{
+    
+    dispatch(updatePSShares(paidService, socialType))   
+}
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/paidservices'>
@@ -74,6 +80,7 @@ const PaidServiceDetails = ({ history, match }) => {
           <Meta title={paidService.title} />
           <Row>
             <Col md={6}>
+              <PostShare handleShare={handleShare} />
               <Image src={paidService.thumbnailImage} alt={paidService.title} fluid />
             </Col>
             <Col md={3}>

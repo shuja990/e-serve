@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { deletePaidService } from "../../actions/paidServiceActions";
+import { deletePaidService, updatePSClicks } from "../../actions/paidServiceActions";
 import "./PaidServiceCard.css";
 import { Col, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
@@ -40,7 +40,8 @@ function PaidServiceCard({ paidService }) {
     window.location.reload();
   };
 
-  const viewDetailsHandler=(id)=>{
+  const viewDetailsHandler=(id, paidService)=>{
+    dispatch(updatePSClicks(paidService))
     history.push(`/paidservice/${id}`)
 
   }
@@ -48,7 +49,7 @@ function PaidServiceCard({ paidService }) {
 
   return (
     <div style={{height: '632px', margin: '20px', marginTop: '30px'}} className="col">
-      <div className="card psc shadow-sm" onClick={()=> viewDetailsHandler(_id)} >
+      <div className="card psc shadow-sm" onClick={()=> viewDetailsHandler(_id, paidService)} >
         {" "}
         <img
           width={450}
