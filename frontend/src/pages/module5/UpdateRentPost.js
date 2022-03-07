@@ -25,7 +25,8 @@ const UpdateRentPost = ({ match, history }) => {
 
   const productDetails = useSelector((state) => state.rentPostDetail)
   const { loading, error, rentPost } = productDetails
-
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
   const productUpdate = useSelector((state) => state.rentUpdate)
   const {
     loading: loadingUpdate,
@@ -34,6 +35,12 @@ const UpdateRentPost = ({ match, history }) => {
   } = productUpdate
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
+    if(loading==false && userInfo._id.toString()!==rentPost.createdBy._id.toString()){
+      history.push('/rentposts')
+    }
     if (successUpdate) {
       dispatch({ type: RENT_UPDATE_RESET })
       history.push('/rentposts')
@@ -134,12 +141,13 @@ const UpdateRentPost = ({ match, history }) => {
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
-              <Form.File
+              <Form.Control
+              type='file'
                 id="image-file"
                 label="Choose File"
                 custom
                 onChange={uploadFileHandler}
-              ></Form.File>
+              ></Form.Control>
               {uploading && <Loader />}
             </Form.Group>
 
@@ -173,11 +181,12 @@ const UpdateRentPost = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="description">
-              <Form.Label>is Movable?</Form.Label>
+            <Form.Group controlId="isMovable" className="mt-3 mb-3">
+              {/* <Form.Label></Form.Label> */}
               <Form.Check
                 // type="text"
                 // placeholder="Enter is"
+                label="is Movable?"
                 checked={isMovable}
                 value={isMovable}
                 onChange={(e) => setMovable(e.target.checked)}

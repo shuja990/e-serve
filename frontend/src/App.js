@@ -28,6 +28,11 @@ import CreateRentPost from './pages/module5/CreateRentPost'
 import RentPosts from './pages/module5/RentPostsList'
 import RentPostsPage from './pages/module5/RentPostPage'
 import UpdateRentPost from './pages/module5/UpdateRentPost'
+import CommunityServicePostsLists from './pages/module6/CommunityServicePostsLists'
+import CreateCommunityServicePost from './pages/module6/CreateCommunityServicePost'
+import CommunityServicePage from './pages/module6/CommunityServicePage'
+import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePost'
+
 const App = () => {
   return (
     <Router>
@@ -83,7 +88,11 @@ const App = () => {
           <Route path='/createrentpost' component={CreateRentPost} exact />
           <Route path='/rentposts/:id' component={RentPostsPage} exact />
           <Route path='/rentposts/:id/edit' component={UpdateRentPost} exact />
-          
+          {/* Community Service Posts */}
+          <Route path='/communityserviceposts' component={CommunityServicePostsLists} exact />
+          <Route path='/createcommunityservicepost' component={CreateCommunityServicePost} exact />
+          <Route path='/communityserviceposts/:id' component={CommunityServicePage} exact />
+          <Route path='/communityserviceposts/:id/edit' component={UpdateCommunityServicePost} exact />
         </Container>
       </main>
       <Footer />

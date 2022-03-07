@@ -53,6 +53,10 @@ const rentSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
+    coordinates:{
+      lat:{type:String},
+      lon:{type:String}
+    },
     promotedPostPayments: {
       paymentMethod: {
         type: String,

@@ -6,7 +6,7 @@ import CommunityService from '../models/communityServiceModel.js'
 // @access  Public
 const  getCommunityServiceProducts = asyncHandler(async (req, res) => {
 
-  const products = await CommunityService.find({ })
+  const products = await CommunityService.find({ }).populate({path:"createdBy",select:"name _id"})
   res.json({ products })
 })
 
@@ -14,7 +14,7 @@ const  getCommunityServiceProducts = asyncHandler(async (req, res) => {
 // @route   GET /api/products/:id
 // @access  Public
 const getCommunityServiceProductById = asyncHandler(async (req, res) => {
-  const product = await CommunityService.findById(req.params.id)
+  const product = await CommunityService.findById(req.params.id).populate({path:"createdBy",select:"name _id"})
 
   if (product) {
     res.json(product)
@@ -49,13 +49,14 @@ const deleteCommunityServiceProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const createCommunityServiceProduct = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description } = req.body
+    const { title,thumbnailImage,images,location,category,description,coordinates } = req.body
   const product = new CommunityService({
     title: title,
     createdBy: req.user._id,
     thumbnailImage: thumbnailImage,
     images: images,
     location: location,
+    coordinates:coordinates,
     category: category,
     description: description,
   })
@@ -68,7 +69,7 @@ const createCommunityServiceProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateCommunityServiceProduct = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description } = req.body
+    const { title,thumbnailImage,images,location,category,description,coordinates } = req.body
 
 
   const product = await CommunityService.findById(req.params.id)
@@ -77,6 +78,7 @@ const updateCommunityServiceProduct = asyncHandler(async (req, res) => {
             product.title = title
             product.thumbnailImage = thumbnailImage
             product.images = images
+            product.coordinates = coordinates
             product.location = location
             product.category = category
             product.description = description

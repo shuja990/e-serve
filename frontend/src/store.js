@@ -41,6 +41,13 @@ import {
   rentDetailsReducer,
   rentPostDeleteReducer,
 } from "./reducers/rentReducer";
+import {
+  communityServicePostCreateReducer,
+  communityServicePostDeleteReducer,
+  communityServicePostDetailsReducer,
+  communityServicePostUpdateReducer,
+  communityServicePostsReducer
+} from './reducers/communityServiceReducers'
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -73,6 +80,11 @@ const reducer = combineReducers({
   rentUpdate: rentPostUpdateReducer,
   rentPostDetail: rentDetailsReducer,
   rentPostDelete: rentPostDeleteReducer,
+  communityServicePosts: communityServicePostsReducer,
+  communityServiceCreate: communityServicePostCreateReducer,
+  communityServiceUpdate: communityServicePostUpdateReducer,
+  communityServicePostDetail: communityServicePostDetailsReducer,
+  communityServicePostDelete: communityServicePostDeleteReducer,
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")

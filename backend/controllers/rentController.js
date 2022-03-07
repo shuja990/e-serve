@@ -51,13 +51,14 @@ const deleteRentProduct = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const createRentProduct = asyncHandler(async (req, res) => {
-    const { title,price,thumbnailImage,images,location,category,description,isMovable, } = req.body
+    const { title,price,thumbnailImage,images,location,category,description,isMovable,coordinates } = req.body
   const product = new Rent({
     title: title,
     price: price,
     createdBy: req.user._id,
     thumbnailImage: thumbnailImage,
     images: images,
+    coordinates,coordinates,
     location: location,
     category: category,
     description: description,
@@ -72,7 +73,7 @@ const createRentProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateRentProduct = asyncHandler(async (req, res) => {
-    const { title,price,thumbnailImage,images,location,category,description,isMovable, } = req.body
+    const { title,price,thumbnailImage,images,coordinates,location,category,description,isMovable, } = req.body
 
 
   const product = await Rent.findById(req.params.id)
@@ -80,6 +81,7 @@ const updateRentProduct = asyncHandler(async (req, res) => {
         if (product) {
             product.title = title
             product.price = price
+            product.coordinates = coordinates
             product.thumbnailImage = thumbnailImage
             product.images = images
             product.location = location

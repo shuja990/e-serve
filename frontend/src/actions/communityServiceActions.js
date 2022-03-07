@@ -1,25 +1,25 @@
 import axios from "axios";
-import { PAID_SERVICES_DELETE_FAIL, PAID_SERVICES_DELETE_REQUEST, PAID_SERVICES_DELETE_SUCCESS, PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQUEST, PAID_SERVICES_LIST_SUCCESS, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_SUCCESS, PAID_SERVICE_DETAILS_FAIL, PAID_SERVICE_DETAILS_REQUEST, PAID_SERVICE_DETAILS_SUCCESS, PAID_SERVICE_UPDATE_FAIL, PAID_SERVICE_UPDATE_REQUEST, PAID_SERVICE_UPDATE_SUCCESS } from "../constants/paidServiceConstants"
+import { COMMUNITY_SERVICE_DELETE_FAIL, COMMUNITY_SERVICE_DELETE_REQUEST, COMMUNITY_SERVICE_DELETE_SUCCESS, COMMUNITY_SERVICE_LIST_ADD, COMMUNITY_SERVICE_LIST_FAIL, COMMUNITY_SERVICE_LIST_REQUEST, COMMUNITY_SERVICE_LIST_SUCCESS, COMMUNITY_SERVICE_CREATE_FAIL, COMMUNITY_SERVICE_CREATE_REQUEST, COMMUNITY_SERVICE_CREATE_SUCCESS, COMMUNITY_SERVICE_DETAILS_FAIL, COMMUNITY_SERVICE_DETAILS_REQUEST, COMMUNITY_SERVICE_DETAILS_SUCCESS, COMMUNITY_SERVICE_UPDATE_FAIL, COMMUNITY_SERVICE_UPDATE_REQUEST, COMMUNITY_SERVICE_UPDATE_SUCCESS } from "../constants/communityServiceConstants"
 import { logout } from "./userActions";
 
 
-export const paidServicesList = () => async (
+export const communityServicePostsList = () => async (
   dispatch
 ) => {
   try {
-    dispatch({ type: PAID_SERVICES_LIST_REQUEST })
+    dispatch({ type: COMMUNITY_SERVICE_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/paidservice`
+      `/api/communityservice`
     )
       console.log("paid services from db: " +  JSON.stringify(data));
     dispatch({
-      type: PAID_SERVICES_LIST_SUCCESS,
-      payload: data.paidServices,
+      type: COMMUNITY_SERVICE_LIST_SUCCESS,
+      payload: data.products,
     })
   } catch (error) {
     dispatch({
-      type: PAID_SERVICES_LIST_FAIL,
+      type: COMMUNITY_SERVICE_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -28,10 +28,10 @@ export const paidServicesList = () => async (
   }
 }
 
-export const createPaidService = (data) => async (dispatch, getState) => {
+export const addcommunityServicePost = (data) => async (dispatch, getState) => {
     try {
       dispatch({
-        type: PAID_SERVICE_CREATE_REQUEST,
+        type: COMMUNITY_SERVICE_CREATE_REQUEST,
       })
   
       const {
@@ -46,21 +46,22 @@ export const createPaidService = (data) => async (dispatch, getState) => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { dbData } = await axios.post(`http://localhost:5000/api/paidservice`, data, config)
+      const { dbData } = await axios.post(`/api/communityservice`, data, config)
       // const { data } = await axios.post(`/api/paidservice`, data, config)
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
-        type: PAID_SERVICE_CREATE_SUCCESS,
+        type: COMMUNITY_SERVICE_CREATE_SUCCESS,
         payload: data,
       })
 
       dispatch({
-        type: PAID_SERVICES_LIST_ADD,
+        type: COMMUNITY_SERVICE_LIST_ADD,
         payload: data,
       })
       // console.log("db data paid service creation: "+ dbData);
 
     } catch (error) {
+      console.log(error);
       const message =
         error.response && error.response.data.message
           ? error.response.data.message
@@ -69,17 +70,17 @@ export const createPaidService = (data) => async (dispatch, getState) => {
         // dispatch(logout())
       }
       dispatch({
-        type: PAID_SERVICE_CREATE_FAIL,
+        type: COMMUNITY_SERVICE_CREATE_FAIL,
         payload: message,
       })
     }
   }
 
 
-  export const deletePaidService = (id) => async (dispatch, getState) => {
+  export const deletecommunityServicePost = (id) => async (dispatch, getState) => {
     try {
       dispatch({
-        type: PAID_SERVICES_DELETE_REQUEST,
+        type: COMMUNITY_SERVICE_DELETE_REQUEST,
       })
   
       const {
@@ -92,10 +93,10 @@ export const createPaidService = (data) => async (dispatch, getState) => {
         },
       }
   
-      await axios.delete(`http://localhost:5000/api/paidservice/${id}`, config)
+      await axios.delete(`/api/communityservice/${id}`, config)
   
       dispatch({
-        type: PAID_SERVICES_DELETE_SUCCESS,
+        type: COMMUNITY_SERVICE_DELETE_SUCCESS,
       })
     } catch (error) {
       const message =
@@ -107,7 +108,7 @@ export const createPaidService = (data) => async (dispatch, getState) => {
         alert("Not authorized, token failed")
       }
       dispatch({
-        type: PAID_SERVICES_DELETE_FAIL,
+        type: COMMUNITY_SERVICE_DELETE_FAIL,
         payload: message,
       })
     }
@@ -115,19 +116,19 @@ export const createPaidService = (data) => async (dispatch, getState) => {
 
 
   
-export const listPaidServiceDetails = (id) => async (dispatch) => {
+export const listcommunityServicePostDetails = (id) => async (dispatch) => {
   try {
-    dispatch({ type: PAID_SERVICE_DETAILS_REQUEST })
+    dispatch({ type: COMMUNITY_SERVICE_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`http://localhost:5000/api/paidservice/${id}`)
-
+    const { data } = await axios.get(`/api/communityservice/${id}`)
+// console.log("ss",data);
     dispatch({
-      type: PAID_SERVICE_DETAILS_SUCCESS,
+      type: COMMUNITY_SERVICE_DETAILS_SUCCESS,
       payload: data,
     })
   } catch (error) {
     dispatch({
-      type:PAID_SERVICE_DETAILS_FAIL,
+      type:COMMUNITY_SERVICE_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -137,10 +138,10 @@ export const listPaidServiceDetails = (id) => async (dispatch) => {
 }
   
 
-  export const updatePaidService = (paidService) => async (dispatch, getState) => {
+  export const updatecommunityServicePost = (communityServicepost) => async (dispatch, getState) => {
     try {
       dispatch({
-        type: PAID_SERVICE_UPDATE_REQUEST,
+        type: COMMUNITY_SERVICE_UPDATE_REQUEST,
       })
   
       const {
@@ -155,16 +156,16 @@ export const listPaidServiceDetails = (id) => async (dispatch) => {
       }
   
       const { data } = await axios.put(
-        `http://localhost:5000/api/paidservice/${paidService._id}`,
-        paidService,
+        `/api/communityservice/${communityServicepost._id}`,
+        communityServicepost,
         config
       )
   
       dispatch({
-        type: PAID_SERVICE_UPDATE_SUCCESS,
+        type: COMMUNITY_SERVICE_UPDATE_SUCCESS,
         payload: data,
       })
-      dispatch({ type: PAID_SERVICE_DETAILS_SUCCESS, payload: data })
+      dispatch({ type: COMMUNITY_SERVICE_DETAILS_SUCCESS, payload: data })
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -174,7 +175,7 @@ export const listPaidServiceDetails = (id) => async (dispatch) => {
         dispatch(logout())
       }
       dispatch({
-        type: PAID_SERVICE_UPDATE_FAIL,
+        type: COMMUNITY_SERVICE_UPDATE_FAIL,
         payload: message,
       })
     }

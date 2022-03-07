@@ -15,6 +15,10 @@ const CommunityServiceSchema = mongoose.Schema(
         type: String,
         required: true,
     },
+    coordinates:{
+      lat:{type:String},
+      lon:{type:String}
+    },
     category: {
         type: String,
         required: true,
@@ -41,7 +45,11 @@ const CommunityServiceSchema = mongoose.Schema(
     timestamps: true,
   }
 )
-
+const CoordinatesSchema = mongoose.Schema(
+  {
+    lat:{type:String},
+  }
+)
 const CommunityService = mongoose.model('CommunityService', CommunityServiceSchema)
 
 export default CommunityService
