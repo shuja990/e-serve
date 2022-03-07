@@ -154,11 +154,11 @@ const UpdateRentPost = ({ match, history }) => {
             <Form.Group controlId="brand">
               <Form.Label>Location</Form.Label>
               <Form.Control
-                type="text"
+                type="text"  
                 placeholder="Enter Location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-              ></Form.Control>
+              ></Form.Control> 
             </Form.Group>
 
             <Form.Group controlId="category">
