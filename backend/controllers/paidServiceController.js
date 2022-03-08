@@ -49,7 +49,7 @@ const deletePaidService = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const createPaidService = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description, createdBy, price } = req.body
+    const { title,thumbnailImage,images,location,category,description, createdBy, price, serviceType, coordinates } = req.body
     // createdBy: req.user._id
   const product = new PaidService({
     title: title,
@@ -64,7 +64,10 @@ const createPaidService = asyncHandler(async (req, res) => {
     fbShares: 0,
     twitterShares: 0,
     emailShares: 0,
-    whatsappShares: 0
+    whatsappShares: 0,
+    serviceType,
+    coordinates
+
   })
 
   const createdProduct = await product.save()
@@ -75,7 +78,7 @@ const createPaidService = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updatePaidService = asyncHandler(async (req, res) => {
-    const { title,thumbnailImage,images,location,category,description, noOfUpdates, clicks, fbShares, whatsappShares, emailShares, twitterShares } = req.body
+    const { title,thumbnailImage,images,location,category,description, noOfUpdates, clicks, fbShares, whatsappShares, emailShares, twitterShares, coordinates, serviceType } = req.body
 
 
   const product = await PaidService.findById(req.params.id)
@@ -93,6 +96,8 @@ const updatePaidService = asyncHandler(async (req, res) => {
             product.whatsappShares= whatsappShares
             product.emailShares= emailShares,
             product.twitterShares=twitterShares
+            product.coordinates= coordinates
+            product.serviceType= serviceType
             
             const updatedProduct = await product.save()
             res.json(updatedProduct)

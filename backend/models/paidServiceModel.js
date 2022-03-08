@@ -57,10 +57,37 @@ twitterShares: {
 type: Number,
 default: 0
 },
-    collectedBy : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
+coordinates:{
+  lat:{type:String},
+  lon:{type:String}
+},
+serviceType: {
+  type: String,
+  enum : ['Digital','Offline'],
+},
+noOfOrders: {
+  type: Number,
+  default: 0
+},
+promotedPostPayments: {
+  paymentMethod: {
+    type: String,
+  },
+  paymentResult: {
+    id: { type: String },
+    status: { type: String },
+    update_time: { type: String },
+    email_address: { type: String },
+  },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
+  paidAt: {
+    type: Date,
+  },
+  
+},
     createdBy : {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

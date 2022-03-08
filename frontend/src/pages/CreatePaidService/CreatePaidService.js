@@ -26,6 +26,11 @@ const CreatePaidService = ({ history, match }) => {
     const [description, setDescription] = useState('')
     const [location, setLocation] = useState('')
     const [uploading, setUploading] = useState(false)
+    const [serviceType, setServiceType] = useState("Digital");
+  const [coordinates, setCoordinates] = useState({ lat: "", lon: "" });
+  const [locationError,setLocationError] = useState('')
+
+
 
     
   const pageNumber = match.params.pageNumber || 1
@@ -98,6 +103,35 @@ const CreatePaidService = ({ history, match }) => {
     }
   }
 
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      
+      let location = navigator.geolocation.getCurrentPosition(showLocation,showError);
+      console.log(location);
+    } else { 
+      setLocationError("Geolocation is not supported by this browser.");
+    }
+  }
+  const showLocation = (loc) => {
+    setCoordinates({lat:loc.coords.latitude.toString(),lon:loc.coords.longitude.toString()})
+  }
+  function showError(e) {
+    switch(e.code) {
+      case e.PERMISSION_DENIED:
+        setLocationError("User denied the request for Geolocation.")
+        break;
+      case e.POSITION_UNAVAILABLE:
+        setLocationError("Location information is unavailable.")
+        break;
+      case e.TIMEOUT:
+        setLocationError("The request to get user location timed out.")
+        break;
+      case e.UNKNOWN_ERROR:
+        setLocationError("An unknown error occurred.")
+        break;
+    }
+  }
+
   const submitHandler = (e) => {
     e.preventDefault()
     
@@ -110,7 +144,10 @@ const CreatePaidService = ({ history, match }) => {
             keywords,
             category,
             description,
-            location
+            location,
+            serviceType,
+            coordinates
+
           }
     ))
 
@@ -221,6 +258,41 @@ const CreatePaidService = ({ history, match }) => {
                 onChange={(e) => setLocation(e.target.value)}
               ></Form.Control>
             </Form.Group>
+
+            <Form.Group className="mb-3 mt-4">
+      <Form.Label htmlFor="">Service Type</Form.Label>
+      <Form.Select id="" onChange={(e)=> setServiceType(e.target.value)}  >
+        <option value='Digital' >Digital</option>
+        <option value='Offline' >Offline</option>
+      </Form.Select>
+    </Form.Group>
+
+    <Form.Group controlId="coordinates">
+              <Form.Label>Coordinates</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Latitude"
+                value={coordinates.lat}
+                onChange={(e) =>
+                  setCoordinates({ ...coordinates, lat: e.target.value })
+                }
+              ></Form.Control>
+              <Form.Control
+                type="text"
+                placeholder="Longitude"
+                value={coordinates.lon}
+                onChange={(e) =>
+                  setCoordinates({ ...coordinates, lon: e.target.value })
+                }
+              ></Form.Control>
+              <Button type="button" className="mb-2 mt-2" variant="primary" onClick={getLocation}>
+                Get Location
+              </Button>
+              {
+                locationError && <Message variant="danger" >{locationError}</Message>
+              }
+            </Form.Group>
+
 
             <Button type='submit' variant='primary'>
               Create

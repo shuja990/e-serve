@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import {useState, useMemo} from 'react';
 
 import Map, {
@@ -12,34 +12,65 @@ import Map, {
 import Pin from './pin.tsx';
 import CITIES from './cities.json';
 import './MapScreen.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { paidServicesList } from '../../../actions/paidServiceActions';
+import { Link } from 'react-router-dom';
 
 
 const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN; // Set your mapbox token here
 
 function MapScreen() {
   const [popupInfo, setPopupInfo] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [coordinates, setCoordinates] = useState({ lat: "40", lon: "-100" });
 
-  const pins = useMemo(
-    () =>
-      CITIES.map((city, index) => (
-        <Marker
-          key={`marker-${index}`}
-          longitude={city.longitude}
-          latitude={city.latitude}
-          anchor="bottom"
-        >
-          <Pin onClick={() => setPopupInfo(city)} />
-        </Marker>
-      )),
-    []
+  const paidServicesStoreList = useSelector(
+    (state) => state.paidServiceList
   );
+  const { loading, error, paidServices } = paidServicesStoreList
+const dispatch= useDispatch()
+
+    useEffect(()=>{
+      // geolocateControlRef()
+      dispatch(paidServicesList())
+      
+    },[dispatch])
+
+
+     const geolocateControlRef = React.useCallback((ref) => {
+    if (ref) {
+      // Activate as soon as the control is loaded
+      ref.trigger();
+    }
+  }, []);
+
+
+  // const pins = useMemo(
+  //   () =>
+  //   paidServices?.map((ps, index) => (
+  //       <Marker
+  //         key={`marker-${index}`}
+  //         longitude={ps.coordinates.lon}
+  //         latitude={ps.coordinates.lat}
+  //         anchor="bottom"
+  //       >
+  //         <Pin onClick={() => setPopupInfo(ps)} />
+  //       </Marker>
+  //     )),
+  //   []
+  // );
 
   return (
     <div style={{height: '70vh'}} >
-      <Map
+      <Map onLoad={
+        ()=>{
+           
+          
+        }
+      } 
         initialViewState={{
-          latitude: 40,
-          longitude: -100,
+          latitude: coordinates.lat,
+          longitude: coordinates.lon,
           zoom: 3.5,
           bearing: 0,
           pitch: 0,
@@ -51,31 +82,41 @@ function MapScreen() {
         mapboxAccessToken={TOKEN}
         style
       >
-        <GeolocateControl position="top-left" />
+        <GeolocateControl position="top-left" ref={geolocateControlRef} />
         <FullscreenControl position="top-left" />
         <NavigationControl position="top-left" />
         <ScaleControl />
 
-        {pins}
+        {paidServices?
+        paidServices.map((ps, index) => (
+          <Marker
+            key={`marker-${index}`}
+            longitude={ps.coordinates.lon}
+            latitude={ps.coordinates.lat}
+            anchor="bottom"
+          >
+            <Pin onClick={() => setPopupInfo(ps)} />
+          </Marker>))
+        :''}
 
         {popupInfo && (
           <Popup
             anchor="top"
-            longitude={Number(popupInfo.longitude)}
-            latitude={Number(popupInfo.latitude)}
+            longitude={Number(popupInfo.coordinates.lon)}
+            latitude={Number(popupInfo.coordinates.lat)}
             closeOnClick={false}
             onClose={() => setPopupInfo(null)}
           >
             <div>
-              {popupInfo.city}, {popupInfo.state} |{' '}
-              <a
+              {popupInfo?.title}, {popupInfo?.price} |{' '}
+              <Link
                 target="_new"
-                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
+                to={`/paidService/${popupInfo._id}`}
               >
-                Wikipedia
-              </a>
+                View
+              </Link>
             </div>
-            <img width="100%" src={popupInfo.image} />
+            <img width="100%" src={popupInfo.thumbnailImage} />
           </Popup>
         )}
       </Map>
