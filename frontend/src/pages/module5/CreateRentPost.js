@@ -27,7 +27,7 @@ const CreateRentPost = ({ match, history }) => {
     if (success) {
       history.push("/rentposts");
     }
-  }, [dispatch, history]);
+  }, [dispatch, history, success]);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];

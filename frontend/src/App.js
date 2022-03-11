@@ -13,8 +13,7 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
-import UserListScreen from './screens/UserListScreen'
-import UserEditScreen from './screens/UserEditScreen'
+import UserListScreen from './pages/module3/Users'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
@@ -28,16 +27,14 @@ import CreateRentPost from './pages/module5/CreateRentPost'
 import RentPosts from './pages/module5/RentPostsList'
 import RentPostsPage from './pages/module5/RentPostPage'
 import UpdateRentPost from './pages/module5/UpdateRentPost'
-<<<<<<< HEAD
 import CommunityServicePostsLists from './pages/module6/CommunityServicePostsLists'
 import CreateCommunityServicePost from './pages/module6/CreateCommunityServicePost'
 import CommunityServicePage from './pages/module6/CommunityServicePage'
 import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePost'
 
-=======
 import { useDispatch } from 'react-redux'
 import { addWebVisits, getWebVisits } from './actions/webVisitActions'
->>>>>>> m-10-analytics
+import MakeAdmin from './pages/module3/MakeAdmin'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -70,6 +67,8 @@ const App = () => {
           <Route path='/product/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
           <Route path='/admin/userlist' component={UserListScreen} />
+          <Route path='/admin/user/:id/edit' component={MakeAdmin} />
+
           <Route path='/order/:id' component={OrderScreen} />
           {/* paid services */}
           <Route path='/paidservices' component={PaidServices} />
@@ -82,7 +81,8 @@ const App = () => {
           {/* Map */}
           <Route path='/map' component={MapScreen} />
 
-          {/*  */}
+          {/* Admin */}
+        
           <Route
             path='/admin/productlist'
             component={ProductListScreen}

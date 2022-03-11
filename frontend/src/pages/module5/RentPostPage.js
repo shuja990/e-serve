@@ -60,7 +60,7 @@ const RentPostsPage = ({match}) => {
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h3>{rentPost.name}</h3>
+                  <h3>{rentPost.title}</h3>
                 </ListGroup.Item>
                 {/* <ListGroup.Item>
                   <Rating
@@ -73,10 +73,10 @@ const RentPostsPage = ({match}) => {
                   Description: {rentPost.description}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  Created by: {rentPost.createdBy?.name}
+                  Created by: {rentPost?.createdBy?.name}
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  Created at: {rentPost.createdAt?.substring(0, 10)}
+                  Created at: {rentPost?.createdAt?.substring(0, 10)}
                 </ListGroup.Item>
               </ListGroup>
             </Col>
