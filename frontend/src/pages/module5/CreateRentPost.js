@@ -98,7 +98,7 @@ const CreateRentPost = ({ match, history }) => {
   };
 
   return (
-    <>
+    <> 
       <Link to="/rentposts" className="btn btn-light my-3">
         Go Back
       </Link>
