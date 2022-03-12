@@ -34,7 +34,7 @@ const CreateCommunityServicePost = ({ match, history }) => {
     if (success) {
       history.push("/communityservice");
     }
-  }, [dispatch, history]);
+  }, [dispatch, history,success,userInfo]);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];

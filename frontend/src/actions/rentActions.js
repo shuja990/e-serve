@@ -114,6 +114,43 @@ export const addRentPost = (data) => async (dispatch, getState) => {
     }
   }
 
+  export const deleteRentPostAdmin = (id) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: RENT_DELETE_REQUEST,
+      })
+  
+      const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+  
+      await axios.delete(`http://localhost:5000/api/rent/admin/${id}`, config)
+  
+      dispatch({
+        type: RENT_DELETE_SUCCESS,
+      })
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      if (message === 'Not authorized, token failed') {
+        // dispatch(logout())
+        alert("Not authorized, token failed")
+      }
+      dispatch({
+        type: RENT_DELETE_FAIL,
+        payload: message,
+      })
+    }
+  }
+
 
   export const updateRentClicks =  (rentpost) => async (dispatch, getState) => {
     try {

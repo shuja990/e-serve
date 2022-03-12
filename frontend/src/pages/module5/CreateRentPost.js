@@ -17,7 +17,8 @@ const CreateRentPost = ({ match, history }) => {
   const [description, setDescription] = useState("");
   const [isMovable, setMovable] = useState(false);
   const [uploading, setUploading] = useState(false);
-
+  const [coordinates, setCoordinates] = useState({ lat: "", lon: "" });
+  const [locationError,setLocationError] = useState('')
   const dispatch = useDispatch();
 
   const rentPostCreate = useSelector((state) => state.rentCreate);
@@ -28,7 +29,34 @@ const CreateRentPost = ({ match, history }) => {
       history.push("/rentposts");
     }
   }, [dispatch, history, success]);
-
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      
+      let location = navigator.geolocation.getCurrentPosition(showLocation,showError);
+      console.log(location);
+    } else { 
+      setLocationError("Geolocation is not supported by this browser.");
+    }
+  }
+  const showLocation = (loc) => {
+    setCoordinates({lat:loc.coords.latitude.toString(),lon:loc.coords.longitude.toString()})
+  }
+  function showError(e) {
+    switch(e.code) {
+      case e.PERMISSION_DENIED:
+        setLocationError("User denied the request for Geolocation.")
+        break;
+      case e.POSITION_UNAVAILABLE:
+        setLocationError("Location information is unavailable.")
+        break;
+      case e.TIMEOUT:
+        setLocationError("The request to get user location timed out.")
+        break;
+      case e.UNKNOWN_ERROR:
+        setLocationError("An unknown error occurred.")
+        break;
+    }
+  }
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -36,7 +64,7 @@ const CreateRentPost = ({ match, history }) => {
     setUploading(true);
 
     try {
-      const config = {
+      const config = { 
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -64,6 +92,7 @@ const CreateRentPost = ({ match, history }) => {
         category,
         description,
         isMovable,
+        coordinates
       })
     );
   };
@@ -102,7 +131,31 @@ const CreateRentPost = ({ match, history }) => {
                 onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
+            <Form.Group controlId="coordinates">
+              <Form.Label>Coordinates</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Latitude"
+                value={coordinates.lat}
+                onChange={(e) =>
+                  setCoordinates({ ...coordinates, lat: e.target.value })
+                }
+              ></Form.Control>
+              <Form.Control
+                type="text"
+                placeholder="Longitude"
+                value={coordinates.lon}
+                onChange={(e) =>
+                  setCoordinates({ ...coordinates, lon: e.target.value })
+                }
+              ></Form.Control>
+              <Button type="button" className="mb-2 mt-2" variant="primary" onClick={getLocation}>
+                Get Location
+              </Button>
+              {
+                locationError && <Message variant="danger" >{locationError}</Message>
+              }
+            </Form.Group>
             <Form.Group controlId="image">
               <Form.Label>Thumbnail Image</Form.Label>
               <Form.Control

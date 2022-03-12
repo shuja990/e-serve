@@ -17,6 +17,7 @@ router
   .get(getPaidServiceById)
   .delete(protect, deletePaidService)
   .put(protect, updatePaidService)
+router.route('/admin/:id').delete(protect,admin,deletePaidServiceAdmin)
 
 // router.route('/').get(getPaidServices).post(protect, admin, createPaidService)
 // router.route('/:id/reviews').post(protect, createProductReview)
