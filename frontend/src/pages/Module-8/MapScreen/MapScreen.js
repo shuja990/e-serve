@@ -15,6 +15,7 @@ import './MapScreen.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { paidServicesList } from '../../../actions/paidServiceActions';
 import { Link } from 'react-router-dom';
+import { communityServicePostsList } from '../../../actions/communityServiceActions';
 
 
 const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN; // Set your mapbox token here
@@ -28,11 +29,16 @@ function MapScreen() {
     (state) => state.paidServiceList
   );
   const { loading, error, paidServices } = paidServicesStoreList
+  const cspostslist = useSelector((state) => state.communityServicePosts)
+  const { communityServicePosts } = cspostslist
+  
 const dispatch= useDispatch()
 
     useEffect(()=>{
       // geolocateControlRef()
       dispatch(paidServicesList())
+      dispatch(communityServicePostsList())
+
       
     },[dispatch])
 
@@ -86,7 +92,7 @@ const dispatch= useDispatch()
         <FullscreenControl position="top-left" />
         <NavigationControl position="top-left" />
         <ScaleControl />
-
+{/* PS Posts */}
         {paidServices?
         paidServices.map((ps, index) => (
           <Marker
@@ -95,7 +101,7 @@ const dispatch= useDispatch()
             latitude={ps.coordinates.lat}
             anchor="bottom"
           >
-            <Pin onClick={() => setPopupInfo(ps)} />
+            <Pin onClick={() => setPopupInfo(ps)} pinColor='red' />
           </Marker>))
         :''}
 
@@ -111,7 +117,7 @@ const dispatch= useDispatch()
               {popupInfo?.title}, {popupInfo?.price} |{' '}
               <Link
                 target="_new"
-                to={`/paidService/${popupInfo._id}`}
+                to={`/${popupInfo.price?'paidService':'communityserviceposts'}/${popupInfo._id}`}
               >
                 View
               </Link>
@@ -119,6 +125,19 @@ const dispatch= useDispatch()
             <img width="100%" src={popupInfo.thumbnailImage} />
           </Popup>
         )}
+        {/* CS Posts */}
+        {communityServicePosts?
+        communityServicePosts.map((ps, index) => (
+          <Marker
+            key={`marker-${index}`}
+            longitude={ps.coordinates.lon}
+            latitude={ps.coordinates.lat}
+            anchor="bottom"
+          >
+            <Pin onClick={() => setPopupInfo(ps)} pinColor='green' />
+          </Marker>))
+        :''}
+        
       </Map>
 
       {/* <ControlPanel /> */}

@@ -48,17 +48,33 @@ const Header = () => {
                     <NavDropdown.Item>Add post</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
+                {
+                  userInfo?
+                  <NavDropdown title="Paid Service">
                    <LinkContainer to='/paidservices'>
                     <NavDropdown.Item>Available Paid Sevices</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/createcommunityservicepost'>
+                    <NavDropdown.Item>Add post</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/createpaidservice'>
                     <NavDropdown.Item>Create Paid Service</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to='/map'>
+                </NavDropdown>
+                  :''
+                }
+
+                <NavDropdown title="E-Map">
+                <LinkContainer to='/map'>
                     <NavDropdown.Item>View Map</NavDropdown.Item>
                   </LinkContainer>
+                </NavDropdown>
+
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id='username'>
+                   
+                  
+                  
                   <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
