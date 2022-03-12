@@ -118,7 +118,6 @@ const dispatch= useDispatch()
             closeOnClick={false}
             onClose={() => setPopupInfo(null)}
           >
-            {/* {alert(JSON.stringify(popupInfo))} */}
             <div>
               {popupInfo?.title}, {popupInfo?.price} |{' '}
               <Link
