@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { paidServicesList } from '../../../actions/paidServiceActions';
 import { Link } from 'react-router-dom';
 import { communityServicePostsList } from '../../../actions/communityServiceActions';
+import { rentPostsList } from '../../../actions/rentActions';
 
 
 const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN; // Set your mapbox token here
@@ -31,6 +32,8 @@ function MapScreen() {
   const { loading, error, paidServices } = paidServicesStoreList
   const cspostslist = useSelector((state) => state.communityServicePosts)
   const { communityServicePosts } = cspostslist
+  const rentPostList = useSelector((state) => state.rentPosts)
+  const { rentPosts } = rentPostList
   
 const dispatch= useDispatch()
 
@@ -38,6 +41,8 @@ const dispatch= useDispatch()
       // geolocateControlRef()
       dispatch(paidServicesList())
       dispatch(communityServicePostsList())
+      dispatch(rentPostsList())
+
 
       
     },[dispatch])
@@ -113,11 +118,12 @@ const dispatch= useDispatch()
             closeOnClick={false}
             onClose={() => setPopupInfo(null)}
           >
+            {/* {alert(JSON.stringify(popupInfo))} */}
             <div>
               {popupInfo?.title}, {popupInfo?.price} |{' '}
               <Link
                 target="_new"
-                to={`/${popupInfo.price?'paidService':'communityserviceposts'}/${popupInfo._id}`}
+                to={`/${popupInfo.price?'isMovable' in popupInfo?'rentposts':'paidservices' :'communityserviceposts'}/${popupInfo._id}`}
               >
                 View
               </Link>
@@ -135,6 +141,19 @@ const dispatch= useDispatch()
             anchor="bottom"
           >
             <Pin onClick={() => setPopupInfo(ps)} pinColor='green' />
+          </Marker>))
+        :''}
+
+        {/* Rent Posts */}
+        {rentPosts?
+        rentPosts.map((ps, index) => (
+          <Marker
+            key={`marker-${index}`}
+            longitude={ps.coordinates.lon}
+            latitude={ps.coordinates.lat}
+            anchor="bottom"
+          >
+            <Pin onClick={() => setPopupInfo(ps)} pinColor='purple' />
           </Marker>))
         :''}
         
