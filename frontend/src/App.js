@@ -13,8 +13,7 @@ import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
-import UserListScreen from './screens/UserListScreen'
-import UserEditScreen from './screens/UserEditScreen'
+import UserListScreen from './pages/module3/Users'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
@@ -35,6 +34,7 @@ import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePo
 
 import { useDispatch } from 'react-redux'
 import { addWebVisits, getWebVisits } from './actions/webVisitActions'
+import MakeAdmin from './pages/module3/MakeAdmin'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -67,6 +67,8 @@ const App = () => {
           <Route path='/product/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
           <Route path='/admin/userlist' component={UserListScreen} />
+          <Route path='/admin/user/:id/edit' component={MakeAdmin} />
+
           <Route path='/order/:id' component={OrderScreen} />
           {/* paid services */}
           <Route path='/paidservices' component={PaidServices} />
@@ -79,7 +81,8 @@ const App = () => {
           {/* Map */}
           <Route path='/map' component={MapScreen} />
 
-          {/*  */}
+          {/* Admin */}
+        
           <Route
             path='/admin/productlist'
             component={ProductListScreen}

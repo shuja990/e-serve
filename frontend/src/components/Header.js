@@ -40,6 +40,14 @@ const Header = () => {
                     <NavDropdown.Item>Add post</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
+                <NavDropdown title="Community Service">
+                   <LinkContainer to='/communityserviceposts'>
+                    <NavDropdown.Item>Community Service Posts</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/createcommunityservicepost'>
+                    <NavDropdown.Item>Add post</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                    <LinkContainer to='/paidservices'>
