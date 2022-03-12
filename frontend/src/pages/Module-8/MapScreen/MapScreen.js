@@ -123,7 +123,7 @@ const dispatch= useDispatch()
               {popupInfo?.title}, {popupInfo?.price} |{' '}
               <Link
                 target="_new"
-                to={`/${popupInfo.price?'isMovable' in popupInfo?'rentposts':'paidservices' :'communityserviceposts'}/${popupInfo._id}`}
+                to={`/${popupInfo.price?'isMovable' in popupInfo?'rentposts':'paidservice' :'communityserviceposts'}/${popupInfo._id}`}
               >
                 View
               </Link>
