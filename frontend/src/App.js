@@ -35,6 +35,9 @@ import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePo
 import { useDispatch } from 'react-redux'
 import { addWebVisits, getWebVisits } from './actions/webVisitActions'
 import MakeAdmin from './pages/module3/MakeAdmin'
+import RentPostsAdmin from './pages/module3/RentPosts'
+import ServicePostsAdmin from './pages/module3/ServicePosts'
+import CommunityServicePostAdmin from './pages/module3/CommunityServicePosts'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -66,8 +69,13 @@ const App = () => {
           <Route path='/dashboard' component={Dashboard} />
           <Route path='/product/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
+        {/* Admin Panel */}
           <Route path='/admin/userlist' component={UserListScreen} />
           <Route path='/admin/user/:id/edit' component={MakeAdmin} />
+          <Route path='/admin/rent/' component={RentPostsAdmin} />
+          <Route path='/admin/services/' component={ServicePostsAdmin} />
+          <Route path='/admin/communityservices/' component={CommunityServicePostAdmin} />
+
 
           <Route path='/order/:id' component={OrderScreen} />
           {/* paid services */}

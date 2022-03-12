@@ -1,4 +1,4 @@
-import { PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQUEST, PAID_SERVICES_LIST_SUCCESS, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_RESET, PAID_SERVICE_CREATE_SUCCESS, PAID_SERVICE_DETAILS_FAIL, PAID_SERVICE_DETAILS_REQUEST, PAID_SERVICE_DETAILS_SUCCESS, PAID_SERVICE_UPDATE_FAIL, PAID_SERVICE_UPDATE_REQUEST, PAID_SERVICE_UPDATE_RESET, PAID_SERVICE_UPDATE_SUCCESS } from "../constants/paidServiceConstants"
+import { PAID_SERVICES_DELETE_FAIL, PAID_SERVICES_DELETE_REQUEST, PAID_SERVICES_DELETE_SUCCESS, PAID_SERVICES_LIST_ADD, PAID_SERVICES_LIST_FAIL, PAID_SERVICES_LIST_REQUEST, PAID_SERVICES_LIST_SUCCESS, PAID_SERVICE_CREATE_FAIL, PAID_SERVICE_CREATE_REQUEST, PAID_SERVICE_CREATE_RESET, PAID_SERVICE_CREATE_SUCCESS, PAID_SERVICE_DETAILS_FAIL, PAID_SERVICE_DETAILS_REQUEST, PAID_SERVICE_DETAILS_SUCCESS, PAID_SERVICE_UPDATE_FAIL, PAID_SERVICE_UPDATE_REQUEST, PAID_SERVICE_UPDATE_RESET, PAID_SERVICE_UPDATE_SUCCESS } from "../constants/paidServiceConstants"
 
 
 export const paidServiceListReducer = (state = { paidServices: [] }, action) => {
@@ -31,6 +31,18 @@ export const paidServiceCreateReducer = (state = {}, action) => {
         return { loading: false, error: action.payload }
       case PAID_SERVICE_CREATE_RESET:
         return {}
+      default:
+        return state
+    }
+  }
+  export const paidServiceDeleteReducer = (state = {}, action) => {
+    switch (action.type) {
+      case PAID_SERVICES_DELETE_REQUEST:
+        return { loading: true }
+      case PAID_SERVICES_DELETE_SUCCESS:
+        return { loading: false, success: true }
+      case PAID_SERVICES_DELETE_FAIL:
+        return { loading: false, error: action.payload }
       default:
         return state
     }

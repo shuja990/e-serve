@@ -12,7 +12,6 @@ const CommunityServicePostsLists = ({ match }) => {
   const dispatch = useDispatch()
 
   const cspostslist = useSelector((state) => state.communityServicePosts)
-  console.log(cspostslist);
   const { loading, error, communityServicePosts } = cspostslist
   useEffect(() => {
     dispatch(communityServicePostsList())

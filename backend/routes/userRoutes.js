@@ -22,7 +22,7 @@ router
   .route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile)
-  router.route('/:id').get(getUserById)
+  router.route('/:id').get(protect,admin,getUserById)
 router
   .route('/admin/:id')
   .delete(protect, admin, deleteUserAdmin)

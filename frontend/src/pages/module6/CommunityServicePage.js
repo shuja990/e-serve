@@ -20,7 +20,6 @@ const CommunityServicePage = ({match}) => {
 //   const match = useParams;
   const productDetails = useSelector((state) => state.communityServicePostDetail);
   const { loading, error, communityServicePost } = productDetails;
-  console.log();
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
