@@ -16,6 +16,7 @@ import {
   createProduct,
 } from '../../actions/productActions'
 import { createPaidService } from '../../actions/paidServiceActions'
+import { PAID_SERVICE_CREATE_RESET } from '../../constants/paidServiceConstants'
 
 const CreatePaidService = ({ history, match }) => {
     const [title, setTitle] = useState('')
@@ -58,27 +59,27 @@ const CreatePaidService = ({ history, match }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  useEffect(() => {
-    // dispatch({ type: PRODUCT_CREATE_RESET })
+  // useEffect(() => {
+  //   dispatch({ type: PRODUCT_CREATE_RESET })
 
-    // if (!userInfo || !userInfo.isAdmin) {
-    //   history.push('/login')
-    // }
+  //   if (!userInfo || !userInfo.isAdmin) {
+  //     history.push('/login')
+  //   }
 
-    // if (successCreate) {
-    //   history.push(`/admin/product/${createdProduct._id}/edit`)
-    // } else {
-    //   dispatch(listProducts('', pageNumber))
-    // }
-  }, [
-    dispatch,
-    history,
-    userInfo,
-    successDelete,
-    successCreate,
-    createdProduct,
-    pageNumber,
-  ])
+  //   if (successCreate) {
+  //     history.push(`/admin/product/${createdProduct._id}/edit`)
+  //   } else {
+  //     dispatch(listProducts('', pageNumber))
+  //   }
+  // }, [
+  //   dispatch,
+  //   history,
+  //   userInfo,
+  //   successDelete,
+  //   successCreate,
+  //   createdProduct,
+  //   pageNumber,
+  // ])
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
@@ -154,6 +155,18 @@ const CreatePaidService = ({ history, match }) => {
     history.push('/paidservices')
 
   }
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
+    if (successCreate) { 
+      history.push("/paidservices");
+      dispatch({
+        type: PAID_SERVICE_CREATE_RESET
+      })
+    }
+  }, [dispatch, history,successCreate,successDelete,userInfo]);
 
   return (
     <>

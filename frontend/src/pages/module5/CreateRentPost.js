@@ -7,6 +7,7 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import FormContainer from "../../components/FormContainer";
 import { addRentPost } from "../../actions/rentActions";
+import { RENT_CREATE_RESET } from "../../constants/rentConstants";
 
 const CreateRentPost = ({ match, history }) => {
   const [title, setTitle] = useState("");
@@ -23,11 +24,20 @@ const CreateRentPost = ({ match, history }) => {
 
   const rentPostCreate = useSelector((state) => state.rentCreate);
   const { loading, error, success } = rentPostCreate;
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
     if (success) {
       history.push("/rentposts");
     }
+    dispatch({
+      type: RENT_CREATE_RESET
+    })
+    
   }, [dispatch, history, success]);
   const getLocation = () => {
     if (navigator.geolocation) {

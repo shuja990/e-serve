@@ -86,7 +86,7 @@ function PaidServiceCard({ paidService }) {
               </a>
             </span>
           {
-            (userInfo?._id == createdBy || userInfo.isAdmin) && 
+            (userInfo?._id == createdBy || userInfo?.isAdmin) && 
            <Row style={{display: 'flex', justifyContent: 'space-between'}}>
               <Button
             variant="danger"

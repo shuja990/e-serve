@@ -40,7 +40,7 @@ const PaidServiceUpdate = ({ match, history }) => {
     } else {
       if (!paidService.title || paidService._id !== productId) {
         dispatch(listPaidServiceDetails(productId));
-      } else {
+      } else { 
         setTitle(paidService.title);
         setThumbnailImage(paidService.thumbnailImage);
         setDescription(paidService.description);

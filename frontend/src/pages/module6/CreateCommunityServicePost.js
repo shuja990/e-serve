@@ -7,6 +7,7 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import FormContainer from "../../components/FormContainer";
 import { addcommunityServicePost } from "../../actions/communityServiceActions";
+import { COMMUNITY_SERVICE_CREATE_RESET } from "../../constants/communityServiceConstants";
 
 const CreateCommunityServicePost = ({ match, history }) => {
   const [title, setTitle] = useState("");
@@ -31,9 +32,13 @@ const CreateCommunityServicePost = ({ match, history }) => {
     if (!userInfo) {
       history.push('/login')
     }
-    if (success) {
-      history.push("/communityservice");
+    if (success) { 
+      history.push("/communityserviceposts");
+      dispatch({
+        type: COMMUNITY_SERVICE_CREATE_RESET
+      })
     }
+
   }, [dispatch, history,success,userInfo]);
 
   const uploadFileHandler = async (e) => {

@@ -30,7 +30,7 @@ const dispatch= useDispatch()
       ) : (
         <>
           <Row>
-         { paidServices.map((ps, index) => (
+         { paidServices?.map((ps, index) => (
             <Col key={index} sm={12} md={6} lg={4} xl={3}>
              <PaidServiceCard paidService={ps} />
           </Col>
