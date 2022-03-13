@@ -15,6 +15,7 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import Meta from "../../components/Meta";
 import { listcommunityServicePostDetails } from "../../actions/communityServiceActions";
+import PostShare from "../../components/PostShare/PostShare";
 const CommunityServicePage = ({match}) => {
   const dispatch = useDispatch();
 //   const match = useParams;
@@ -47,6 +48,7 @@ const CommunityServicePage = ({match}) => {
           <Meta title={communityServicePost.title} />
           <Row>
             <Col md={6}>
+            <PostShare />
               <Image src={communityServicePost.thumbnailImage} alt={communityServicePost.title} fluid />
             </Col>
             <Col md={3}>

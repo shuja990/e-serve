@@ -25,13 +25,13 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <Route render={({ history }) => <SearchBox history={history} />} />
+            {/* <Route render={({ history }) => <SearchBox history={history} />} /> */}
             <Nav className='ml-auto'>
-              <LinkContainer to='/cart'>
+              {/* <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i> Cart
                 </Nav.Link>
-              </LinkContainer>
+              </LinkContainer> */}
               <NavDropdown title="Rent">
                    <LinkContainer to='/rentposts'>
                     <NavDropdown.Item>Rent Posts</NavDropdown.Item>
@@ -53,9 +53,6 @@ const Header = () => {
                   <NavDropdown title="Paid Service">
                    <LinkContainer to='/paidservices'>
                     <NavDropdown.Item>Available Paid Sevices</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/createcommunityservicepost'>
-                    <NavDropdown.Item>Add post</NavDropdown.Item>
                   </LinkContainer>
                   <LinkContainer to='/createpaidservice'>
                     <NavDropdown.Item>Create Paid Service</NavDropdown.Item>
