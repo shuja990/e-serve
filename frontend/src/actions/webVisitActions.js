@@ -8,7 +8,7 @@ export const getWebVisits = () => async (
       
   
       const { data } = await axios.get(
-        `http://localhost:5000/api/visits/62256a16baea893c142a52ff`
+        `http://localhost:5000/api/visits/622e85501477ae4268ee7d27`
       )
         // alert("WEBVISITS: " + (JSON.stringify(data.webVisits.numOfVisits)));
       dispatch({
@@ -33,12 +33,12 @@ export const getWebVisits = () => async (
       
   
       const { data } = await axios.get(
-        `http://localhost:5000/api/visits/62256a16baea893c142a52ff`
+        `http://localhost:5000/api/visits/622e85501477ae4268ee7d27`
       )
       data.webVisits.numOfVisits= data.webVisits.numOfVisits + 1
 
        const { updatedData } = await axios.put(
-        `http://localhost:5000/api/visits/62256a16baea893c142a52ff`,
+        `http://localhost:5000/api/visits/622e85501477ae4268ee7d27`,
         data
       )
       dispatch({

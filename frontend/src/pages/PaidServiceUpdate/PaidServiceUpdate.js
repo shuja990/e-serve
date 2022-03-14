@@ -106,6 +106,7 @@ const PaidServiceUpdate = ({ match, history }) => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="title"
+                required
                 placeholder="Enter Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -116,6 +117,7 @@ const PaidServiceUpdate = ({ match, history }) => {
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
+                required
                 placeholder="Enter image url"
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
@@ -133,6 +135,7 @@ const PaidServiceUpdate = ({ match, history }) => {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
+                required
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

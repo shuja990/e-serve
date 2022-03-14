@@ -7,6 +7,6 @@ router
   .get(getVisitCounts)
   .put(addCount)
 
-  router.route('createvisit').post(createVisit)
+  router.route('/createvisit').post(createVisit)
 
   export default router

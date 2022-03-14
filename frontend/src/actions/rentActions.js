@@ -12,7 +12,6 @@ export const rentPostsList = () => async (
     const { data } = await axios.get(
       `http://localhost:5000/api/rent`
     )
-      console.log("paid services from db: " +  JSON.stringify(data));
     dispatch({
       type: RENT_LIST_SUCCESS,
       payload: data.products,
@@ -27,6 +26,38 @@ export const rentPostsList = () => async (
     })
   }
 }
+
+export const rentPostsListAnalytics = (id) => async (dispatch, getState) =>  {
+  console.log("I a m here");
+  try {
+    dispatch({ type: RENT_LIST_REQUEST })
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get(
+      `http://localhost:5000/api/rent/myposts/${id}`,config
+    )
+    dispatch({
+      type: RENT_LIST_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: RENT_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
 
 export const addRentPost = (data) => async (dispatch, getState) => {
     try {

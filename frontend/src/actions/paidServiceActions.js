@@ -112,6 +112,37 @@ export const createPaidService = (data) => async (dispatch, getState) => {
       })
     }
   }
+
+  export const paidServicesListAnalytics = (id) => async (dispatch, getState) =>  {
+    try {
+      dispatch({ type: PAID_SERVICES_LIST_REQUEST })
+      const {
+        userLogin: { userInfo },
+      } = getState()
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+      const { data } = await axios.get(
+        `http://localhost:5000/api/paidservice/myposts/${id}`,config
+      )
+      dispatch({
+        type: PAID_SERVICES_LIST_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      dispatch({
+        type: PAID_SERVICES_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
+  }
+
   export const deletePaidServiceAdmin = (id) => async (dispatch, getState) => {
     try {
       dispatch({

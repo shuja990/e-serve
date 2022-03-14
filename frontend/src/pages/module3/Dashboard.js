@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "../../../components/Message";
-import { Table } from "react-bootstrap";
-import Loader from "../../../components/Loader";
-import { rentPostsListAnalytics } from "../../../actions/rentActions";
-import { paidServicesListAnalytics } from "../../../actions/paidServiceActions";
-const Dashboard = ({history}) => {
+import Message from "../../components/Message";
+import { Table, Card } from "react-bootstrap";
+import Loader from "../../components/Loader";
+import { rentPostsList } from "../../actions/rentActions";
+import { paidServicesList } from "../../actions/paidServiceActions";
+import { getWebVisits } from "../../actions/webVisitActions";
+const AdminDashboard = ({ history }) => {
   const dispatch = useDispatch();
+  const webvisits = useSelector((state) => state.webVisits);
+  const { loading, error, webVisitCounts } = webvisits;
   const rentPostList = useSelector((state) => state.rentPosts);
   const { loading: rentLoading, error: rentError, rentPosts } = rentPostList;
   const paidServicesStoreList = useSelector((state) => state.paidServiceList);
@@ -15,30 +18,41 @@ const Dashboard = ({history}) => {
     error: paidError,
     paidServices,
   } = paidServicesStoreList;
-  console.log(rentPosts);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   useEffect(() => {
-    if(userInfo){
-      dispatch(rentPostsListAnalytics(userInfo._id));
-      dispatch(paidServicesListAnalytics(userInfo._id))
+    if (userInfo) {
+      dispatch(rentPostsList(userInfo._id));
+      dispatch(paidServicesList(userInfo._id));
+      dispatch(getWebVisits());
+    } else {
+      history.push("/login");
     }
-    else{
-      history.push('/login')
-    }
-
   }, [dispatch, userInfo._id, userInfo]);
 
   return (
     <>
-      {rentLoading || paidLoading ? (
+      {rentLoading || paidLoading || loading? (
         <Loader />
       ) : rentError ? (
         <Message variant="danger">{rentError}</Message>
       ) : paidError ? (
         <Message variant="danger">{paidError}</Message>
-      ) : (
+      )
+      : error ? (
+          <Message>{error}</Message>
+      )
+      : (
         <>
+          <Card border="primary" style={{ width: "18rem" }}>
+            <Card.Header>Total Website Visits</Card.Header>
+            <Card.Body>
+              <Card.Title>{webVisitCounts} Visitor(s)</Card.Title>
+              <Card.Text>
+
+              </Card.Text>
+            </Card.Body>
+          </Card>
           <h1>Rent Posts</h1>
           <Table striped bordered hover responsive className="table-sm">
             <thead>
@@ -99,4 +113,4 @@ const Dashboard = ({history}) => {
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

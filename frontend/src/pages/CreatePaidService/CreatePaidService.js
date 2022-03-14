@@ -184,6 +184,7 @@ const CreatePaidService = ({ history, match }) => {
             <Form.Group controlId='name'>
               <Form.Label>Title</Form.Label>
               <Form.Control
+                required
                 type='name'
                 placeholder='Enter name'
                 value={title}
@@ -197,6 +198,7 @@ const CreatePaidService = ({ history, match }) => {
                 type='number'
                 placeholder='Enter price'
                 value={price}
+                required
                 onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
@@ -205,6 +207,7 @@ const CreatePaidService = ({ history, match }) => {
               <Form.Label>thumbnailImage</Form.Label>
               <Form.Control
                 type='text'
+                required
                 placeholder='Enter image url'
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
@@ -214,6 +217,7 @@ const CreatePaidService = ({ history, match }) => {
                 type="file"
                 label='Choose File'
                 custom
+                required
                 onChange={uploadFileHandler}
               ></Form.Control>
               {uploading && <Loader />}
@@ -243,6 +247,7 @@ const CreatePaidService = ({ history, match }) => {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type='text'
+                required
                 placeholder='Enter description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -253,6 +258,7 @@ const CreatePaidService = ({ history, match }) => {
               <Form.Label>Location</Form.Label>
               <Form.Control
                 type='text'
+                required
                 placeholder='Enter location'
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}

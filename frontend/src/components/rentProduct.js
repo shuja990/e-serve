@@ -15,9 +15,9 @@ const RentProduct = ({ product }) => {
   }
   
   return (
-    <Card onClick={()=>viewDetailsHandler(product._id, product)} className="my-3 p-3 rounded">
+    <Card onClick={()=>viewDetailsHandler(product._id, product)} className="my-3 p-3 rounded" style={{height:"450px"}}>
        
-        <Card.Img src={product.thumbnailImage} variant="top" />
+        <Card.Img src={product.thumbnailImage} variant="top" style={{height:"250px",objectFit:"contain"}} />
       
 
       <Card.Body>

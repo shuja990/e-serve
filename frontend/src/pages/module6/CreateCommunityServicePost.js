@@ -32,7 +32,7 @@ const CreateCommunityServicePost = ({ match, history }) => {
       history.push('/login')
     }
     if (success) {
-      history.push("/communityservice");
+      history.push("/communityserviceposts");
     }
   }, [dispatch, history,success,userInfo]);
 
@@ -121,6 +121,7 @@ const CreateCommunityServicePost = ({ match, history }) => {
               <Form.Control
                 type="name"
                 placeholder="Enter Title"
+                required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               ></Form.Control>
@@ -154,6 +155,7 @@ const CreateCommunityServicePost = ({ match, history }) => {
               <Form.Label>Thumbnail Image</Form.Label>
               <Form.Control
                 type="text"
+                required
                 placeholder="Enter image url"
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
@@ -162,6 +164,7 @@ const CreateCommunityServicePost = ({ match, history }) => {
                 id="image-file"
                 label="Choose File"
                 custom
+                required
                 type="file"
                 onChange={uploadFileHandler}
               ></Form.Control>
@@ -193,6 +196,7 @@ const CreateCommunityServicePost = ({ match, history }) => {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
+                required
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

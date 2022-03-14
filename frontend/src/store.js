@@ -49,6 +49,10 @@ import {
   communityServicePostUpdateReducer,
   communityServicePostsReducer
 } from './reducers/communityServiceReducers'
+import{
+  webAppVisitReducer
+}
+from './reducers/webVisitReducer'
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -87,6 +91,7 @@ const reducer = combineReducers({
   communityServiceUpdate: communityServicePostUpdateReducer,
   communityServicePostDetail: communityServicePostDetailsReducer,
   communityServicePostDelete: communityServicePostDeleteReducer,
+  webVisits: webAppVisitReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
