@@ -54,6 +54,7 @@ const RegisterScreen = ({ location, history }) => {
             type='name'
             placeholder='Enter name'
             value={name}
+            required
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -64,6 +65,7 @@ const RegisterScreen = ({ location, history }) => {
             type='email'
             placeholder='Enter email'
             value={email}
+            required
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -74,6 +76,7 @@ const RegisterScreen = ({ location, history }) => {
             type='password'
             placeholder='Enter password'
             value={password}
+            required
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -82,6 +85,7 @@ const RegisterScreen = ({ location, history }) => {
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type='password'
+            required
             placeholder='Confirm password'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -92,6 +96,7 @@ const RegisterScreen = ({ location, history }) => {
           <Form.Label>Contact Number</Form.Label>
           <Form.Control
             type='number'
+            required
             min={11}
             placeholder='Contact Number'
             value={contact}
@@ -105,7 +110,11 @@ const RegisterScreen = ({ location, history }) => {
             type='number'
             placeholder='CNIC'
             value={cnic}
-            min={13} 
+            required
+            // max={13}
+            // min={13} 
+            // size={13}
+            pattern=".{13,13}"
             onChange={(e) => setCnic(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -114,6 +123,8 @@ const RegisterScreen = ({ location, history }) => {
           <Form.Label>Address</Form.Label>
           <Form.Control
             type='text'
+            required
+        
             placeholder='Address'
             value={address}
             onChange={(e) => setAddress(e.target.value)}

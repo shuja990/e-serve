@@ -117,6 +117,7 @@ const UpdateRentPost = ({ match, history }) => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="name"
+                required
                 placeholder="Enter Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -129,6 +130,7 @@ const UpdateRentPost = ({ match, history }) => {
                 type="number"
                 placeholder="Enter price"
                 value={price}
+                required
                 onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
@@ -139,12 +141,14 @@ const UpdateRentPost = ({ match, history }) => {
                 type="text"
                 placeholder="Enter image url"
                 value={thumbnailImage}
+                required
                 onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
               <Form.Control
               type='file'
                 id="image-file"
                 label="Choose File"
+                required
                 custom
                 onChange={uploadFileHandler}
               ></Form.Control>
@@ -157,6 +161,7 @@ const UpdateRentPost = ({ match, history }) => {
                 type="text"  
                 placeholder="Enter Location"
                 value={location}
+                required
                 onChange={(e) => setLocation(e.target.value)}
               ></Form.Control> 
             </Form.Group>
@@ -175,6 +180,7 @@ const UpdateRentPost = ({ match, history }) => {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
+                required
                 placeholder="Enter description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

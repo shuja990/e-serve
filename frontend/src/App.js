@@ -38,6 +38,7 @@ import MakeAdmin from './pages/module3/MakeAdmin'
 import RentPostsAdmin from './pages/module3/RentPosts'
 import ServicePostsAdmin from './pages/module3/ServicePosts'
 import CommunityServicePostAdmin from './pages/module3/CommunityServicePosts'
+import AdminDashboard from './pages/module3/Dashboard'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -75,6 +76,7 @@ const App = () => {
           <Route path='/admin/rent/' component={RentPostsAdmin} />
           <Route path='/admin/services/' component={ServicePostsAdmin} />
           <Route path='/admin/communityservices/' component={CommunityServicePostAdmin} />
+          <Route path='/admin/dashboard/' component={AdminDashboard} />
 
 
           <Route path='/order/:id' component={OrderScreen} />

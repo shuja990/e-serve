@@ -118,28 +118,10 @@ const updateRentProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const getUserPosts = asyncHandler(async (req, res) => {
-const products = []
 
 const product = await Rent.find({createdBy:req.params.id})
-  if (product) {
-    product.forEach(element => {
-      if(req.user._id.toString() == element.createdBy.toString()){
-        products.push(product)
-    }
-    else{
-      res.status(401)
-      throw new Error('Not authorized')
-
-    }
-    });
-  }
-  else {
-    res.status(404)
-    throw new Error('Product not found')
-  }
-  if(products.length>0){
-    res.status(200)
-    res.json(products)
+  if(product){
+    res.json(product)
   }
   else{
     res.status(404)

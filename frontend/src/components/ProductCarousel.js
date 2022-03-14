@@ -6,32 +6,21 @@ import Loader from './Loader'
 import Message from './Message'
 import { listTopProducts } from '../actions/productActions'
 
-const ProductCarousel = () => {
+const ProductCarousel = (products) => {
   const dispatch = useDispatch()
-
-  const productTopRated = useSelector((state) => state.productTopRated)
-  const { loading, error, products } = productTopRated
 
   useEffect(() => {
     dispatch(listTopProducts())
   }, [dispatch])
 
-  return loading ? (
-    <Loader />
-  ) : error ? (
-    <Message variant='danger'>{error}</Message>
-  ) : (
+  return(
     <Carousel pause='hover' className='bg-dark'>
-      {products.map((product) => (
-        <Carousel.Item key={product._id}>
-          <Link to={`/product/${product._id}`}>
-            <Image src={product.image} alt={product.name} fluid />
-            <Carousel.Caption className='carousel-caption'>
-              <h2>
-                {product.name} (${product.price})
-              </h2>
-            </Carousel.Caption>
-          </Link>
+      {products?.products?.map((product) => (
+        <Carousel.Item key={product?._id}>
+          {/* <Link to={`/product/${product._id}`}> */}
+            <Image src={product?.thumbnailImage} alt={product?.title} fluid />
+
+          {/* </Link> */}
         </Carousel.Item>
       ))}
     </Carousel>

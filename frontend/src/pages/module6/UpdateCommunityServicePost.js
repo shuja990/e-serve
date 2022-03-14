@@ -60,7 +60,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
         setDescription(communityServicePost.description)
       }
     }
-  }, [dispatch, history, productId, communityServicePost, successUpdate])
+  }, [dispatch, history, productId, communityServicePost, successUpdate, userInfo])
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
@@ -80,7 +80,6 @@ const UpdateCommunityServicePost = ({ match, history }) => {
       setThumbnailImage(data)
       setUploading(false)
     } catch (error) {
-      console.error(error)
       setUploading(false)
     }
   }
@@ -150,6 +149,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
               type="name"
               placeholder="Enter Title"
               value={title}
+              required
               onChange={(e) => setTitle(e.target.value)}
             ></Form.Control>
           </Form.Group>
@@ -182,6 +182,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
             <Form.Label>Thumbnail Image</Form.Label>
             <Form.Control
               type="text"
+              required
               placeholder="Enter image url"
               value={thumbnailImage}
               onChange={(e) => setThumbnailImage(e.target.value)}
@@ -189,6 +190,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
             <Form.Control
               id="image-file"
               label="Choose File"
+              required
               custom
               type="file"
               onChange={uploadFileHandler}
@@ -203,6 +205,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
               type="text"
               placeholder="Enter Location"
               value={location}
+              required
               onChange={(e) => setLocation(e.target.value)}
             ></Form.Control>
           </Form.Group>
@@ -221,6 +224,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
             <Form.Label>Description</Form.Label>
             <Form.Control
               type="text"
+              required
               placeholder="Enter description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -232,6 +236,7 @@ const UpdateCommunityServicePost = ({ match, history }) => {
                 // placeholder="Enter is"
                 label="Available"
                 checked={available}
+                required
                 value={available}
                 onChange={(e) => setAvailable(e.target.checked)}
               ></Form.Check>

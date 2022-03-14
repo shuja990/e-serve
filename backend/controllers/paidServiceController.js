@@ -115,28 +115,10 @@ const updatePaidService = asyncHandler(async (req, res) => {
 })
 
 const getUserPaidService = asyncHandler(async (req, res) => {
-  const products = []
   
   const product = await PaidService.find({createdBy:req.params.id})
     if (product) {
-      product.forEach(element => {
-        if(req.user._id.toString() == element.createdBy.toString()){
-          products.push(product)
-      }
-      else{
-        res.status(401)
-        throw new Error('Not authorized')
-  
-      }
-      });
-    }
-    else {
-      res.status(404)
-      throw new Error('Product not found')
-    }
-    if(products.length>0){
-      res.status(200)
-      res.json(products)
+      res.json(product)
     }
     else{
       res.status(404)

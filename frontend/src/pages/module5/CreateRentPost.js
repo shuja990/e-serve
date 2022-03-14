@@ -126,6 +126,7 @@ const CreateRentPost = ({ match, history }) => {
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="name"
+                required
                 placeholder="Enter Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -138,6 +139,7 @@ const CreateRentPost = ({ match, history }) => {
                 type="number"
                 placeholder="Enter price"
                 value={price}
+                required
                 onChange={(e) => setPrice(e.target.value)}
               ></Form.Control>
             </Form.Group>
@@ -170,6 +172,7 @@ const CreateRentPost = ({ match, history }) => {
               <Form.Label>Thumbnail Image</Form.Label>
               <Form.Control
                 type="text"
+                required
                 placeholder="Enter image url"
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
@@ -190,6 +193,7 @@ const CreateRentPost = ({ match, history }) => {
               <Form.Control
                 type="text"
                 placeholder="Enter Location"
+                required
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
               ></Form.Control>
@@ -211,6 +215,7 @@ const CreateRentPost = ({ match, history }) => {
                 type="text"
                 placeholder="Enter description"
                 value={description}
+                required
                 onChange={(e) => setDescription(e.target.value)}
               ></Form.Control>
             </Form.Group>
