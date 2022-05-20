@@ -44,6 +44,7 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     )
+    console.log(data);
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
@@ -91,7 +92,7 @@ export const register = (name, email, password, cnic, contact, address) => async
       { name, email, password, cnic, contact, address },
       config
     )
-
+    window.open(data.redirectUrl, '_blank').focus();
     dispatch({
       type: USER_REGISTER_SUCCESS,
       payload: data,
@@ -167,7 +168,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    console.log(user)
     const { data } = await axios.put(`/api/users/profile`, user, config)
 
     dispatch({

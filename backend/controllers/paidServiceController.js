@@ -1,5 +1,10 @@
 import asyncHandler from 'express-async-handler'
 import PaidService from '../models/paidServiceModel.js'
+import Stripe from "stripe";
+
+const stripe = new Stripe(
+  "sk_test_51GvpJkBqTtLhCjZjfCL0xAlkOPdCoDdaLkdpVV1Dkg5qpB12oQqkAn0YgibmK8sdsvSIvV3e4MSYUWyNmSN9QVnL00xrX1AtDJ"
+);
 
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -51,11 +56,21 @@ const deletePaidService = asyncHandler(async (req, res) => {
 const createPaidService = asyncHandler(async (req, res) => {
     const { title,thumbnailImage,images,location,category,description, createdBy, price, serviceType, coordinates } = req.body
     // createdBy: req.user._id
+    const p = await stripe.products.create({
+      name: title,
+      default_price_data: {
+        unit_amount: Math.trunc(price*100),
+        currency: 'usd',
+        // recurring: {interval: 'month'},
+      },
+      expand: ['default_price'],
+    });
   const product = new PaidService({
     title: title,
     createdBy: req.user._id,
     thumbnailImage: thumbnailImage,
     // images: images,
+    stripeProdId:p.default_price.id,
     location: location,
     category: category,
     description: description,
@@ -98,7 +113,6 @@ const updatePaidService = asyncHandler(async (req, res) => {
             product.twitterShares=twitterShares
             product.coordinates= coordinates
             product.serviceType= serviceType
-            
             const updatedProduct = await product.save()
             res.json(updatedProduct)
           } else {
