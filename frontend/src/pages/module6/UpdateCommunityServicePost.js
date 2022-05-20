@@ -190,7 +190,6 @@ const UpdateCommunityServicePost = ({ match, history }) => {
             <Form.Control
               id="image-file"
               label="Choose File"
-              required
               custom
               type="file"
               onChange={uploadFileHandler}

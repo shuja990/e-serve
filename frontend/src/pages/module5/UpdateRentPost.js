@@ -148,7 +148,6 @@ const UpdateRentPost = ({ match, history }) => {
               type='file'
                 id="image-file"
                 label="Choose File"
-                required
                 custom
                 onChange={uploadFileHandler}
               ></Form.Control>

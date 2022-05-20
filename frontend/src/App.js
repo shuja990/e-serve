@@ -39,6 +39,7 @@ import RentPostsAdmin from './pages/module3/RentPosts'
 import ServicePostsAdmin from './pages/module3/ServicePosts'
 import CommunityServicePostAdmin from './pages/module3/CommunityServicePosts'
 import AdminDashboard from './pages/module3/Dashboard'
+import ChatScreen from './pages/m-3-chat/ChatScreen'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -123,6 +124,8 @@ const App = () => {
           <Route path='/createcommunityservicepost' component={CreateCommunityServicePost} exact />
           <Route path='/communityserviceposts/:id' component={CommunityServicePage} exact />
           <Route path='/communityserviceposts/:id/edit' component={UpdateCommunityServicePost} exact />
+
+          <Route path='/chat' component={ChatScreen} exact />
         </Container>
       </main>
       <Footer />

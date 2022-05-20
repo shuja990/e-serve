@@ -27,7 +27,7 @@ const RentProduct = ({ product }) => {
           </Card.Title>
         </Link>
 
-        <Card.Text as="h3">${product.price}</Card.Text>
+        <Card.Text as="h3">{product.price} <span> PKR</span> </Card.Text>
         <Card.Text as="div">
           <Card.Title as="div">
             Added by:<strong>{product.createdBy?.name}</strong>

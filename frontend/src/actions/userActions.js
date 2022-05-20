@@ -26,8 +26,12 @@ import {
   USER_UPDATE_REQUEST,
 } from '../constants/userConstants'
 import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
+import Cookies from 'universal-cookie';
 
-export const login = (email, password) => async (dispatch) => {
+const cookies = new Cookies();
+
+
+export const login = (email, username, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -41,7 +45,7 @@ export const login = (email, password) => async (dispatch) => {
 
     const { data } = await axios.post(
       '/api/users/login',
-      { email, password },
+      { email, username, password },
       config
     )
 
@@ -74,7 +78,7 @@ export const logout = () => (dispatch) => {
   document.location.href = '/login'
 }
 
-export const register = (name, email, password, cnic, contact, address) => async (dispatch) => {
+export const register = (name, email, password, cnic, contact, address, username) => async (dispatch) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -86,11 +90,21 @@ export const register = (name, email, password, cnic, contact, address) => async
       },
     }
 
+    const avatarURL="https://images.unsplash.com/photo-1652972601829-83d833e58be1?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500"
+
     const { data } = await axios.post(
       '/api/users',
-      { name, email, password, cnic, contact, address },
+      { name, email, password, cnic, contact, address, username, avatarURL },
       config
     )
+
+    cookies.set('streamToken', data.streamToken);
+        cookies.set('username', data.username);
+        cookies.set('name', data.name);
+        cookies.set('userId', data.userId);
+        cookies.set('phNumber', data.contact);
+            cookies.set('avatarURL', data.avatarURL);
+            cookies.set('hashedPassword', data.hashedPassword)
 
     dispatch({
       type: USER_REGISTER_SUCCESS,

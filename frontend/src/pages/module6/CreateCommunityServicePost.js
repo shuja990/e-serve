@@ -169,7 +169,6 @@ const CreateCommunityServicePost = ({ match, history }) => {
                 id="image-file"
                 label="Choose File"
                 custom
-                required
                 type="file"
                 onChange={uploadFileHandler}
               ></Form.Control>
