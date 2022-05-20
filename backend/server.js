@@ -14,13 +14,19 @@ import serviceRoutes from './routes/servicesRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import paidServiceRoutes from './routes/paidServiceRoutes.js'
 import webAppVisitRoutes from './routes/webAppVisitRoutes.js'
+import paymentRoutes from './routes/paymentRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
+import Stripe from "stripe";
+
 
 dotenv.config()
 connectDB()
 
 const app = express()
 app.use(cors())
-
+export const stripe = new Stripe(
+  "sk_test_51GvpJkBqTtLhCjZjfCL0xAlkOPdCoDdaLkdpVV1Dkg5qpB12oQqkAn0YgibmK8sdsvSIvV3e4MSYUWyNmSN9QVnL00xrX1AtDJ"
+);
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
@@ -32,12 +38,14 @@ app.use('/api/users', userRoutes)
 app.use('/api/communityservice', communityServiceRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/services', serviceRoutes)
+app.use('/api/orders', orderRoutes)
 app.use('/api/paidservice', paidServiceRoutes)
 
 app.use('/api/admin', adminRoutes)
 
 // web app visits routes
 app.use('/api/visits', webAppVisitRoutes)
+app.use('/api/payments', paymentRoutes)
 
 
 

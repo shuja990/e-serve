@@ -17,6 +17,7 @@ import {
   RENT_DELETE_REQUEST,
   RENT_DELETE_SUCCESS,
   RENT_DELETE_FAIL,
+  RENT_DELETE_RESET,
 } from "../constants/rentConstants";
 
 export const rentPostsListReducer = (state = { rentPosts: [] }, action) => {
@@ -94,6 +95,8 @@ export const rentPostDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case RENT_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    case RENT_DELETE_RESET:
+      return {};
     default:
       return state;
   }

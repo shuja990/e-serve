@@ -1,38 +1,47 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
-import Rating from '../../components/Rating'
-import Message from '../../components/Message'
-import Loader from '../../components/Loader'
-import Meta from '../../components/Meta'
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  listProductDetails,
-  createProductReview,
-} from '../../actions/productActions'
-import { PRODUCT_CREATE_REVIEW_RESET } from '../../constants/productConstants'
-import { listPaidServiceDetails, updatePSShares } from '../../actions/paidServiceActions'
-import PostShare from '../../components/PostShare/PostShare'
-
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Card,
+  Button,
+  Form,
+} from "react-bootstrap";
+import Rating from "../../components/Rating";
+import Message from "../../components/Message";
+import Loader from "../../components/Loader";
+import Meta from "../../components/Meta";
+import {
+  listPaidServiceDetails,
+  updatePSShares,
+} from "../../actions/paidServiceActions";
+import PostShare from "../../components/PostShare/PostShare";
+import {createOrder} from '../../actions/orderActions'
 const PaidServiceDetails = ({ history, match }) => {
-  const [qty, setQty] = useState(1)
-  const [rating, setRating] = useState(0)
-  const [comment, setComment] = useState('')
+  const [duration, setDuration] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const paidServiceDetails = useSelector((state) => state.paidServiceDetails)
-  const { loading, error, paidService } = paidServiceDetails
+  const paidServiceDetails = useSelector((state) => state.paidServiceDetails);
+  const { loading, error, paidService } = paidServiceDetails;
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { loading: l, error: e, success, order } = paidServiceDetails;
 
-//   const productReviewCreate = useSelector((state) => state.productReviewCreate)
-//   const {
-//     success: successProductReview,
-//     loading: loadingProductReview,
-//     error: errorProductReview,
-//   } = productReviewCreate
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  //   const productReviewCreate = useSelector((state) => state.productReviewCreate)
+  //   const {
+  //     success: successProductReview,
+  //     loading: loadingProductReview,
+  //     error: errorProductReview,
+  //   } = productReviewCreate
 
   useEffect(() => {
     // if (successProductReview) {
@@ -40,51 +49,65 @@ const PaidServiceDetails = ({ history, match }) => {
     //   setComment('')
     // }
     if (!paidService._id || paidService._id !== match.params.id) {
-      dispatch(listPaidServiceDetails(match.params.id))
-    //   dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
+      dispatch(listPaidServiceDetails(match.params.id));
+      //   dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
-  }, [dispatch, match,
+    console.log(order);
+  }, [
+    dispatch,
+    match,
+    success
     //  successProductReview
-    ])
+  ]);
 
   const addToCartHandler = () => {
     // history.push(`/cart/${match.params.id}?qty=${qty}`)
-  }
+  };
 
   const submitHandler = (e) => {
-    e.preventDefault()
-    // dispatch(
-    //   createProductReview(match.params.id, {
-    //     rating,
-    //     comment,
-    //   })
-    // )
-  }
+    e.preventDefault();
+    dispatch(
+      createOrder({
+        buyer:userInfo._id,
+        seller:paidService.createdBy,
+        duration:duration,
+        orderItem:{
+          title:paidService.title,
+          price:paidService.price,
+          product:paidService._id
+        }
+      })
+    )
+  };
 
-  const handleShare=(socialType)=>{
-    
-    dispatch(updatePSShares(paidService, socialType))   
-}
+  const handleShare = (socialType) => {
+    dispatch(updatePSShares(paidService, socialType));
+  };
 
   return (
     <>
-      <Link className='btn btn-light my-3' to='/paidservices'>
+      <Link className="btn btn-light my-3" to="/paidservices">
         Go Back
       </Link>
-      {loading ? (
+      {loading || l ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <>
+          {e && <Message variant="danger">{e}</Message>}
           <Meta title={paidService.title} />
           <Row>
             <Col md={6}>
               <PostShare handleShare={handleShare} />
-              <Image src={paidService.thumbnailImage} alt={paidService.title} fluid />
+              <Image
+                src={paidService.thumbnailImage}
+                alt={paidService.title}
+                fluid
+              />
             </Col>
             <Col md={3}>
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>{paidService.title}</h3>
                 </ListGroup.Item>
@@ -102,12 +125,12 @@ const PaidServiceDetails = ({ history, match }) => {
             </Col>
             <Col md={3}>
               <Card>
-                <ListGroup variant='flush'>
-                <ListGroup.Item>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
                     <Row>
                       <Col>Provider:</Col>
                       <Col>
-                        <strong>${`provider name`}</strong>
+                        <strong>{`provider name`}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -153,14 +176,25 @@ const PaidServiceDetails = ({ history, match }) => {
                   )} */}
 
                   <ListGroup.Item>
-                    <Button
-                      onClick={addToCartHandler}
-                      className='btn-block'
-                      type='button'
-                    //   disabled={paidService.countInStock === 0}
-                    >
-                     Buy Service
-                    </Button>
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group controlId="duration">
+                        <Form.Label>Enter duration for the order</Form.Label>
+                        <Form.Control
+                          type="number"
+                          max={15}
+                          placeholder="Enter Duration for the order"
+                          value={duration}
+                          onChange={(e) => setDuration(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Button
+                        className="btn-block"
+                        type="submit"
+                        disabled={userInfo === null || userInfo._id===paidService.createdBy}
+                      >
+                        Buy Service
+                      </Button>
+                    </Form>
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
@@ -239,7 +273,7 @@ const PaidServiceDetails = ({ history, match }) => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PaidServiceDetails
+export default PaidServiceDetails;

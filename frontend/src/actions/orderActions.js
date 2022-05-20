@@ -122,11 +122,12 @@ export const payOrder = (orderId, paymentResult) => async (
       },
     }
 
-    const { data } = await axios.put(
-      `/api/orders/${orderId}/pay`,
+    const { data } = await axios.post(
+      `/api/orders/pay/${orderId}`,
       paymentResult,
       config
     )
+    window.open(data.url, '_blank').focus();
 
     dispatch({
       type: ORDER_PAY_SUCCESS,
@@ -163,8 +164,8 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`,
+    const { data } = await axios.post(
+      `http://localhost:5000/api/orders/complete/${order._id}`,
       {},
       config
     )

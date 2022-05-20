@@ -86,6 +86,7 @@ const reducer = combineReducers({
   rentUpdate: rentPostUpdateReducer,
   rentPostDetail: rentDetailsReducer,
   rentPostDelete: rentPostDeleteReducer,
+  
   communityServicePosts: communityServicePostsReducer,
   communityServiceCreate: communityServicePostCreateReducer,
   communityServiceUpdate: communityServicePostUpdateReducer,

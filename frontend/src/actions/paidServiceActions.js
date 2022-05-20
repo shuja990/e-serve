@@ -12,7 +12,6 @@ export const paidServicesList = () => async (
     const { data } = await axios.get(
       `/api/paidservice`
     )
-      console.log("paid services from db: " +  JSON.stringify(data));
     dispatch({
       type: PAID_SERVICES_LIST_SUCCESS,
       payload: data.paidServices,
