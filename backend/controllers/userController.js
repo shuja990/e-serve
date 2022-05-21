@@ -1,19 +1,57 @@
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
+import dotenv from 'dotenv'
+import stream, {connect} from 'getstream';
+import crypto from 'crypto';
+import {StreamChat} from'stream-chat'
+import bcrypt from 'bcryptjs'
+
+
+
+
+// import StreamChat from ('stream-chat').StreamChat;
+
+
+// require('dotenv').config();
+dotenv.config()
+
+const api_key = process.env.STREAM_API_KEY;
+const api_secret = process.env.STREAM_API_SECRET;
+const app_id = process.env.STREAM_APP_ID;
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body
+  const { email, username, password } = req.body
 
   const user = await User.findOne({ email })
-
+console.log(user);
   if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
+    
+  // chat auth start
+   const serverClient = stream.connect(api_key, api_secret, app_id);
+   const client = StreamChat.getInstance(api_key, api_secret, app_id);
+ 
+   const { users } = await client.queryUsers({ name: username });
+ 
+   if(!users.length) return res.status(400).json({ message: 'User not found' });
+ 
+   const success = await bcrypt.compare(password, users[0].password);
+   console.log(success);
+ 
+   const streamToken = serverClient.createUserToken(users[0].id);
+
+  
+ 
+   if(success) {
+client.connectUser({name:users[0].name, email:email, password: users[0].password, contact:users[0].name, cnic:users[0].name, address:users[0].address, username, id: users[0].id})
+
+     
+    res.status(200).json({
+      _id: user._id, 
+      name: users[0].name, 
       email: user.email, 
       isAdmin: user.isAdmin,
       contact: user.contact,
@@ -27,7 +65,34 @@ const authUser = asyncHandler(async (req, res) => {
       paymentDetails: user.paymentDetails,
       address: user.address,
       token: generateToken(user._id),
+      streamToken,
+      username,
+      userId: users[0].id
+
     })
+      //  res.status(200).json({ streamToken, name: users[0].name, username, userId: users[0].id, id: users[0].id});
+   } else {
+       res.status(500).json({ message: 'Incorrect password' });
+   }
+   // chat auth end
+ 
+    // res.json({
+    //   _id: user._id, 
+    //   name: user.name, 
+    //   email: user.email, 
+    //   isAdmin: user.isAdmin,
+    //   contact: user.contact,
+    //   cnic: user.cnic,
+    //   favorites: user.favorites,
+    //   itemsRented: user.itemsRented,
+    //   itemsRentedOut : user.itemsRentedOut,
+    //   collectionRequestsSent: user.collectionRequestsSent,
+    //   itemsCollected: user.itemsCollected,
+    //   servicesOrdered: user.servicesOrdered,
+    //   paymentDetails: user.paymentDetails,
+    //   address: user.address,
+    //   token: generateToken(user._id),
+    // })
   } else {
     res.status(401)
     throw new Error('Invalid email or password')
@@ -38,7 +103,8 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, contact, cnic, address} = req.body
+  const { name, email, password, contact, cnic, address, username} = req.body
+  
 
   const userExists = await User.findOne({ email })
 
@@ -46,26 +112,48 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error('User already exists')
   }
+// try
+
+// try end
+const userId = crypto.randomBytes(16).toString('hex');
+
+const serverClient = connect(api_key, api_secret, app_id);
+let p= password
+const hashedPassword = await bcrypt.hash(p, 10);
+
+const token = serverClient.createUserToken(userId);
+const chatClient = StreamChat.getInstance(api_key, api_secret, app_id);
+// chatClient.disconnectUser({id: userId})
+chatClient.connectUser({name, email, password: hashedPassword, contact, cnic, address, username, id: userId})
+
+
+
+
 
   const user = await User.create({
     name,
+    username,
     email,
     password,
     contact,
     cnic,
-    contact,
-    address
+    address,
+    hashedPassword
   })
 
+  
+
   if (user) {
+    
     res.status(201).json({
       _id: user._id,
       name: user.name,
+      username: user.username,
       email: user.email, 
       isAdmin: user.isAdmin,
       contact: user.contact,
       cnic: user.cnic,
-      favorites: user.favorites,
+      favorites: user.favorites, 
       itemsRented: user.itemsRented,
       itemsRentedOut : user.itemsRentedOut,
       collectionRequestsSent: user.collectionRequestsSent,
@@ -74,7 +162,13 @@ const registerUser = asyncHandler(async (req, res) => {
       paymentDetails: user.paymentDetails,
       address: user.address,
       token: generateToken(user._id),
+      streamToken: token,
+      userId:userId, 
+      hashedPassword:hashedPassword,
+      fullName: user.name, 
+
     })
+    
   } else {
     res.status(400)
     throw new Error('Invalid user data')
@@ -101,7 +195,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       collectionRequestsSent: user.collectionRequestsSent,
       itemsCollected: user.itemsCollected,
       servicesOrdered: user.servicesOrdered,
-      paymentDetails: user.paymentDetails,
+      paymentDetails: user.paymentDetails, 
       address: user.address
     })
   } else {

@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import { ChannelSearch, TeamChannelList, TeamChannelPreview } from './';
 import HospitalIcon from '../../assets/images/hospital.png'
 import LogoutIcon from '../../assets/images/logout.png'
+import { useDispatch } from 'react-redux';
 
 const cookies = new Cookies();
 
@@ -25,7 +26,7 @@ const SideBar = ({ logout }) => (
 
 const CompanyHeader = () => (
     <div className="channel-list__header">
-        <p className="channel-list__header__text">Medical Pager</p>
+        <p className="channel-list__header__text">E-Serve Chat</p>
     </div>
 )
 
@@ -39,18 +40,22 @@ const customChannelMessagingFilter = (channels) => {
 
 const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEditing, setToggleContainer }) => {
     const { client } = useChatContext();
+    const dispatch= useDispatch();
 
     const logout = () => {
-        cookies.remove("token");
+        cookies.remove("streamToken");
         cookies.remove('userId');
         cookies.remove('username');
-        cookies.remove('fullName');
+        cookies.remove('name');
         cookies.remove('avatarURL');
         cookies.remove('hashedPassword');
-        cookies.remove('phoneNumber');
+        cookies.remove('phNumber');
+        dispatch(logout())
+        
 
         window.location.reload();
     }
+
 
     const filters = { members: { $in: [client.userID] } };
 
@@ -127,7 +132,7 @@ const ChannelListContainer = ({ setCreateType, setIsCreating, setIsEditing }) =>
             </div>
 
             <div className="channel-list__container-responsive"
-                style={{ left: toggleContainer ? "0%" : "-89%", backgroundColor: "#005fff"}}
+                style={{ left: toggleContainer ? "0%" : "-89%", backgroundColor: "#005fff"}} 
             >
                 <div className="channel-list__container-toggle" onClick={() => setToggleContainer((prevToggleContainer) => !prevToggleContainer)}>
                 </div>

@@ -49,6 +49,15 @@ export const login = (email, username, password) => async (dispatch) => {
       config
     )
 
+    
+    cookies.set('streamToken', data.streamToken);
+        cookies.set('username', data.username); 
+        cookies.set('name', data.name);
+        cookies.set('userId', data.userId); 
+        cookies.set('phNumber', data.contact);
+            cookies.set('avatarURL', data.avatarURL);
+            cookies.set('hashedPassword', data.hashedPassword)
+
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
@@ -58,7 +67,7 @@ export const login = (email, username, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload:
+      payload: 
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
@@ -71,6 +80,13 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('cartItems')
   localStorage.removeItem('shippingAddress')
   localStorage.removeItem('paymentMethod')
+  cookies.remove("streamToken");
+  cookies.remove('userId');
+  cookies.remove('username');
+  cookies.remove('name');
+  cookies.remove('avatarURL');
+  cookies.remove('hashedPassword');
+  cookies.remove('phNumber');
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
   dispatch({ type: ORDER_LIST_MY_RESET })
@@ -99,9 +115,9 @@ export const register = (name, email, password, cnic, contact, address, username
     )
 
     cookies.set('streamToken', data.streamToken);
-        cookies.set('username', data.username);
+        cookies.set('username', data.username); 
         cookies.set('name', data.name);
-        cookies.set('userId', data.userId);
+        cookies.set('userId', data.userId); 
         cookies.set('phNumber', data.contact);
             cookies.set('avatarURL', data.avatarURL);
             cookies.set('hashedPassword', data.hashedPassword)
