@@ -89,14 +89,11 @@ const userSchema = mongoose.Schema(
       }
     ],
     paymentDetails: {
-      card: { type: Number },
-      cvc: { type: Number },
-      name: { type: String },
-      email: {type: String },
-      expiryDate: {
-        month: { type: Number },
-        year: { type: Number }
-      },
+      type: String
+    },
+    paymentsEnabled:{
+      type: Boolean,
+      default: false
     },
     address: { type: String },
     isDisputeResolutionStaff: {

@@ -48,6 +48,7 @@ export const login = (email, username, password) => async (dispatch) => {
       { email, username, password },
       config
     )
+    console.log(data);
 
     
     cookies.set('streamToken', data.streamToken);
@@ -121,7 +122,8 @@ export const register = (name, email, password, cnic, contact, address, username
         cookies.set('phNumber', data.contact);
             cookies.set('avatarURL', data.avatarURL);
             cookies.set('hashedPassword', data.hashedPassword)
-
+console.log(data.redirectUrl)
+    window.open(data.redirectUrl, '_blank')?.focus();
     dispatch({
       type: USER_REGISTER_SUCCESS,
       payload: data,
@@ -197,7 +199,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    console.log(user)
     const { data } = await axios.put(`/api/users/profile`, user, config)
 
     dispatch({

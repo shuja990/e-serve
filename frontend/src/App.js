@@ -12,7 +12,6 @@ import ProfileScreen from './pages/module1/profile/ProfileScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
-import OrderScreen from './screens/OrderScreen'
 import UserListScreen from './pages/module3/Users'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
@@ -31,7 +30,7 @@ import CommunityServicePostsLists from './pages/module6/CommunityServicePostsLis
 import CreateCommunityServicePost from './pages/module6/CreateCommunityServicePost'
 import CommunityServicePage from './pages/module6/CommunityServicePage'
 import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePost'
-
+import PaymentUpdate from './pages/module1/PaymentUpdate'
 import { useDispatch } from 'react-redux'
 import { addWebVisits, getWebVisits } from './actions/webVisitActions'
 import MakeAdmin from './pages/module3/MakeAdmin'
@@ -40,6 +39,8 @@ import ServicePostsAdmin from './pages/module3/ServicePosts'
 import CommunityServicePostAdmin from './pages/module3/CommunityServicePosts'
 import AdminDashboard from './pages/module3/Dashboard'
 import ChatScreen from './pages/m-3-chat/ChatScreen'
+import PaymentSuccessScreen from './pages/paidServicesOrder/PaymentSuccessPage'
+import OrderPage from './pages/paidServicesOrder/OrderPage'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -61,7 +62,7 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/order/:id' component={OrderScreen} />
+          {/* <Route path='/order/:id' component={OrderPage} /> */}
           <Route path='/shipping' component={ShippingScreen} />
           <Route path='/payment' component={PaymentScreen} />
           <Route path='/placeorder' component={PlaceOrderScreen} />
@@ -79,8 +80,8 @@ const App = () => {
           <Route path='/admin/communityservices/' component={CommunityServicePostAdmin} />
           <Route path='/admin/dashboard/' component={AdminDashboard} />
 
-
-          <Route path='/order/:id' component={OrderScreen} />
+ 
+          <Route path='/order/:id' component={OrderPage} />
           {/* paid services */}
           <Route path='/paidservices' component={PaidServices} />
           <Route exact path='/paidservice/:id' component={PaidServiceDetails} />
@@ -108,6 +109,9 @@ const App = () => {
           <Route path='/admin/orderlist' component={OrderListScreen} />
           <Route path='/search/:keyword' component={HomeScreen} exact />
           <Route path='/page/:pageNumber' component={HomeScreen} exact />
+          <Route path='/onboardsuccess' component={PaymentUpdate} exact />
+          <Route path='/paymentsuccess/:id' component={PaymentSuccessScreen} exact />
+
           <Route
             path='/search/:keyword/page/:pageNumber'
             component={HomeScreen}

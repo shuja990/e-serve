@@ -1,52 +1,42 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const orderSchema = mongoose.Schema(
   {
-    user: {
+    buyer: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
-    orderItem: 
-    {
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+    orderItem: {
       title: { type: String, required: true },
       price: { type: Number, required: true },
       product: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Services',
+        ref: "PaidService",
       },
     },
     orderStatus: {
       type: String,
       required: true,
-      default: "InProgress"
+      default: "InProgress",
     },
     duration: {
-      type: String,
-      required: true
-    },
-    orderType: {
-      type: String,
-      required: true
-    },
-    paymentMethod: {
       type: String,
       required: true,
     },
     paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      update_time: { type: String },
-      email_address: { type: String },
+      type: String,
     },
     isPaid: {
       type: Boolean,
       required: true,
       default: false,
-    },
-    paidAt: {
-      type: Date,
     },
     isDelivered: {
       type: Boolean,
@@ -58,13 +48,13 @@ const orderSchema = mongoose.Schema(
     },
     deliverables: {
       type: String,
-    }
+    },
   },
   {
     timestamps: true,
   }
-)
+);
 
-const Order = mongoose.model('Order', orderSchema)
+const Order = mongoose.model("Order", orderSchema);
 
-export default Order
+export default Order;
