@@ -9,6 +9,7 @@ import { login } from '../../../actions/userActions'
 
 const LoginScreen = ({ location, history }) => {
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const LoginScreen = ({ location, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(login(email, password))
+    dispatch(login(email, username, password))
   }
 
   return (
@@ -42,6 +43,18 @@ const LoginScreen = ({ location, history }) => {
             placeholder='Enter email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='username'>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter username'
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
           ></Form.Control>
         </Form.Group>
 
@@ -52,6 +65,7 @@ const LoginScreen = ({ location, history }) => {
             placeholder='Enter password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           ></Form.Control>
         </Form.Group>
 

@@ -35,6 +35,15 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(express.json())
+app.use(express.urlencoded()); //chat
+
+
+// twilio delete later
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const messagingServiceSid = process.env.TWILIO_MESSAGING_SERVICE_SID;
+// const twilioClient = require('twilio')(accountSid, authToken);
 
 app.use('/api/rent', rentRoutes)
 app.use('/api/users', userRoutes)
@@ -51,6 +60,9 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/visits', webAppVisitRoutes)
 app.use('/api/payments', paymentRoutes)
 app.use('/api/rentcontract', rentContractRoutes)
+
+
+// chat
 
 
 

@@ -230,7 +230,6 @@ const CreatePaidService = ({ history, match }) => {
                 type="file"
                 label='Choose File'
                 custom
-                required
                 onChange={uploadFileHandler}
               ></Form.Control>
               {uploading && <Loader />}

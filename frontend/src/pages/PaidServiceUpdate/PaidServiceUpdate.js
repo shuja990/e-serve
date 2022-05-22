@@ -122,6 +122,13 @@ const PaidServiceUpdate = ({ match, history }) => {
                 value={thumbnailImage}
                 onChange={(e) => setThumbnailImage(e.target.value)}
               ></Form.Control>
+               <Form.Control
+              id="image-file"
+              label="Choose File"
+              custom
+              type="file"
+              onChange={uploadFileHandler}
+            ></Form.Control>
               {/* <Form.File
                 id="image-file"
                 label="Choose File"

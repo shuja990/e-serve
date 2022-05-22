@@ -54,7 +54,7 @@ const CommunityServicePage = ({match}) => {
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h3>{communityServicePost.name}</h3>
+                  <h3>{communityServicePost.title}</h3>
                 </ListGroup.Item>
                 {/* <ListGroup.Item>
                   <Rating

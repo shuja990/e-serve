@@ -46,7 +46,7 @@ const HomeScreen = ({ match }) => {
           {/* <ProductCarousel
             products={[rentPosts[0], communityServicePosts[0], paidServices[0]]}
           /> */}
-          <h2> <Link to="/rentposts"> Rent Posts</Link></h2>
+          <h2 style={{backgroundColor: '#343A40',  color: 'white', paddingLeft:'20px', paddingRight:'20px', marginTop: '10px'}} > <Link to="/rentposts" style={{color: 'white'}} > Rent Posts</Link></h2>
 
           <Row>
             {rentPosts.map((product, id) => {
@@ -62,7 +62,7 @@ const HomeScreen = ({ match }) => {
               }
             })}
           </Row>
-          <h2> <Link to="/paidservices"> Paid Services Posts</Link></h2>
+          <h2 style={{backgroundColor: '#343A40',  color: 'white', paddingLeft:'20px', paddingRight:'20px',  marginTop: '10px'}} > <Link to="/paidservices" style={{color: 'white'}}> Paid Services Posts</Link></h2>
           <Row>
             {paidServices.map((product, id) => {
               if (id <= 3) {
@@ -77,7 +77,7 @@ const HomeScreen = ({ match }) => {
               }
             })}
           </Row>
-          <h2> <Link to="/communityserviceposts"> Community Service Posts</Link></h2>
+          <h2 style={{backgroundColor: '#343A40',  color: 'white', paddingLeft:'20px', paddingRight:'20px',  marginTop: '10px'}} > <Link to="/communityserviceposts" style={{color: 'white'}}> Community Service Posts</Link></h2>
 
           <Row>
             {communityServicePosts.map((product, id) => {

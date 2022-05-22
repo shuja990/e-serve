@@ -67,6 +67,16 @@ const Header = () => {
                   </LinkContainer>
                 </NavDropdown>
 
+                {
+                  userInfo ?
+                  <NavDropdown title="chat">
+                  <LinkContainer to='/chat'>
+                    <NavDropdown.Item>View Chats</NavDropdown.Item>
+                  </LinkContainer>
+                  </NavDropdown>
+                  :''
+                }
+
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                    
@@ -108,6 +118,7 @@ const Header = () => {
                   </LinkContainer>
                 </NavDropdown>
               )}
+              
             </Nav>
           </Navbar.Collapse>
         </Container>

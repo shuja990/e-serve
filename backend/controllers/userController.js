@@ -1,7 +1,27 @@
-import asyncHandler from "express-async-handler";
-import generateToken from "../utils/generateToken.js";
+import asyncHandler from 'express-async-handler'
+import generateToken from '../utils/generateToken.js'
+import dotenv from 'dotenv'
+import stream, {connect} from 'getstream';
+import crypto from 'crypto';
+import {StreamChat} from'stream-chat'
+import bcrypt from 'bcryptjs'
 import User from "../models/userModel.js";
 import Stripe from "stripe";
+
+
+
+
+// import StreamChat from ('stream-chat').StreamChat;
+
+
+// require('dotenv').config();
+dotenv.config()
+
+const api_key = process.env.STREAM_API_KEY;
+const api_secret = process.env.STREAM_API_SECRET;
+const app_id = process.env.STREAM_APP_ID;
+
+
 
 const stripe = new Stripe(
   "sk_test_51GvpJkBqTtLhCjZjfCL0xAlkOPdCoDdaLkdpVV1Dkg5qpB12oQqkAn0YgibmK8sdsvSIvV3e4MSYUWyNmSN9QVnL00xrX1AtDJ"
@@ -11,12 +31,35 @@ const stripe = new Stripe(
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, username, password } = req.body
 
-  const user = await User.findOne({ email });
-
+  const user = await User.findOne({ email })
+console.log(user);
   if (user && (await user.matchPassword(password))) {
-    res.json({
+    
+  // chat auth start
+   const serverClient = stream.connect(api_key, api_secret, app_id);
+   const client = StreamChat.getInstance(api_key, api_secret, app_id);
+ 
+   const { users } = await client.queryUsers({ name: username });
+ 
+   if(!users.length) return res.status(400).json({ message: 'User not found' });
+ 
+   const success = await bcrypt.compare(password, users[0].password);
+   console.log(success);
+ 
+   const streamToken = serverClient.createUserToken(users[0].id);
+
+  
+ 
+   if(success) {
+client.connectUser({name:users[0].name, email:email, password: users[0].password, contact:users[0].name, cnic:users[0].name, address:users[0].address, username, id: users[0].id})
+
+     
+ 
+
+
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -33,7 +76,13 @@ const authUser = asyncHandler(async (req, res) => {
       paymentsEnabled:user.paymentsEnabled,
       address: user.address,
       token: generateToken(user._id),
-    });
+      streamToken,
+      username,
+      userId: users[0].id
+
+    })
+  }
+   
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -44,7 +93,8 @@ const authUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, contact, cnic, address } = req.body;
+  const { name, email, password, contact, cnic, address, username} = req.body
+  
 
   const userExists = await User.findOne({ email });
 
@@ -52,6 +102,24 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
+// try
+
+// try end
+const userId = crypto.randomBytes(16).toString('hex');
+
+const serverClient = connect(api_key, api_secret, app_id);
+let p= password
+const hashedPassword = await bcrypt.hash(p, 10);
+
+const token = serverClient.createUserToken(userId);
+const chatClient = StreamChat.getInstance(api_key, api_secret, app_id);
+// chatClient.disconnectUser({id: userId})
+chatClient.connectUser({name, email, password: hashedPassword, contact, cnic, address, username, id: userId})
+
+
+
+
+
   const account = await stripe.accounts.create({ type: "express" });
   const accountLink = await stripe.accountLinks.create({
     account: account.id,
@@ -66,35 +134,49 @@ const registerUser = asyncHandler(async (req, res) => {
   let paymentDetails = account.id
   const user = await User.create({
     name,
+    username,
     email,
     password,
     contact,
     cnic,
-    contact,
     address,
+    hashedPassword,
+
     paymentDetails
   });
 
+  console.log(accountLink.url);
+
   if (user) {
+    
     res.status(201).json({
       _id: user._id,
       name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
+      username: user.username,
+      email: user.email, 
+     
+      isAdmin: user.isAdmin, 
       contact: user.contact,
       cnic: user.cnic,
-      favorites: user.favorites,
+      favorites: user.favorites,   
       itemsRented: user.itemsRented,
       itemsRentedOut: user.itemsRentedOut,
       collectionRequestsSent: user.collectionRequestsSent,
-      itemsCollected: user.itemsCollected,
+      itemsCollected: user.itemsCollected, 
       servicesOrdered: user.servicesOrdered,
       paymentDetails: user.paymentDetails,
       address: user.address,
       paymentsEnabled: user.paymentsEnabled,
       redirectUrl:accountLink.url,
       token: generateToken(user._id),
-    });
+      streamToken: token,
+      userId:userId, 
+      hashedPassword:hashedPassword,
+      fullName: user.name, 
+
+    })
+    
+   
   } else {
     res.status(400);
     throw new Error("Invalid user data");
@@ -121,8 +203,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
       collectionRequestsSent: user.collectionRequestsSent,
       itemsCollected: user.itemsCollected,
       servicesOrdered: user.servicesOrdered,
-      paymentDetails: user.paymentDetails,
-      address: user.address,
+      paymentDetails: user.paymentDetails, 
+      address: user.address
+   
+     
     });
   } else {
     res.status(404);
