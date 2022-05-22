@@ -173,7 +173,7 @@ const Dashboard = ({ history }) => {
                   <td>{product.twitterShares}</td>
                   <td>
                     {" "}
-                    {psloading ? (
+                    {psloading ? (   
                       <Loader />
                     ) : (
                       <Button
