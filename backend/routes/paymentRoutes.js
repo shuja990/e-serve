@@ -9,47 +9,66 @@ var router = express.Router();
 
 router.post("/", async (req, res) => {
   const product = await stripe.products.create({
-    name: 'Basic Dashboard',
+    name: "Basic Dashboard",
     default_price_data: {
       unit_amount: 1000,
-      currency: 'usd',
+      currency: "usd",
       // recurring: {interval: 'month'},
     },
-    expand: ['default_price'],
+    expand: ["default_price"],
   });
   console.log(product);
-  res.json(product)
+  res.json(product);
 });
 
 router.post("/makepayment", async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
+  const customer = await stripe.customers.create({
+    email: "shujaali1231@gmakkil.com",
+    source: "tok_mastercard",
+  });
+  const token = await stripe.tokens.create(
+    {
+      customer: customer.id,
+    },
+    {
+      stripeAccount: "acct_1L0UVZBQUuJbLgkA",
+    }
+  );
+
+  // const c = await stripe.customers.create({
+  //   source: token.id,
+  // }, {
+  //   stripeAccount: 'acct_1L0UVZBQUuJbLgkA',
+  // });
+  // console.log(c);
+
+  const subscription = await stripe.subscriptions.create({
+    customer: customer.id,
+    cancel_at:1661130586,
+    items: [
       {
-        price: "price_1L0UgoBqTtLhCjZjmfpHum26",
-        quantity: 1,
+        price: "price_1L1fubBqTtLhCjZjCMQGqKhX",
       },
     ],
-    mode: "payment",
-    success_url: "http://localhost:5000/paymentsuccess",
-    cancel_url: "http://localhost:5000/failure",
-    payment_intent_data: {
-      application_fee_amount: 500,
-      transfer_data: {
-        destination: "acct_1L0XjNB9Qn8xnxyH",
-      },
+    expand: ["latest_invoice.payment_intent"],
+    transfer_data: {
+      destination: "acct_1L0XjNB9Qn8xnxyH",
     },
   });
-  res.json(session);
+  res.json(subscription);
 });
 
 router.post("/makepayout", async (req, res) => {
-  const payout = await stripe.payouts.create({
-    amount: 11800,
-    currency: 'usd',
-    method: 'instant',
-  }, {
-    stripeAccount: "acct_1L0XjNB9Qn8xnxyH",
-  });
+  const payout = await stripe.payouts.create(
+    {
+      amount: 11800,
+      currency: "usd",
+      method: "instant",
+    },
+    {
+      stripeAccount: "acct_1L0XjNB9Qn8xnxyH",
+    }
+  );
   console.log(payout);
   res.json(payout);
 });

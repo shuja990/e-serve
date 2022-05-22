@@ -40,6 +40,10 @@ import CommunityServicePostAdmin from './pages/module3/CommunityServicePosts'
 import AdminDashboard from './pages/module3/Dashboard'
 import PaymentSuccessScreen from './pages/paidServicesOrder/PaymentSuccessPage'
 import OrderPage from './pages/paidServicesOrder/OrderPage'
+import RentContractPage from './pages/module5/RentContract'
+import MyProductsRented from './pages/module5/MyProductsRented'
+import MyRentedProducts from './pages/module5/MyRentedProducts'
+import OffersRecieved from './pages/module5/OffersRecieved'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -110,6 +114,10 @@ const App = () => {
           <Route path='/page/:pageNumber' component={HomeScreen} exact />
           <Route path='/onboardsuccess' component={PaymentUpdate} exact />
           <Route path='/paymentsuccess/:id' component={PaymentSuccessScreen} exact />
+          <Route path='/rentcontract/:id' component={RentContractPage} exact />
+          <Route path='/myrentedproducts' component={MyProductsRented} exact />
+          <Route path='/myrentedfromproducts' component={MyRentedProducts} exact />
+          <Route path='/offersreceived' component={OffersRecieved} exact />
 
           <Route
             path='/search/:keyword/page/:pageNumber'

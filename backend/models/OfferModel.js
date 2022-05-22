@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const rentContractSchema = mongoose.Schema(
+const contractSchema = mongoose.Schema(
   {
     title: {
       type: String,
@@ -18,11 +18,6 @@ const rentContractSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    contractStatus : {
-        type: String,
-        required: true,
-        default: 'Not Started'
-    },
     price: {
         type: Number,
         required: true
@@ -30,23 +25,6 @@ const rentContractSchema = mongoose.Schema(
     noOfMonths: {
         type: String,
         required: true
-    },
-    isPaid: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    priceId:{
-      type:String,
-    },
-    contractImgBuyer:{
-      type:String
-    },
-    contractImgSeller:{
-      type:String
-    },
-    paymentResult: {
-      type:String
     }
   },
   {
@@ -54,6 +32,6 @@ const rentContractSchema = mongoose.Schema(
   }
 )
 
-const RentContract = mongoose.model('RentContract', rentContractSchema)
+const Offer = mongoose.model('offers', contractSchema)
 
-export default RentContract
+export default Offer

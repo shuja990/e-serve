@@ -16,6 +16,9 @@ import paidServiceRoutes from './routes/paidServiceRoutes.js'
 import webAppVisitRoutes from './routes/webAppVisitRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import rentContractRoutes from './routes/rentContractRoutes.js'
+import offerRoutes from './routes/offerRoutes.js'
+
 import Stripe from "stripe";
 
 
@@ -40,12 +43,15 @@ app.use('/api/upload', uploadRoutes)
 app.use('/api/services', serviceRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/paidservice', paidServiceRoutes)
+app.use('/api/offers', offerRoutes)
 
 app.use('/api/admin', adminRoutes)
 
 // web app visits routes
 app.use('/api/visits', webAppVisitRoutes)
 app.use('/api/payments', paymentRoutes)
+app.use('/api/rentcontract', rentContractRoutes)
+
 
 
 
