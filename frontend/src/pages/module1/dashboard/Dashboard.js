@@ -110,6 +110,7 @@ const Dashboard = ({ history }) => {
                 <th>Facebook Shares</th>
                 <th>Twitter Shares</th>
                 <th>Actions</th>
+                <th>Promote Post</th>
               </tr>
             </thead>
             <tbody>
@@ -136,6 +137,11 @@ const Dashboard = ({ history }) => {
                       </Button>
                     )}
                   </td>
+                  <td>
+                  <Button variant='light' className='btn-sm' onClick={()=>console.log("first")}>
+                      Promote Post
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -152,6 +158,7 @@ const Dashboard = ({ history }) => {
                 <th>Facebook Shares</th>
                 <th>Twitter Shares</th>
                 <th>Actions</th>
+                <th>Promote Post</th>
               </tr>
             </thead>
             <tbody>
@@ -177,6 +184,11 @@ const Dashboard = ({ history }) => {
                         <i className="fas fa-trash"></i>
                       </Button>
                     )}
+                  </td>
+                  <td>
+                  <Button variant='light' className='btn-sm' onClick={()=>console.log("first")}>
+                      Promote Post
+                    </Button>
                   </td>
                 </tr>
               ))}

@@ -45,6 +45,7 @@ import RentContractPage from './pages/module5/RentContract'
 import MyProductsRented from './pages/module5/MyProductsRented'
 import MyRentedProducts from './pages/module5/MyRentedProducts'
 import OffersRecieved from './pages/module5/OffersRecieved'
+import OffersSent from './pages/module5/OffersSent'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -119,6 +120,7 @@ const App = () => {
           <Route path='/myrentedproducts' component={MyProductsRented} exact />
           <Route path='/myrentedfromproducts' component={MyRentedProducts} exact />
           <Route path='/offersreceived' component={OffersRecieved} exact />
+          <Route path='/offerssent' component={OffersSent} exact />
 
           <Route
             path='/search/:keyword/page/:pageNumber'

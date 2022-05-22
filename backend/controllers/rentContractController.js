@@ -92,8 +92,26 @@ const getRentedFromContracts = asyncHandler(async (req, res) => {
     throw new Error("Products not found");
   }
 });
+
+const uploadContract = asyncHandler(async (req, res) => {
+  const order = await RentContract.findById({ _id: req.params.id })
+
+  if (order) {
+    order.contractImgBuyer = req.body.img1 || order.contractImgBuyer
+    order.contractImgSeller = req.body.img2 || order.contractImgSeller
+    console.log(order);
+    const updatedProduct = await order.save()
+    res.json(updatedProduct)
+  } else {
+    res.status(404);
+    throw new Error("Products not found");
+  }
+});
+
+
 const makePayment = asyncHandler(async (req, res) => {
   const order = await RentContract.findById(req.params.id); 
+  const rent = await Rent.findById(order.rentedItem)
   if (order) {
     const customer = await stripe.customers.create({
       email: req.body.email,
@@ -108,7 +126,6 @@ const makePayment = asyncHandler(async (req, res) => {
         stripeAccount: req.body.payfrom,
       }
     );
-    console.log(req.body.date);
     const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       cancel_at: req.body.date,
@@ -123,9 +140,11 @@ const makePayment = asyncHandler(async (req, res) => {
       },
     });
     if (subscription) {
+      rent.isRented = true
       order.contractStatus = "Started";
       order.isPaid = true;
       order.paymentResult = subscription.id;
+      const r = await rent.save()
       const updatedOrder = await order.save();
       res.json(updatedOrder);
     } else {
@@ -151,5 +170,6 @@ export {
   makePayment,
   getRentedByContracts,
   getRentedFromContracts,
-  markOrderComplete
+  markOrderComplete,
+  uploadContract
 };

@@ -77,7 +77,6 @@ const OffersRecieved = ({ history }) => {
               <th>Rented By</th>
               <th>Rented From</th>
               <th>Price</th>
-              <th>Contract Status</th>
               <th></th>
             </tr>
           </thead>
@@ -88,9 +87,6 @@ const OffersRecieved = ({ history }) => {
                 <td>{order.rentedBy.name}</td>
                 <td>{order.rentedFrom.name}</td>
                 <td>${order.price}</td>
-                <td>
-                    {order.contractStatus}
-                </td>
                 <td>
                     <Button variant='light' className='btn-sm' onClick={()=>createOrder(order)}>
                       Accept Offer

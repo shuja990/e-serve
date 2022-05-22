@@ -40,10 +40,13 @@ const rentContractSchema = mongoose.Schema(
       type:String,
     },
     contractImgBuyer:{
-      type:String
+      type:String,
+      default:"img"
     },
     contractImgSeller:{
-      type:String
+      type:String,
+      default:"img"
+
     },
     paymentResult: {
       type:String

@@ -279,10 +279,10 @@ const CreatePaidService = ({ history, match }) => {
 
             <Form.Group className="mb-3 mt-4">
       <Form.Label htmlFor="">Service Type</Form.Label>
-      <Form.Select id="" onChange={(e)=> setServiceType(e.target.value)}  >
+      <Form.Control as="select" onChange={(e)=> setServiceType(e.target.value)}  >
         <option value='Digital' >Digital</option>
         <option value='Offline' >Offline</option>
-      </Form.Select>
+      </Form.Control>
     </Form.Group>
 
     <Form.Group controlId="coordinates">

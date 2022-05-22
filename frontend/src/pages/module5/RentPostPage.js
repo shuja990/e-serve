@@ -135,7 +135,8 @@ const RentPostsPage = ({ match }) => {
                       //   onClick={addToCartHandler}
                       className="btn-block"
                       type="button"
-                      disabled={rentPost.isRented}
+                      disabled={rentPost.isRented || userInfo._id===rentPost.createdBy._id}
+
                     >
                       Contact User
                     </Button>
@@ -148,7 +149,7 @@ const RentPostsPage = ({ match }) => {
                         onClick={() => setOffer(true)}
                         className="btn-block"
                         type="button"
-                        disabled={rentPost.isRented}
+                        disabled={rentPost.isRented || userInfo._id===rentPost.createdBy._id}
                       >
                         Send Offer
                       </Button>
