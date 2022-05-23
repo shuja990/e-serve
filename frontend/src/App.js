@@ -49,6 +49,8 @@ import OffersRecieved from './pages/module5/OffersRecieved'
 import OffersSent from './pages/module5/OffersSent'
 import PromotePaidSerivcePost from './pages/PromotePost/PromotePaidServicePost'
 import PromoteRentPost from './pages/PromotePost/PromotRentPost'
+import RentContracts from './pages/module3/RentContracts'
+import ServiceOrders from './pages/module3/ServiceOrders'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -128,6 +130,8 @@ const App = () => {
           <Route path='/myrentedfromproducts' component={MyRentedProducts} exact />
           <Route path='/offersreceived' component={OffersRecieved} exact />
           <Route path='/offerssent' component={OffersSent} exact />
+          <Route path='/admin/rentcontracts' component={RentContracts} exact />
+          <Route path='/admin/orders' component={ServiceOrders} exact />
 
           <Route
             path='/search/:keyword/page/:pageNumber'

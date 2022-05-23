@@ -52,7 +52,7 @@ const OrderPage = ({ match, history }) => {
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, orderId, successPay, img,successDeliver]);
+  }, [dispatch, orderId, successPay, img, successDeliver]);
 
   const makePayment = () => {
     console.log(order);
@@ -67,21 +67,21 @@ const OrderPage = ({ match, history }) => {
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
   };
-  const deliverOrderr = async() => {
+  const deliverOrderr = async () => {
     const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      }
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-      const { data } = await axios.post(
-        `http://localhost:5000/api/orders/deliver/${order._id}`,
-        {deliverables:img},
-        config
-      );
-      setImg("")
-  }
+    const { data } = await axios.post(
+      `http://localhost:5000/api/orders/deliver/${order._id}`,
+      { deliverables: img },
+      config
+    );
+    setImg("");
+  };
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
@@ -133,7 +133,7 @@ const OrderPage = ({ match, history }) => {
                   </Message>
                   <Image src={order.deliverables} alt={order._id} fluid />
                 </>
-              ) : (
+              ) : order.seller._id === userInfo._id ? (
                 <>
                   <Message variant="danger">Not Delivered</Message>
                   <Form.Label>Upload Deliverable Image Only</Form.Label>
@@ -160,7 +160,7 @@ const OrderPage = ({ match, history }) => {
                     Deliver Order
                   </Button>
                 </>
-              )}
+              ) : null}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -218,6 +218,7 @@ const OrderPage = ({ match, history }) => {
                     type="button"
                     className="btn btn-block"
                     onClick={makePayment}
+                    disabled={order.seller._id===userInfo._id}
                   >
                     Make Payment
                   </Button>
@@ -227,7 +228,7 @@ const OrderPage = ({ match, history }) => {
               {userInfo &&
                 // order.isPaid &&
                 order.buyer._id === userInfo._id &&
-                order.orderStatus==="InProgress" &&
+                order.orderStatus === "InProgress" &&
                 order.isDelivered && (
                   <ListGroup.Item>
                     <Button

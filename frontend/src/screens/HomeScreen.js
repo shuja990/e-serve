@@ -163,7 +163,7 @@ const HomeScreen = ({ match }) => {
             }}
           >
             {" "}
-            <Link to="/rentposts" style={{ color: "white" }}>
+            <Link to="/paidservices" style={{ color: "white" }}>
               {" "}
              Promoted Paid Service Posts
             </Link>

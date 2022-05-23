@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { CART_CLEAR_ITEMS } from '../constants/cartConstants'
+import axios from "axios";
+import { CART_CLEAR_ITEMS } from "../constants/cartConstants";
 import {
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
@@ -19,239 +19,281 @@ import {
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_REQUEST,
-} from '../constants/orderConstants'
-import { logout } from './userActions'
+} from "../constants/orderConstants";
+import { logout } from "./userActions";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
-    })
+    });
 
     const {
       userLogin: { userInfo },
-    } = getState()
+    } = getState();
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
-    }
+    };
 
-    const { data } = await axios.post(`/api/rentcontract`, order, config)
+    const { data } = await axios.post(`/api/rentcontract`, order, config);
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
       payload: data,
-    })
+    });
     dispatch({
       type: CART_CLEAR_ITEMS,
       payload: data,
-    })
+    });
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
-        : error.message
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
     }
     dispatch({
       type: ORDER_CREATE_FAIL,
       payload: message,
-    })
+    });
   }
-}
+};
 
 export const getOrderDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_DETAILS_REQUEST,
-    })
+    });
 
     const {
       userLogin: { userInfo },
-    } = getState()
+    } = getState();
 
     const config = {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
-    }
+    };
 
-    const { data } = await axios.get(`/api/rentcontract/${id}`, config)
+    const { data } = await axios.get(`/api/rentcontract/${id}`, config);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
       payload: data,
-    })
+    });
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
-        : error.message
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
     }
     dispatch({
       type: ORDER_DETAILS_FAIL,
       payload: message,
-    })
+    });
   }
-}
+};
 
-export const payOrder = (orderId, paymentResult) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({
-      type: ORDER_PAY_REQUEST,
-    })
-
-    const {
-      userLogin: { userInfo },
-    } = getState()
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    }
-
-    const { data } = await axios.post(
-      `/api/rentcontract/pay/${orderId}`,
-      paymentResult,
-      config
-    )
-    window.open(data.url, '_blank').focus();
-
-    dispatch({
-      type: ORDER_PAY_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout())
-    }
-    dispatch({
-      type: ORDER_PAY_FAIL,
-      payload: message,
-    })
-  }
-}
-export const listMyRentedItems = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: ORDER_LIST_MY_REQUEST,
-    })
-
-    const {
-      userLogin: { userInfo },
-    } = getState()
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    }
-
-    const { data } = await axios.get(`http://localhost:5000/api/rentcontract/rentedby/${userInfo._id}`, config)
-console.log(data);
-    dispatch({
-      type: ORDER_LIST_MY_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    const message =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout())
-    }
-    dispatch({
-      type: ORDER_LIST_MY_FAIL,
-      payload: message,
-    })
-  }
-}
-export const listMyRentedFromItems = () => async (dispatch, getState) => {
+export const payOrder =
+  (orderId, paymentResult) => async (dispatch, getState) => {
     try {
       dispatch({
-        type: ORDER_LIST_MY_REQUEST,
-      })
-  
+        type: ORDER_PAY_REQUEST,
+      });
+
       const {
         userLogin: { userInfo },
-      } = getState()
-  
+      } = getState();
+
       const config = {
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${userInfo.token}`,
         },
-      }
-  
-      const { data } = await axios.get(`http://localhost:5000/api/rentcontract/rentedfrom/${userInfo._id}`, config)
-  
+      };
+
+      const { data } = await axios.post(
+        `/api/rentcontract/pay/${orderId}`,
+        paymentResult,
+        config
+      );
+      window.open(data.url, "_blank").focus();
+
       dispatch({
-        type: ORDER_LIST_MY_SUCCESS,
+        type: ORDER_PAY_SUCCESS,
         payload: data,
-      })
+      });
     } catch (error) {
       const message =
         error.response && error.response.data.message
           ? error.response.data.message
-          : error.message
-      if (message === 'Not authorized, token failed') {
-        dispatch(logout())
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
       }
       dispatch({
-        type: ORDER_LIST_MY_FAIL,
+        type: ORDER_PAY_FAIL,
         payload: message,
-      })
+      });
     }
+  };
+export const listRentContracts = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_MY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/rentcontract`,
+      config
+    );
+    dispatch({
+      type: ORDER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ORDER_LIST_MY_FAIL,
+      payload: message,
+    });
   }
+};
+export const listMyRentedItems = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_MY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/rentcontract/rentedby/${userInfo._id}`,
+      config
+    );
+    console.log(data);
+    dispatch({
+      type: ORDER_LIST_MY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ORDER_LIST_MY_FAIL,
+      payload: message,
+    });
+  }
+};
+export const listMyRentedFromItems = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_LIST_MY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/rentcontract/rentedfrom/${userInfo._id}`,
+      config
+    );
+
+    dispatch({
+      type: ORDER_LIST_MY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ORDER_LIST_MY_FAIL,
+      payload: message,
+    });
+  }
+};
 
 export const listOrders = () => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_LIST_REQUEST,
-    })
+    });
 
     const {
       userLogin: { userInfo },
-    } = getState()
+    } = getState();
 
     const config = {
       headers: {
         Authorization: `Bearer ${userInfo.token}`,
       },
-    }
+    };
 
-    const { data } = await axios.get(`/api/rentcontract`, config)
+    const { data } = await axios.get(`/api/rentcontract`, config);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,
       payload: data,
-    })
+    });
   } catch (error) {
     const message =
       error.response && error.response.data.message
         ? error.response.data.message
-        : error.message
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout())
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
     }
     dispatch({
       type: ORDER_LIST_FAIL,
       payload: message,
-    })
+    });
   }
-}
+};

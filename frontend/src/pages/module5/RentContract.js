@@ -38,7 +38,7 @@ const RentContractPage = ({ match, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  const[complete,setComplete] = useState(false)
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
@@ -51,7 +51,7 @@ const RentContractPage = ({ match, history }) => {
     let s = new Date(order?.createdAt);
     s.setMonth(s.getMonth() + parseInt(order?.noOfMonths));
     setDa(s.toDateString());
-  }, [dispatch, orderId, successPay, img]);
+  }, [dispatch, orderId, successPay, complete,img]);
 
   const deliverOrderr = async (a) => {
     let s={img1:null,img2:null}
@@ -100,9 +100,27 @@ const RentContractPage = ({ match, history }) => {
       setUploading(false);
     }
   };
+  const markAsComplete = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.post(
+        `http://localhost:5000/api/rentcontract/complete/${order._id}`,
+        {},
+        config
+      );
+      setComplete(true)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const makePayment = () => {
-    console.log(order);
     var d = new Date();
     d.setMonth(d.getMonth() + parseInt(order.noOfMonths));
     let seconds = Math.trunc(d.getTime() / 1000);
@@ -263,7 +281,9 @@ const RentContractPage = ({ match, history }) => {
                 order.contractStatus === "Started" &&
                 userInfo.isAdmin === true && (
                   <ListGroup.Item>
-                    <Button type="button" className="btn btn-block">
+                    <Button type="button" className="btn btn-block"
+                      onClick={()=>markAsComplete()}
+                    >
                       Mark As Complete
                     </Button>
                   </ListGroup.Item>
