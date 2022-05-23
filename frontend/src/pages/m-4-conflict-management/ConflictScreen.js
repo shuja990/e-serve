@@ -39,9 +39,9 @@ useEffect(()=>{
   
 
     dispatch(isUserService(match.params.id))
-    dispatch(listMyOrdersAsBuyer(userInfo._id))
-    // dispatch(listMyOrdersAsSeller(userInfo._id))
-
+    dispatch(listMyOrdersAsBuyer(userInfo._id)) 
+    // dispatch(listMyOrdersAsSeller(userInfo._id)) 
+ 
   
     // if(isSellerServiceBool){
     //   setSellerEvidence(thumbnailImage)
