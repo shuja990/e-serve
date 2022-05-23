@@ -138,7 +138,7 @@ const Dashboard = ({ history }) => {
                     )}
                   </td>
                   <td>
-                  <Button variant='light' className='btn-sm' onClick={()=>console.log("first")}>
+                  <Button variant='light' className='btn-sm' onClick={()=>history.push(`/promoterentpost/${product._id}`)}>
                       Promote Post
                     </Button>
                   </td>
@@ -186,7 +186,7 @@ const Dashboard = ({ history }) => {
                     )}
                   </td>
                   <td>
-                  <Button variant='light' className='btn-sm' onClick={()=>console.log("first")}>
+                  <Button variant='light' className='btn-sm' onClick={()=>history.push(`/promotepaidservice/${product._id}`)}>
                       Promote Post
                     </Button>
                   </td>

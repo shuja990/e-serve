@@ -32,6 +32,7 @@ import CommunityServicePage from './pages/module6/CommunityServicePage'
 import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePost'
 import PaymentUpdate from './pages/module1/PaymentUpdate'
 import { useDispatch } from 'react-redux'
+import PaymentDone from './pages/PromotePost/PaymentDone'
 import { addWebVisits, getWebVisits } from './actions/webVisitActions'
 import MakeAdmin from './pages/module3/MakeAdmin'
 import RentPostsAdmin from './pages/module3/RentPosts'
@@ -46,6 +47,8 @@ import MyProductsRented from './pages/module5/MyProductsRented'
 import MyRentedProducts from './pages/module5/MyRentedProducts'
 import OffersRecieved from './pages/module5/OffersRecieved'
 import OffersSent from './pages/module5/OffersSent'
+import PromotePaidSerivcePost from './pages/PromotePost/PromotePaidServicePost'
+import PromoteRentPost from './pages/PromotePost/PromotRentPost'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -92,6 +95,10 @@ const App = () => {
           <Route exact path='/paidservice/:id' component={PaidServiceDetails} />
           <Route path='/createpaidservice' component={CreatePaidService} />
           <Route path='/paidservice/:id/edit' component={PaidServiceUpdate} />
+          <Route path='/promotepaidservice/:id' component={PromotePaidSerivcePost} />
+          <Route path='/promoterentpost/:id' component={PromoteRentPost} />
+
+          <Route path='/promotepaymentsuccess/:id' component={PaymentDone} />
 
           {/*  */}
 
