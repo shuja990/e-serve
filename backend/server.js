@@ -17,6 +17,10 @@ import webAppVisitRoutes from './routes/webAppVisitRoutes.js'
 import disputeRoutes from './routes/disputeRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import rentContractRoutes from './routes/rentContractRoutes.js'
+import offerRoutes from './routes/offerRoutes.js'
+import promotedRoutes from './routes/promotedPostRoutes.js'
+import { deletePosts } from './controllers/promotedPostController.js'
 import Stripe from "stripe";
 
 
@@ -31,7 +35,7 @@ export const stripe = new Stripe(
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
-
+// deletePosts()
 app.use(express.json())
 app.use(express.urlencoded()); //chat
 
@@ -50,12 +54,16 @@ app.use('/api/upload', uploadRoutes)
 app.use('/api/services', serviceRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/paidservice', paidServiceRoutes)
+app.use('/api/offers', offerRoutes)
+app.use('/api/promote', promotedRoutes)
 
 app.use('/api/admin', adminRoutes)
 
 // web app visits routes
 app.use('/api/visits', webAppVisitRoutes)
 app.use('/api/payments', paymentRoutes)
+app.use('/api/rentcontract', rentContractRoutes)
+
 
 // dispute
 app.use('/api/dispute', disputeRoutes)

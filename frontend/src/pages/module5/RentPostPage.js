@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import SendRentContractOffer from "./SendRentContractOffer";
 import {
   Row,
   Col,
@@ -14,11 +15,15 @@ import {
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import Meta from "../../components/Meta";
-import { listRentPostDetails, updateRentShares } from "../../actions/rentActions";
+import {
+  listRentPostDetails,
+  updateRentShares,
+} from "../../actions/rentActions";
 import PostShare from "../../components/PostShare/PostShare";
-const RentPostsPage = ({match}) => {
+const RentPostsPage = ({ match }) => {
   const dispatch = useDispatch();
-//   const match = useParams;
+  //   const match = useParams;
+  const [offer, setOffer] = useState(false);
   const productDetails = useSelector((state) => state.rentPostDetail);
   const { loading, error, rentPost } = productDetails;
   console.log();
@@ -35,10 +40,9 @@ const RentPostsPage = ({match}) => {
   //     history.push(`/cart/${match.params.id}?qty=${qty}`)
   //   }
 
-  const handleShare=(socialType)=>{
-    
-       dispatch(updateRentShares(rentPost, socialType))   
-  }
+  const handleShare = (socialType) => {
+    dispatch(updateRentShares(rentPost, socialType));
+  };
 
   return (
     <>
@@ -131,20 +135,25 @@ const RentPostsPage = ({match}) => {
                       //   onClick={addToCartHandler}
                       className="btn-block"
                       type="button"
-                      disabled={rentPost.isRented}
+                      disabled={rentPost.isRented || userInfo._id===rentPost?.createdBy?._id}
+
                     >
                       Contact User
                     </Button>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Button
-                      //   onClick={addToCartHandler}
-                      className="btn-block"
-                      type="button"
-                      disabled={rentPost.isRented}
-                    >
-                      Send Offer
-                    </Button>
+                    {offer ? (
+                      <SendRentContractOffer product={rentPost} />
+                    ) : (
+                      <Button
+                        onClick={() => setOffer(true)}
+                        className="btn-block"
+                        type="button"
+                        disabled={rentPost?.isRented || userInfo?._id===rentPost?.createdBy?._id}
+                      >
+                        Send Offer
+                      </Button>
+                    )}
                   </ListGroup.Item>
                 </ListGroup>
               </Card>

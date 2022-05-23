@@ -14,6 +14,10 @@ const rentContractSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
+    rentedFrom:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
     contractStatus : {
         type: String,
         required: true,
@@ -23,11 +27,7 @@ const rentContractSchema = mongoose.Schema(
         type: Number,
         required: true
     },
-    duration: {
-        type: String,
-        required: true
-    },
-    paymentType: {
+    noOfMonths: {
         type: String,
         required: true
     },
@@ -36,13 +36,21 @@ const rentContractSchema = mongoose.Schema(
         required: true,
         default: false
     },
-     
-    paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      update_time: { type: String },
-      email_address: { type: String },
+    priceId:{
+      type:String,
     },
+    contractImgBuyer:{
+      type:String,
+      default:"img"
+    },
+    contractImgSeller:{
+      type:String,
+      default:"img"
+
+    },
+    paymentResult: {
+      type:String
+    }
   },
   {
     timestamps: true,

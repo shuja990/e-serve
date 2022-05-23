@@ -83,7 +83,7 @@ const PaidServiceDetails = ({ history, match }) => {
           price:paidService.price,
           product:paidService._id
         }
-      })
+      },history)
     )
   };
 

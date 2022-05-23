@@ -19,51 +19,55 @@ const CreateRentPost = ({ match, history }) => {
   const [isMovable, setMovable] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [coordinates, setCoordinates] = useState({ lat: "", lon: "" });
-  const [locationError,setLocationError] = useState('')
+  const [locationError, setLocationError] = useState("");
   const dispatch = useDispatch();
 
   const rentPostCreate = useSelector((state) => state.rentCreate);
   const { loading, error, success } = rentPostCreate;
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login')
+      history.push("/login");
     }
     if (success) {
       history.push("/rentposts");
     }
     dispatch({
-      type: RENT_CREATE_RESET
-    })
-    
+      type: RENT_CREATE_RESET,
+    });
   }, [dispatch, history, success]);
   const getLocation = () => {
     if (navigator.geolocation) {
-      
-      let location = navigator.geolocation.getCurrentPosition(showLocation,showError);
+      let location = navigator.geolocation.getCurrentPosition(
+        showLocation,
+        showError
+      );
       console.log(location);
-    } else { 
+    } else {
       setLocationError("Geolocation is not supported by this browser.");
     }
-  }
+  };
   const showLocation = (loc) => {
-    setCoordinates({lat:loc.coords.latitude.toString(),lon:loc.coords.longitude.toString()})
-  }
+    setCoordinates({
+      lat: loc.coords.latitude.toString(),
+      lon: loc.coords.longitude.toString(),
+    });
+  };
   function showError(e) {
-    switch(e.code) {
+    switch (e.code) {
       case e.PERMISSION_DENIED:
-        setLocationError("User denied the request for Geolocation.")
+        setLocationError("User denied the request for Geolocation.");
         break;
       case e.POSITION_UNAVAILABLE:
-        setLocationError("Location information is unavailable.")
+        setLocationError("Location information is unavailable.");
         break;
       case e.TIMEOUT:
-        setLocationError("The request to get user location timed out.")
+        setLocationError("The request to get user location timed out.");
         break;
       case e.UNKNOWN_ERROR:
-        setLocationError("An unknown error occurred.")
+        setLocationError("An unknown error occurred.");
         break;
     }
   }
@@ -74,7 +78,7 @@ const CreateRentPost = ({ match, history }) => {
     setUploading(true);
 
     try {
-      const config = { 
+      const config = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -97,18 +101,18 @@ const CreateRentPost = ({ match, history }) => {
         title,
         price,
         thumbnailImage,
-        images:[],
+        images: [],
         location,
         category,
         description,
         isMovable,
-        coordinates
+        coordinates,
       })
     );
   };
 
   return (
-    <> 
+    <>
       <Link to="/rentposts" className="btn btn-light my-3">
         Go Back
       </Link>
@@ -161,12 +165,17 @@ const CreateRentPost = ({ match, history }) => {
                   setCoordinates({ ...coordinates, lon: e.target.value })
                 }
               ></Form.Control>
-              <Button type="button" className="mb-2 mt-2" variant="primary" onClick={getLocation}>
+              <Button
+                type="button"
+                className="mb-2 mt-2"
+                variant="primary"
+                onClick={getLocation}
+              >
                 Get Location
               </Button>
-              {
-                locationError && <Message variant="danger" >{locationError}</Message>
-              }
+              {locationError && (
+                <Message variant="danger">{locationError}</Message>
+              )}
             </Form.Group>
             <Form.Group controlId="image">
               <Form.Label>Thumbnail Image</Form.Label>
@@ -184,7 +193,7 @@ const CreateRentPost = ({ match, history }) => {
                 type="file"
                 onChange={uploadFileHandler}
               ></Form.Control>
-              
+
               {uploading && <Loader />}
             </Form.Group>
 
@@ -198,15 +207,17 @@ const CreateRentPost = ({ match, history }) => {
                 onChange={(e) => setLocation(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
+            <Form.Group className="mb-3 mt-4">
+              <Form.Label htmlFor="">Category</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              ></Form.Control>
+                as="select"
+                onChange={(e) => category(e.target.value)}
+              >
+                <option value="Electornics">Electornics</option>
+                <option value="Mobile Accessories">Mobile Accessories </option>
+                <option value="Furniture">Furniture</option>
+                <option value="Houses">Houses</option>
+              </Form.Control>
             </Form.Group>
 
             <Form.Group controlId="description">

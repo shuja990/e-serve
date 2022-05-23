@@ -32,6 +32,7 @@ import CommunityServicePage from './pages/module6/CommunityServicePage'
 import UpdateCommunityServicePost from './pages/module6/UpdateCommunityServicePost'
 import PaymentUpdate from './pages/module1/PaymentUpdate'
 import { useDispatch } from 'react-redux'
+import PaymentDone from './pages/PromotePost/PaymentDone'
 import { addWebVisits, getWebVisits } from './actions/webVisitActions'
 import MakeAdmin from './pages/module3/MakeAdmin'
 import RentPostsAdmin from './pages/module3/RentPosts'
@@ -45,6 +46,15 @@ import ConflictScreen from './pages/m-4-conflict-management/ConflictScreen'
 import OrdersHistory from './pages/m-4-conflict-management/OrdersHistory'
 import SellersOrdersHistory from './pages/m-4-conflict-management/SellersOrdersHistory'
 import Conflicts from './pages/m-4-conflict-management/Conflicts'
+import RentContractPage from './pages/module5/RentContract'
+import MyProductsRented from './pages/module5/MyProductsRented'
+import MyRentedProducts from './pages/module5/MyRentedProducts'
+import OffersRecieved from './pages/module5/OffersRecieved'
+import OffersSent from './pages/module5/OffersSent'
+import PromotePaidSerivcePost from './pages/PromotePost/PromotePaidServicePost'
+import PromoteRentPost from './pages/PromotePost/PromotRentPost'
+import RentContracts from './pages/module3/RentContracts'
+import ServiceOrders from './pages/module3/ServiceOrders'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -91,6 +101,10 @@ const App = () => {
           <Route exact path='/paidservice/:id' component={PaidServiceDetails} />
           <Route path='/createpaidservice' component={CreatePaidService} />
           <Route path='/paidservice/:id/edit' component={PaidServiceUpdate} />
+          <Route path='/promotepaidservice/:id' component={PromotePaidSerivcePost} />
+          <Route path='/promoterentpost/:id' component={PromoteRentPost} />
+
+          <Route path='/promotepaymentsuccess/:id' component={PaymentDone} />
 
           {/*  */}
 
@@ -115,6 +129,13 @@ const App = () => {
           <Route path='/page/:pageNumber' component={HomeScreen} exact />
           <Route path='/onboardsuccess' component={PaymentUpdate} exact />
           <Route path='/paymentsuccess/:id' component={PaymentSuccessScreen} exact />
+          <Route path='/rentcontract/:id' component={RentContractPage} exact />
+          <Route path='/myrentedproducts' component={MyProductsRented} exact />
+          <Route path='/myrentedfromproducts' component={MyRentedProducts} exact />
+          <Route path='/offersreceived' component={OffersRecieved} exact />
+          <Route path='/offerssent' component={OffersSent} exact />
+          <Route path='/admin/rentcontracts' component={RentContracts} exact />
+          <Route path='/admin/orders' component={ServiceOrders} exact />
 
           <Route
             path='/search/:keyword/page/:pageNumber'

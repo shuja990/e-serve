@@ -110,6 +110,7 @@ const Dashboard = ({ history }) => {
                 <th>Facebook Shares</th>
                 <th>Twitter Shares</th>
                 <th>Actions</th>
+                <th>Promote Post</th>
               </tr>
             </thead>
             <tbody>
@@ -136,6 +137,11 @@ const Dashboard = ({ history }) => {
                       </Button>
                     )}
                   </td>
+                  <td>
+                  <Button variant='light' className='btn-sm' onClick={()=>history.push(`/promoterentpost/${product._id}`)}>
+                      Promote Post
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -152,6 +158,7 @@ const Dashboard = ({ history }) => {
                 <th>Facebook Shares</th>
                 <th>Twitter Shares</th>
                 <th>Actions</th>
+                <th>Promote Post</th>
               </tr>
             </thead>
             <tbody>
@@ -166,7 +173,7 @@ const Dashboard = ({ history }) => {
                   <td>{product.twitterShares}</td>
                   <td>
                     {" "}
-                    {psloading ? (
+                    {psloading ? (   
                       <Loader />
                     ) : (
                       <Button
@@ -177,6 +184,11 @@ const Dashboard = ({ history }) => {
                         <i className="fas fa-trash"></i>
                       </Button>
                     )}
+                  </td>
+                  <td>
+                  <Button variant='light' className='btn-sm' onClick={()=>history.push(`/promotepaidservice/${product._id}`)}>
+                      Promote Post
+                    </Button>
                   </td>
                 </tr>
               ))}
