@@ -14,6 +14,7 @@ import serviceRoutes from './routes/servicesRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import paidServiceRoutes from './routes/paidServiceRoutes.js'
 import webAppVisitRoutes from './routes/webAppVisitRoutes.js'
+import disputeRoutes from './routes/disputeRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import Stripe from "stripe";
@@ -56,7 +57,9 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/visits', webAppVisitRoutes)
 app.use('/api/payments', paymentRoutes)
 
-// chat
+// dispute
+app.use('/api/dispute', disputeRoutes)
+
 
 
 

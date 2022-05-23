@@ -41,6 +41,10 @@ import AdminDashboard from './pages/module3/Dashboard'
 import ChatScreen from './pages/m-3-chat/ChatScreen'
 import PaymentSuccessScreen from './pages/paidServicesOrder/PaymentSuccessPage'
 import OrderPage from './pages/paidServicesOrder/OrderPage'
+import ConflictScreen from './pages/m-4-conflict-management/ConflictScreen'
+import OrdersHistory from './pages/m-4-conflict-management/OrdersHistory'
+import SellersOrdersHistory from './pages/m-4-conflict-management/SellersOrdersHistory'
+import Conflicts from './pages/m-4-conflict-management/Conflicts'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -128,8 +132,16 @@ const App = () => {
           <Route path='/createcommunityservicepost' component={CreateCommunityServicePost} exact />
           <Route path='/communityserviceposts/:id' component={CommunityServicePage} exact />
           <Route path='/communityserviceposts/:id/edit' component={UpdateCommunityServicePost} exact />
-
+          {/* chat screen */}
           <Route path='/chat' component={ChatScreen} exact />
+          {/* conflict screen */}
+          <Route path='/conflict/:id' component={ConflictScreen} exact />
+          {/* buyers order history */}
+          <Route path='/buyersorderhistory' component={OrdersHistory} exact />
+          {/* sellers order history */}
+          <Route path='/sellersorderhistory' component={SellersOrdersHistory} exact />
+          {/* my conflicts */}
+          <Route path='/myconflicts/:id' component={Conflicts} exact />
         </Container>
       </main>
       <Footer />

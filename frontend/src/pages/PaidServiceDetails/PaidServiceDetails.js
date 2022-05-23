@@ -20,6 +20,7 @@ import {
 } from "../../actions/paidServiceActions";
 import PostShare from "../../components/PostShare/PostShare";
 import {createOrder} from '../../actions/orderActions'
+import { ORDER_CREATE_RESET } from "../../constants/orderConstants";
 const PaidServiceDetails = ({ history, match }) => {
   const [duration, setDuration] = useState(1);
   const [rating, setRating] = useState(0);
@@ -31,7 +32,7 @@ const PaidServiceDetails = ({ history, match }) => {
   const { loading, error, paidService } = paidServiceDetails;
 
   const orderCreate = useSelector((state) => state.orderCreate);
-  const { loading: l, error: e, success, order } = paidServiceDetails;
+  const { loading: l, error: e, success, order } = orderCreate;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -48,6 +49,12 @@ const PaidServiceDetails = ({ history, match }) => {
     //   setRating(0)
     //   setComment('')
     // }
+    if(success){
+      dispatch({type: ORDER_CREATE_RESET })
+
+      history.push(`/order/${order._id}`)
+
+    }
     if (!paidService._id || paidService._id !== match.params.id) {
       dispatch(listPaidServiceDetails(match.params.id));
       //   dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
@@ -130,7 +137,7 @@ const PaidServiceDetails = ({ history, match }) => {
                     <Row>
                       <Col>Provider:</Col>
                       <Col>
-                        <strong>{`provider name`}</strong>
+                        <strong>{`${paidService?.createdBy?.name}`}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -178,7 +185,7 @@ const PaidServiceDetails = ({ history, match }) => {
                   <ListGroup.Item>
                     <Form onSubmit={submitHandler}>
                       <Form.Group controlId="duration">
-                        <Form.Label>Enter duration for the order</Form.Label>
+                        <Form.Label>Enter duration for the order in hours</Form.Label>
                         <Form.Control
                           type="number"
                           max={15}
@@ -194,6 +201,15 @@ const PaidServiceDetails = ({ history, match }) => {
                       >
                         Buy Service
                       </Button>
+
+                      <Link to='/chat' >
+                      <Button
+                        className="btn-block mt-3"
+                        disabled={userInfo === null || userInfo._id===paidService.createdBy}
+                      >
+                        Contact
+                      </Button>
+                      </Link>
                     </Form>
                   </ListGroup.Item>
                 </ListGroup>

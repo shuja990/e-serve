@@ -12,40 +12,56 @@ const conflictEvidence = mongoose.Schema(
       timestamps: true 
   }
 )
-const conflictSchema = mongoose.Schema(
+const disputeSchema = mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
     },
-    conflictType:{
+    disputeType:{
         type: String,
         required: true,
     },
     serviceOrder: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Order',
+      default: null
     },
     rentContract: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RentContract',
+        default: null
       },
-    conflictStatus: {
+      disputeStatus: {
       type: String,
       required: true,
       default: 'InProgress',
     },
-    conflictEvidence: [conflictEvidence],
-    conflictCreatedBy: {
+    buyerEvidence:{
+      type: String,
+     
+      default: null
+    },
+    sellerEvidence:{
+      type: String,
+      
+      default: null
+
+    },
+    disputeCreatedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }
+    },
+    disputeCreatedAgainst: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+  }
   },
   {
     timestamps: true,
   }
 )
 
-const Conflict = mongoose.model('Conflicts', conflictSchema)
+const Dispute = mongoose.model('Disputes', disputeSchema)
 
-export default Conflict
+export default Dispute

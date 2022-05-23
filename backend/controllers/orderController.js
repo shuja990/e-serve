@@ -114,7 +114,16 @@ const updatePaidService = asyncHandler(async (req, res) => {
 });
 
 const getBuyerOrders = asyncHandler(async (req, res) => {
-  const order = await Order.find({ buyer: req.params.id });
+  const order = await Order.find({ buyer: req.params.id })
+  .populate({
+    path: "orderItem",
+    populate: {
+      path: "product",
+      model: "PaidService",
+    },
+  })
+  .populate({ path: "buyer", select: "_id name" })
+  .populate({ path: "seller", select: "_id name paymentDetails" });
   if (order) {
     res.json(order);
   } else {
@@ -124,7 +133,15 @@ const getBuyerOrders = asyncHandler(async (req, res) => {
 });
 
 const getSellerOrders = asyncHandler(async (req, res) => {
-  const order = await Order.find({ seller: req.params.id });
+  const order = await Order.find({ seller: req.params.id }).populate({
+    path: "orderItem",
+    populate: {
+      path: "product",
+      model: "PaidService",
+    },
+  })
+  .populate({ path: "buyer", select: "_id name" })
+  .populate({ path: "seller", select: "_id name paymentDetails" });
   if (order) {
     res.json(order);
   } else {

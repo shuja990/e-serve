@@ -77,6 +77,35 @@ const Header = () => {
                   :''
                 }
 
+{
+                  userInfo ?
+                  <NavDropdown title="Orders">
+                  <LinkContainer to='/buyersorderhistory'>
+                    <NavDropdown.Item>Orders Bought</NavDropdown.Item>
+                  </LinkContainer>
+
+                    <LinkContainer to='/sellersorderhistory'>
+                    <NavDropdown.Item>Services Sold</NavDropdown.Item>
+                  </LinkContainer>
+                  </NavDropdown>
+                  :''
+                }
+
+                
+{
+                  userInfo ?
+                  <NavDropdown title="Disputes">
+                  <LinkContainer to={`/myconflicts/${userInfo._id}`}>
+                    <NavDropdown.Item>My Disputes</NavDropdown.Item>
+                  </LinkContainer>
+
+                    {/* <LinkContainer to='/sellersorderhistory'>
+                    <NavDropdown.Item>Services Sold</NavDropdown.Item>
+                  </LinkContainer> */}
+                  </NavDropdown>
+                  :''
+                }
+
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                    

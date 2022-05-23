@@ -19,7 +19,7 @@ const  getPaidServices = asyncHandler(async (req, res) => {
 // @route   GET /api/paidservice/:id
 // @access  Public
 const getPaidServiceById = asyncHandler(async (req, res) => {
-  const product = await PaidService.findById(req.params.id)
+  const product = await PaidService.findById(req.params.id).populate('createdBy', 'name')
 
   if (product) {
     res.json(product)

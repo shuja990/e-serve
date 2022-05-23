@@ -48,6 +48,7 @@ const orderSchema = mongoose.Schema(
     },
     deliverables: {
       type: String,
+      default:"img"
     },
   },
   {

@@ -53,6 +53,7 @@ import{
   webAppVisitReducer
 }
 from './reducers/webVisitReducer'
+import { getMyDisputesReducer, isSellerServiceReducer } from "./reducers/disputeReducers";
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -92,7 +93,11 @@ const reducer = combineReducers({
   communityServiceUpdate: communityServicePostUpdateReducer,
   communityServicePostDetail: communityServicePostDetailsReducer,
   communityServicePostDelete: communityServicePostDeleteReducer,
-  webVisits: webAppVisitReducer
+  webVisits: webAppVisitReducer,
+
+  isSellerServiceStore: isSellerServiceReducer,
+  getMyDisputesReducerStore: getMyDisputesReducer
+
 });
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
