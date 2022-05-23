@@ -204,7 +204,7 @@ const OrderPage = ({ match, history }) => {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>Order Summary</h2> 
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
