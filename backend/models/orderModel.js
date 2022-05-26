@@ -21,6 +21,17 @@ const orderSchema = mongoose.Schema(
         ref: "PaidService",
       },
     },
+    invoice:{
+      type:String,
+      default:" "
+    },
+    paymentIntent:{
+      type:String
+    },
+    chargeId: {
+      type:String,
+      default:""
+    },
     orderStatus: {
       type: String,
       required: true,

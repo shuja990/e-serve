@@ -22,24 +22,24 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/makepayment", async (req, res) => {
-  const customer = await stripe.customers.create({
-    email: "shujaali1231@gmakkil.com",
-    source: "tok_mastercard",
-  });
-  const token = await stripe.tokens.create(
-    {
-      customer: customer.id,
-    },
-    {
-      stripeAccount: "acct_1L0UVZBQUuJbLgkA",
-    }
-  );
-
-  // const c = await stripe.customers.create({
-  //   source: token.id,
-  // }, {
-  //   stripeAccount: 'acct_1L0UVZBQUuJbLgkA',
+  // const customer = await stripe.customers.create({
+  //   email: "shujaali1231@gmakkil.com",
+  //   source: "tok_mastercard",
   // });
+  // const token = await stripe.tokens.create(
+  //   {
+  //     customer: customer.id,
+  //   },
+  //   {
+  //     stripeAccount: "acct_1L0UVZBQUuJbLgkA",
+  //   }
+  // );
+
+  const c = await stripe.customers.create({
+    source: token.id,
+  }, {
+    stripeAccount: 'acct_1L2RHEPk8AscI1sJ',
+  });
   // console.log(c);
 
   const subscription = await stripe.subscriptions.create({
@@ -47,15 +47,21 @@ router.post("/makepayment", async (req, res) => {
     cancel_at:1661130586,
     items: [
       {
-        price: "price_1L1fubBqTtLhCjZjCMQGqKhX",
+        price: "price_1L2NvTBqTtLhCjZjqax8HEQ6",
       },
     ],
     expand: ["latest_invoice.payment_intent"],
     transfer_data: {
-      destination: "acct_1L0XjNB9Qn8xnxyH",
+      destination: "acct_1L2GGiPmMtL2CkuK",
     },
   });
   res.json(subscription);
+  // const refund = await stripe.refunds.create({
+  //   charge: 'ch_3L2TsPBqTtLhCjZj1W2OefW6',
+  //   reverse_transfer: true,
+  // });
+  // res.json(refund)
+
 });
 
 router.post("/makepayout", async (req, res) => {

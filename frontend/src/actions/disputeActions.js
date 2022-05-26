@@ -19,7 +19,7 @@ export const disputeOrder = (dispute, id) => async (dispatch, getState) => {
         },
       }
   
-      const { data } = await axios.post(`/api/dispute/${id}`, dispute, config)
+      const { data } = await axios.post(`http://localhost:5000/api/dispute/${id}`, dispute, config)
   
       dispatch({
         type: DISPUTE_CREATE_SUCCESS,
@@ -60,7 +60,7 @@ export const isUserService = (id) => async (dispatch, getState) => {
         },
       }
   
-      const { data } = await axios.get(`/api/dispute/${id}/isuserservice`, config)
+      const { data } = await axios.get(`http://localhost:5000/api/dispute/${id}/isuserservice`, config)
       dispatch({
             type: DISPUTE_IS_SELLER_SERVICE_CREATE_SUCCESS,
             payload: data.service.seller._id === userInfo._id,
@@ -104,7 +104,7 @@ export const getMyDisputes = (id) => async (dispatch, getState) => {
         },
       }
   
-      const { data } = await axios.get(`/api/dispute/${id}`, config)
+      const { data } = await axios.get(`http://localhost:5000/api/dispute/${id}`, config)
   
       dispatch({
         type: DISPUTES_GET_SUCCESS,

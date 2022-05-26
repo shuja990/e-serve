@@ -10,7 +10,7 @@ export const paidServicesList = () => async (
     dispatch({ type: PAID_SERVICES_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/paidservice`
+      `http://localhost:5000/api/paidservice`
     )
     dispatch({
       type: PAID_SERVICES_LIST_SUCCESS,

@@ -46,7 +46,6 @@ const createDispute = asyncHandler(async (req, res) => {
   
   const getMyDisputes = asyncHandler(async (req, res) => {
     // const { productId } = req.body;
-    console.log(req.params.id);
     const service = await Dispute.find({disputeCreatedBy: req.params.id })
     // const rentService = await Rent.findById(req.params.id).populate('createdBy', 'name')
     console.log(service)

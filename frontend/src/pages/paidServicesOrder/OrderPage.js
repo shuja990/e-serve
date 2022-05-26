@@ -204,7 +204,7 @@ const OrderPage = ({ match, history }) => {
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2> 
+                <h2>Order Summary</h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
@@ -218,7 +218,7 @@ const OrderPage = ({ match, history }) => {
                     type="button"
                     className="btn btn-block"
                     onClick={makePayment}
-                    disabled={order.seller._id===userInfo._id}
+                    disabled={order.seller._id === userInfo._id}
                   >
                     Make Payment
                   </Button>
@@ -240,6 +240,15 @@ const OrderPage = ({ match, history }) => {
                     </Button>
                   </ListGroup.Item>
                 )}
+              {order.isPaid && (
+                <Button
+                  type="button"
+                  className="btn btn-block"
+                  onClick={()=>window.open(order.invoice,"_blank").focus()}
+                >
+                  View Invoice
+                </Button>
+              )}
             </ListGroup>
           </Card>
         </Col>

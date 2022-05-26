@@ -44,7 +44,7 @@ export const login = (email, username, password) => async (dispatch) => {
     }
 
     const { data } = await axios.post(
-      '/api/users/login',
+      'http://localhost:5000/api/users/login',
       { email, username, password },
       config
     )
@@ -110,7 +110,7 @@ export const register = (name, email, password, cnic, contact, address, username
     const avatarURL="https://images.unsplash.com/photo-1652972601829-83d833e58be1?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500"
 
     const { data } = await axios.post(
-      '/api/users',
+      'http://localhost:5000/api/users',
       { name, email, password, cnic, contact, address, username, avatarURL },
       config
     )
@@ -199,7 +199,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.put(`/api/users/profile`, user, config)
+    const { data } = await axios.put(`http://localhost:5000/api/users/profile`, user, config)
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -278,7 +278,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       },
     }
 
-    await axios.delete(`/api/users/${id}`, config)
+    await axios.delete(`http://localhost:5000/api/users/${id}`, config)
 
     dispatch({ type: USER_DELETE_SUCCESS })
   } catch (error) {
@@ -389,7 +389,7 @@ export const deleteUserAdmin = (id) => async (dispatch, getState) => {
       },
     }
 
-    await axios.delete(`/api/users/admin/${id}`, config)
+    await axios.delete(`http://localhost:5000/api/users/admin/${id}`, config)
 
     dispatch({ type: USER_DELETE_SUCCESS })
   } catch (error) {
@@ -406,4 +406,4 @@ export const deleteUserAdmin = (id) => async (dispatch, getState) => {
     })
   }
 }
- 
+  
