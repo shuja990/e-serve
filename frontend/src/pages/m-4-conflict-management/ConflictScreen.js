@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import Loader from '../../components/Loader'
 import axios from 'axios'
-import { disputeOrder, isUserService } from '../../actions/disputeActions'
+import { disputeOrder, getDispute, ifInDIsputes, isUserService, updateDispute } from '../../actions/disputeActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { listMyOrdersAsBuyer, listMyOrdersAsSeller } from '../../actions/orderActions'
+import { getOrderDetails, listMyOrdersAsBuyer, listMyOrdersAsSeller } from '../../actions/orderActions'
 
 
 function ConflictScreen({match}) {
@@ -22,48 +22,53 @@ function ConflictScreen({match}) {
   const isSellerServiceLoading= useSelector(state=> state.isSellerServiceStore.loading)
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  const orderDetails = useSelector((state) => state.orderDetails);
 
-  const orderListMy = useSelector((state) => state.orderListMy);
+
+  const myDisputesStoreList = useSelector((state) => state.getMyDisputesReducerStore);
+  const disputeStore = useSelector((state) => state.disputeStore);
+  const dispute= disputeStore?.dispute
+ 
   const {
-    loading: ordersLoading,
-    error: ordersError,
-    orders: buyersOrders,
-  } = orderListMy;
+    loading: disputesLoading,
+    error: disputesError,
+    myDisputes
+  } = myDisputesStoreList;
 
   const dispatch= useDispatch()
 
 
+useEffect(()=>{
+  // find the dispute in your disputes
+  // const isDisputeAvailable= myDisputes.service.find(dispute => dispute.disputeService === match.params.id ||  dispute.disputeRent === match.params.id)
+  dispatch(getDispute(match.params.id))
 
+    // dispatch(getOrderDetails(dispute?.disputeService==null? dispute?.disputeRent :dispute?.disputeRent==null?dispute?.disputeService:null ))
+
+    // conflict page
+    // dispatch(getOrderDetails(dispute?.disputeOrderId))
+    // order page
+    // dispatch(getOrderDetails(match.params.id))
+    dispatch(isUserService(match.params.id))
+    // dispatch(listMyOrdersAsBuyer(userInfo._id)) 
+    dispatch(ifInDIsputes(match.params.id)) 
+    // conflict page
+    // dispatch(getOrderDetails(`${dispute?.disputeOrderId}`))
+    
+
+},[dispatch]) 
 
 useEffect(()=>{
-  
+  dispatch(getOrderDetails(`${dispute?.disputeOrderId?dispute?.disputeOrderId:match.params.id}`))
 
-    dispatch(isUserService(match.params.id))
-    dispatch(listMyOrdersAsBuyer(userInfo._id)) 
-    // dispatch(listMyOrdersAsSeller(userInfo._id)) 
- 
-  
-    // if(isSellerServiceBool){
-    //   setSellerEvidence(thumbnailImage)
-    //     setBuyerEvidence(null)
-    //   console.log("seller")
+},[dispatch, dispute])
 
-    // }
-    // else{
-    //   setBuyerEvidence(thumbnailImage)
-    //   setSellerEvidence(null)
-    //   console.log("buyer")
-    // }
-  // dispatch(isUserService(match.params.id))
-  // alert(isSellerServiceBool)
 
-},[])
-  
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0]
     const formData = new FormData()
     formData.append('image', file)
-    setUploading(true)
+    setUploading(true) 
  
     try {
       const config = {
@@ -82,25 +87,50 @@ useEffect(()=>{
     }
   }
 
+
+  const handleDisputeReply=()=>{
+    dispatch(updateDispute(
+      {
+         
+          title,
+          disputeType,
+          buyerEvidence: (dispute?.buyerEvidence==null && orderDetails?.order.buyer._id.toString() === userInfo._id.toString() )? thumbnailImage: dispute?.buyerEvidence ,
+          sellerEvidence:(dispute?.sellerEvidence==null && orderDetails?.order.seller._id.toString() === userInfo._id.toString() )? thumbnailImage: dispute?.sellerEvidence ,
+          
+          // buyerEvidence: orderDetails.order.buyer._id.toString() === userInfo._id.toString()?thumbnailImage:dispute?.buyerEvidence,
+          // sellerEvidence:orderDetails.order.seller._id.toString()=== userInfo._id.toString()?thumbnailImage:dispute?.sellerEvidence ,
+         
+          // message: description,
+          // serviceType,
+          // disputeCreatedBy: userInfo._id,
+          // disputeCreatedAgainst: orderDetails?.order.buyer._id===userInfo._id?orderDetails?.order.seller._id: orderDetails?.order.buyer._id
+            
+
+        },
+        match.params.id
+  ))
+  }
   const submitHandler = (e) => {
     e.preventDefault()
    
-
-    
+     
     dispatch(disputeOrder(
-        {
+      {
+         
+          title,
+          disputeType,
+          buyerEvidence: isSellerServiceBool?null:thumbnailImage,
+          sellerEvidence:isSellerServiceBool?thumbnailImage:null ,
+          message: description,
+          serviceType,
+          disputeCreatedBy: userInfo._id,
+          disputeCreatedAgainst: orderDetails.order.buyer._id===userInfo._id?orderDetails.order.seller._id: orderDetails.order.buyer._id
            
-            title,
-            disputeType,
-            buyerEvidence: isSellerServiceBool?null:thumbnailImage,
-            sellerEvidence:isSellerServiceBool?thumbnailImage:null ,
-            message: description,
-            serviceType,
-            disputeCreatedBy: userInfo._id
 
-          },
-          match.params.id
-    ))
+        },
+        match.params.id
+  ))
+   
 
     // history.push('/paidservices')
 
@@ -158,21 +188,43 @@ useEffect(()=>{
       </Form.Select>
     </Form.Group>
             
-            <Button className='mt-5' type='submit' variant='primary'>
-              Open Dispute
-            </Button>
+          {
+            dispute?.isOpened?
+            <Button name='reply' onClick={handleDisputeReply} className='mt-5'  variant='primary'>
+            Reply to Dispute
+          </Button>
+            :
+            <Button name='open' className='mt-5' type='submit' variant='primary'>
+            Open Dispute
+          </Button>
+          }
             </Form>
+
+            <h1>Evidences</h1>
+            <h1>Seller Evidence</h1>
+            {
+              dispute?
+              <img src={dispute?.sellerEvidence} alt="" />
+              :''
+            }
+
+          <h1>Buyer Evidence</h1>
+            {
+              dispute?
+              <img src={dispute?.buyerEvidence} alt="" />
+              :''
+            }
             </div>
            
 
            <div className="resolve-dispute d-flex flex-column   ">
            <h2>Resolve Dispute</h2>
            
-           <Button className='align-self-center mt-5' variant='success'>
-              Resolve Dispute
-            </Button>
+           <Button className='align-self-center mt-5'  variant='success'>
+              Resolve Dispute 
+            </Button> 
            </div>
-        </div>
+        </div> 
     </div>
   )
 }

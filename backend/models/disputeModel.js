@@ -22,15 +22,24 @@ const disputeSchema = mongoose.Schema(
         type: String,
         required: true,
     },
-    serviceOrder: {
+    isOpened: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    disputeService: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Order',
       default: null
     },
-    rentContract: {
+    disputeRent: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RentContract',
         default: null
+      },
+      disputeOrderId:{
+      type: String,
+      default: null
       },
       disputeStatus: {
       type: String,
@@ -55,7 +64,11 @@ const disputeSchema = mongoose.Schema(
     disputeCreatedAgainst: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
-  }
+  },
+  // disputeAgainstOrder:{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Order"
+  // }
   },
   {
     timestamps: true,

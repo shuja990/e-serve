@@ -123,7 +123,7 @@ export const register = (name, email, password, cnic, contact, address, username
             cookies.set('avatarURL', data.avatarURL);
             cookies.set('hashedPassword', data.hashedPassword)
 console.log(data.redirectUrl)
-    window.open(data.redirectUrl, '_blank').focus();
+    // window.open(data.redirectUrl, '_blank').focus();
     dispatch({
       type: USER_REGISTER_SUCCESS,
       payload: data,

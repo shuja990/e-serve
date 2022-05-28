@@ -8,8 +8,8 @@ import { paidServicesList } from "../../actions/paidServiceActions";
 import { getWebVisits } from "../../actions/webVisitActions";
 const AdminDashboard = ({ history }) => {
   const dispatch = useDispatch();
-  const webvisits = useSelector((state) => state.webVisits);
-  const { loading, error, webVisitCounts } = webvisits;
+  // const webvisits = useSelector((state) => state.webVisits);
+  // const { loading, error, webVisitCounts } = webvisits;
   const rentPostList = useSelector((state) => state.rentPosts);
   const { loading: rentLoading, error: rentError, rentPosts } = rentPostList;
   const paidServicesStoreList = useSelector((state) => state.paidServiceList);
@@ -32,22 +32,22 @@ const AdminDashboard = ({ history }) => {
 
   return (
     <>
-      {rentLoading || paidLoading || loading? (
+      {false || false || false? (
         <Loader />
-      ) : rentError ? (
-        <Message variant="danger">{rentError}</Message>
-      ) : paidError ? (
-        <Message variant="danger">{paidError}</Message>
+      ) : false ? (
+        <Message variant="danger">{false}</Message>
+      ) : false ? (
+        <Message variant="danger">{false}</Message>
       )
-      : error ? (
-          <Message>{error}</Message>
+      : false ? (
+          <Message>{false}</Message>
       )
       : (
         <>
           <Card border="primary" style={{ width: "18rem" }}>
             <Card.Header>Total Website Visits</Card.Header>
             <Card.Body>
-              <Card.Title>{webVisitCounts} Visitor(s)</Card.Title>
+              {/* <Card.Title>{webVisitCounts} Visitor(s)</Card.Title> */}
               <Card.Text>
 
               </Card.Text>
