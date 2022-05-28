@@ -55,6 +55,7 @@ import PromotePaidSerivcePost from './pages/PromotePost/PromotePaidServicePost'
 import PromoteRentPost from './pages/PromotePost/PromotRentPost'
 import RentContracts from './pages/module3/RentContracts'
 import ServiceOrders from './pages/module3/ServiceOrders'
+import CreateConflict from './pages/m-4-conflict-management/CreateConflict'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -161,6 +162,8 @@ const App = () => {
           <Route path='/buyersorderhistory' component={OrdersHistory} exact />
           {/* sellers order history */}
           <Route path='/sellersorderhistory' component={SellersOrdersHistory} exact />
+          {/* create conflict */}
+          <Route path='/createconflict/:id' component={CreateConflict} exact />
           {/* my conflicts */}
           <Route path='/myconflicts/:id' component={Conflicts} exact />
         </Container>
