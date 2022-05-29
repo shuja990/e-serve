@@ -26,7 +26,7 @@ const CreatePaidService = ({ history, match }) => {
   const [price, setPrice] = useState(0);
   const [thumbnailImage, setThumbnailImage] = useState("");
   const [keywords, setKeywords] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Web Development");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -251,7 +251,7 @@ const CreatePaidService = ({ history, match }) => {
                 <Form.Label htmlFor="">Category</Form.Label>
                 <Form.Control
                   as="select"
-                  onChange={(e) => category(e.target.value)}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="Web Development">Web Development</option>
                   <option value="Mobile App Development">

@@ -119,9 +119,9 @@ function SellersOrdersHistory({history}) {
                  <td>{order.orderStatus}</td>
                  <td>{order.isPaid.toString()}</td>
                  <td>{order?.createdAt}</td>
-                 <td>  <LinkContainer to={`/conflict/${order._id}`}>
+                 <td>  <LinkContainer to={`/createconflict/${order._id}`}>
                     <Button variant='light' className='btn-sm'>
-                      Open Dispute
+                      Create Dispute
                     </Button>
                   </LinkContainer></td>
                  <td>

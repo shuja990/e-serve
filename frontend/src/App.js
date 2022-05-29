@@ -55,9 +55,13 @@ import PromotePaidSerivcePost from './pages/PromotePost/PromotePaidServicePost'
 import PromoteRentPost from './pages/PromotePost/PromotRentPost'
 import RentContracts from './pages/module3/RentContracts'
 import ServiceOrders from './pages/module3/ServiceOrders'
+<<<<<<< HEAD
 import CSOffersSent from './pages/module6/OffersSent'
 import CSOffersRecieved from './pages/module6/OffersRecieved'
 import ProductsCollected from './pages/module6/ProductsCollected'
+=======
+import CreateConflict from './pages/m-4-conflict-management/CreateConflict'
+>>>>>>> 816a5d9bfb11d54528086abc18c4d1d073b22ff2
 const App = () => {
   
   const dispatch= useDispatch()
@@ -65,7 +69,7 @@ const App = () => {
     const visited= sessionStorage.getItem('visitSession')
 
     if(!visited){
-      dispatch(addWebVisits())
+      // dispatch(addWebVisits())
     
 
       // dispatch(addWebVisits())
@@ -168,6 +172,8 @@ const App = () => {
           <Route path='/buyersorderhistory' component={OrdersHistory} exact />
           {/* sellers order history */}
           <Route path='/sellersorderhistory' component={SellersOrdersHistory} exact />
+          {/* create conflict */}
+          <Route path='/createconflict/:id' component={CreateConflict} exact />
           {/* my conflicts */}
           <Route path='/myconflicts/:id' component={Conflicts} exact />
         </Container>

@@ -53,7 +53,7 @@ import{
   webAppVisitReducer
 }
 from './reducers/webVisitReducer'
-import { getMyDisputesReducer, isSellerServiceReducer } from "./reducers/disputeReducers";
+import { getDisputeReducer, getMyDisputesReducer, isSellerServiceReducer } from "./reducers/disputeReducers";
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
@@ -96,7 +96,9 @@ const reducer = combineReducers({
   webVisits: webAppVisitReducer,
 
   isSellerServiceStore: isSellerServiceReducer,
-  getMyDisputesReducerStore: getMyDisputesReducer
+  getMyDisputesReducerStore: getMyDisputesReducer,
+
+  disputeStore: getDisputeReducer
 
 });
 
