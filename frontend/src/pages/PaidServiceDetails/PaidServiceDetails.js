@@ -197,7 +197,7 @@ const PaidServiceDetails = ({ history, match }) => {
                       <Button
                         className="btn-block"
                         type="submit"
-                        disabled={userInfo === null || userInfo._id===paidService.createdBy}
+                        disabled={userInfo === null || userInfo._id===paidService?.createdBy?._id}
                       >
                         Buy Service
                       </Button>
@@ -205,7 +205,7 @@ const PaidServiceDetails = ({ history, match }) => {
                       <Link to='/chat' >
                       <Button
                         className="btn-block mt-3"
-                        disabled={userInfo === null || userInfo._id===paidService.createdBy}
+                        disabled={userInfo === null || userInfo._id===paidService?.createdBy?._id}
                       >
                         Contact
                       </Button>

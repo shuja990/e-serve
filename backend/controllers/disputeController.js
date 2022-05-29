@@ -121,7 +121,27 @@ const createDispute = asyncHandler(async (req, res) => {
       throw new Error("Not authorized");
     }
   }); 
-  
+  const refundOrder = async () => {
+    const charges = await stripe.charges.list({
+    });
+    let cs = ""
+    charges.data.forEach(element => {
+      if(element.payment_intent===req.body.paymentIntent){
+        cs = element.id
+      }
+    });
+    console.log(cs);
+    const refund = await stripe.refunds.create({
+      charge: cs,
+      reverse_transfer: true,
+    });
+    res.json(refund)
+  }
+  const cancelSubscription = async () => {
+    const deleted = await stripe.subscriptions.del(
+      req.body.paymentResult
+      );
+  }
 
   export {
     createDispute,
@@ -129,6 +149,8 @@ const createDispute = asyncHandler(async (req, res) => {
     getMyDisputes,
     ifInDisputes,
     getDispute,
-    updateDispute
+    updateDispute,
+    cancelSubscription,
+    refundOrder
   };
   
