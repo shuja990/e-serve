@@ -38,7 +38,7 @@ const HomeScreen = ({ match }) => {
       setll(true);
       const { data } = await axios.get(`http://localhost:5000/api/promote`);
       if (data) {
-        setPromoted(data.promote);
+        setPromoted(data);
         setll(false);
         console.log(data);
         

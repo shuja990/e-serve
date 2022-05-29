@@ -7,7 +7,13 @@ import {
   createCommunityServiceProduct,
   updateCommunityServiceProduct,
   getUserPosts,
-  deleteCommunityServiceProductAdmin
+  deleteCommunityServiceProductAdmin,
+  collectedItem,
+  getOffers,
+  createOffer,
+  getCollectedByOffers,
+  getCollectedFromOffers,
+  getCollectedBy
 } from '../controllers/communityServiceController.js'
 import { protect,admin } from '../middleware/authMiddleware.js'
 
@@ -18,7 +24,15 @@ router
   .delete(protect, deleteCommunityServiceProduct)
   .put(protect, updateCommunityServiceProduct)
 router.route('/myposts/:id').get(protect, getUserPosts)
+router.route('/collectedbyme/:id').get(protect, getCollectedBy)
+
 router
   .route('/admin/:id')
   .delete(protect,admin,deleteCommunityServiceProductAdmin)
+router.route('/collectitem/:id').put(protect,collectedItem)
+
+router.route('/offers').get(protect,getOffers).post(protect,createOffer)
+router.route('/offers/collectedBy/:id').get(protect,getCollectedByOffers)
+router.route('/collectedFrom/:id').get(protect,getCollectedFromOffers)
+
 export default router

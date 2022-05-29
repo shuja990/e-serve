@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import CommunityService from "../models/communityServiceModel.js";
+import CSOffer from "../models/csOfferModel.js";
 
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -138,6 +139,84 @@ const deleteCommunityServiceProductAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+const getCollectedBy = asyncHandler(async (req, res) => {
+  const product = await CommunityService.find({ collectedBy: req.params.id })
+    .populate({ path: "createdBy", select: "_id name" })
+    .populate({ path: "collectedBy", select: "_id name" });
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404);
+    throw new Error("Products not found");
+  }
+});
+
+const collectedItem = asyncHandler(async (req, res) => {
+  const { collectedBy, offerId } = req.body;
+  try {
+    const product = await CommunityService.findById(req.params.id);
+    if (product) {
+      const deleteOffer = await CSOffer.findByIdAndDelete(offerId);
+      (product.collectedBy = collectedBy), (product.available = false);
+      const update = await product.save();
+      res.json(update);
+    } else {
+      res.status(404);
+      throw new Error("Community Service Product Not Found");
+    }
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+const getOffers = asyncHandler(async (req, res) => {
+  const rent = await CSOffer.find({})
+    .populate({ path: "item" })
+    .populate({ path: "collectedBy", select: "_id name " })
+    .populate({ path: "collectedFrom", select: "_id name " });
+
+  res.json({ rent });
+});
+const getCollectedByOffers = asyncHandler(async (req, res) => {
+  const order = await CSOffer.find({ collectedBy: req.params.id })
+    .populate({ path: "item" })
+    .populate({ path: "collectedBy", select: "_id name " })
+    .populate({ path: "collectedFrom", select: "_id name " });
+
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("Products not found");
+  }
+});
+
+const getCollectedFromOffers = asyncHandler(async (req, res) => {
+  const order = await CSOffer.find({ collectedFrom: req.params.id })
+    .populate({ path: "item" })
+    .populate({ path: "collectedBy", select: "_id name " })
+    .populate({ path: "collectedFrom", select: "_id name " });
+
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("Products not found");
+  }
+});
+const createOffer = asyncHandler(async (req, res) => {
+  const { collectedBy, collectedFrom, item, title } = req.body;
+  const order = new CSOffer({
+    title,
+    collectedBy,
+    collectedFrom,
+    item,
+  });
+
+  const createdProduct = await order.save();
+  res.status(201).json(createdProduct);
+});
 export {
   getCommunityServiceProductById,
   getCommunityServiceProducts,
@@ -146,4 +225,10 @@ export {
   updateCommunityServiceProduct,
   getUserPosts,
   deleteCommunityServiceProductAdmin,
+  collectedItem,
+  createOffer,
+  getCollectedByOffers,
+  getCollectedFromOffers,
+  getOffers,
+  getCollectedBy,
 };

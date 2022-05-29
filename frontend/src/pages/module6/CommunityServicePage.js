@@ -16,23 +16,54 @@ import Loader from "../../components/Loader";
 import Meta from "../../components/Meta";
 import { listcommunityServicePostDetails } from "../../actions/communityServiceActions";
 import PostShare from "../../components/PostShare/PostShare";
-const CommunityServicePage = ({match}) => {
+import axios from "axios";
+const CommunityServicePage = ({ match }) => {
   const dispatch = useDispatch();
-//   const match = useParams;
-  const productDetails = useSelector((state) => state.communityServicePostDetail);
+  //   const match = useParams;
+  const productDetails = useSelector(
+    (state) => state.communityServicePostDetail
+  );
   const { loading, error, communityServicePost } = productDetails;
+  const [e, setE] = useState("");
+  const [l, setL] = useState(false);
+  const [s, setS] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   useEffect(() => {
-    if (!communityServicePost._id || communityServicePost._id !== match.params.id) {
+    if (
+      !communityServicePost._id ||
+      communityServicePost._id !== match.params.id
+    ) {
       dispatch(listcommunityServicePostDetails(match.params.id));
     }
   }, [dispatch, match]);
-
-  //   const addToCartHandler = () => {
-  //     history.push(`/cart/${match.params.id}?qty=${qty}`)
-  //   }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      setL(true);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.post(
+        `http://localhost:5000/api/communityservice/offers`,
+        {
+          title: communityServicePost.title,
+          item: communityServicePost._id,
+          collectedBy: userInfo._id,
+          collectedFrom: communityServicePost.createdBy._id,
+        },
+        config
+      );
+      setL(false);
+      setS(true);
+    } catch (error) {
+      setE(error.message);
+    }
+  };
 
   return (
     <>
@@ -41,15 +72,28 @@ const CommunityServicePage = ({match}) => {
       </Link>
       {loading ? (
         <Loader />
+      ) : s ? (
+        <Message variant="success">
+          Offer to collect product Sent successfully
+        </Message>
       ) : error ? (
         <Message variant="danger">{error}</Message>
+      ) : e ? (
+        <Message variant="danger">{e}</Message>
       ) : (
         <>
+        {
+          l && <Loader/>
+        }
           <Meta title={communityServicePost.title} />
           <Row>
             <Col md={6}>
-            <PostShare />
-              <Image src={communityServicePost.thumbnailImage} alt={communityServicePost.title} fluid />
+              <PostShare />
+              <Image
+                src={communityServicePost.thumbnailImage}
+                alt={communityServicePost.title}
+                fluid
+              />
             </Col>
             <Col md={3}>
               <ListGroup variant="flush">
@@ -77,15 +121,6 @@ const CommunityServicePage = ({match}) => {
             <Col md={3}>
               <Card>
                 <ListGroup variant="flush">
-                  {/* <ListGroup.Item>
-                    <Row>
-                      <Col>Price:</Col>
-                      <Col>
-                        <strong>${communityServicePost.price}</strong>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item> */}
-
                   <ListGroup.Item>
                     <Row>
                       <Col>Status:</Col>
@@ -96,48 +131,30 @@ const CommunityServicePage = ({match}) => {
                       </Col>
                     </Row>
                   </ListGroup.Item>
-
-                  {/* {communityServicePost.isRented && (
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>Qty</Col>
-                        <Col>
-                          <Form.Control
-                            as='select'
-                            value={qty}
-                            onChange={(e) => setQty(e.target.value)}
-                          >
-                            {[...Array(communityServicePost.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
-                          </Form.Control>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  )} */}
-
                   <ListGroup.Item>
                     <Button
                       //   onClick={addToCartHandler}
                       className="btn-block"
                       type="button"
-                      disabled={!communityServicePost.available}
+                      disabled={
+                        !communityServicePost.available ||
+                        userInfo._id === communityServicePost?.createdBy._id
+                      }
                     >
                       Contact User
                     </Button>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Button
-                      //   onClick={addToCartHandler}
                       className="btn-block"
                       type="button"
-                      disabled={!communityServicePost.available}
+                      disabled={
+                        !communityServicePost?.available ||
+                        userInfo?._id === communityServicePost?.createdBy._id
+                      }
+                      onClick={submitHandler}
                     >
-                      Send Item collection request
+                      Send Offer
                     </Button>
                   </ListGroup.Item>
                 </ListGroup>

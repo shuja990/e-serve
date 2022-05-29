@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 import axios from 'axios'
-const OffersSent = ({ history }) => {
+const CSOffersSent = ({ history }) => {
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -28,7 +28,7 @@ const OffersSent = ({ history }) => {
             Authorization: `Bearer ${userInfo.token}`,
           },
         }
-        const { data } = await axios.get(`http://localhost:5000/api/offers/rentedby/${userInfo._id}`, config) 
+        const { data } = await axios.get(`http://localhost:5000/api/communityservice/offers/collectedBy/${userInfo._id}`, config) 
         if(data){
             setOrders(data)
             setLoading(false)
@@ -50,18 +50,18 @@ const OffersSent = ({ history }) => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Rented By</th>
-              <th>Rented From</th>
-              <th>Price</th>
+              <th>Title</th>
+              <th>Collected By </th>
+              <th>Collected From</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.rentedBy.name}</td>
-                <td>{order.rentedFrom.name}</td>
-                <td>${order.price}</td>
+                <td>{order.title}</td>
+                <td>{order.collectedBy.name}</td>
+                <td>{order.collectedFrom.name}</td>
               </tr>
             ))}
           </tbody>
@@ -71,4 +71,4 @@ const OffersSent = ({ history }) => {
   )
 }
 
-export default OffersSent
+export default CSOffersSent

@@ -55,6 +55,9 @@ import PromotePaidSerivcePost from './pages/PromotePost/PromotePaidServicePost'
 import PromoteRentPost from './pages/PromotePost/PromotRentPost'
 import RentContracts from './pages/module3/RentContracts'
 import ServiceOrders from './pages/module3/ServiceOrders'
+import CSOffersSent from './pages/module6/OffersSent'
+import CSOffersRecieved from './pages/module6/OffersRecieved'
+import ProductsCollected from './pages/module6/ProductsCollected'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -153,6 +156,10 @@ const App = () => {
           <Route path='/createcommunityservicepost' component={CreateCommunityServicePost} exact />
           <Route path='/communityserviceposts/:id' component={CommunityServicePage} exact />
           <Route path='/communityserviceposts/:id/edit' component={UpdateCommunityServicePost} exact />
+          <Route path='/communityservice/offerssent' component={CSOffersSent} exact />
+          <Route path='/communityservice/offersreceived' component={CSOffersRecieved} exact />
+          <Route path='/communityservice/collectedby' component={ProductsCollected} exact />
+
           {/* chat screen */}
           <Route path='/chat' component={ChatScreen} exact />
           {/* conflict screen */}

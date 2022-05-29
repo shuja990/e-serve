@@ -16,6 +16,7 @@ const PaymentUpdate = ({ location, history }) => {
       history.push("/");
     } else {
       dispatch(updateUserProfile({ id: userInfo._id, paymentsEnabled: true }));
+      history.push("/")
     }
   }, []);
 

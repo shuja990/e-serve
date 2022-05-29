@@ -35,13 +35,20 @@ router.post("/makepayment", async (req, res) => {
   //   }
   // );
 
-  const c = await stripe.customers.create({
-    source: token.id,
-  }, {
-    stripeAccount: 'acct_1L2RHEPk8AscI1sJ',
+  const customer = await stripe.customers.create({
+    email: "aQ@gmcc.com",
+    source: "tok_mastercard",
   });
   // console.log(c);
-
+  const token = await stripe.tokens.create(
+    {
+      customer: customer.id,
+      card:customer.default_source
+    }, 
+    {
+      stripeAccount: 'acct_1L2RHEPk8AscI1sJ',
+    }
+  );
   const subscription = await stripe.subscriptions.create({
     customer: customer.id,
     cancel_at:1661130586,
@@ -55,12 +62,30 @@ router.post("/makepayment", async (req, res) => {
       destination: "acct_1L2GGiPmMtL2CkuK",
     },
   });
+  const charges = await stripe.charges.list({
+  });
+  let cs = []
+  charges.data.forEach(element => {
+    if(element.payment_intent===subscription.paymentIntent){
+      cs.push(element)
+    }
+  });
+  console.log(cs);
   res.json(subscription);
+  // let cs = []
+  // const invoices = await stripe.invoices.list({
+  // });
+  //   invoices.data.forEach(element => {
+  //   if(element.subscription==='sub_1L3pXFBqTtLhCjZjbeWuR1QE'){
+  //     cs.push(element)
+  //   }
+  // });
+  // console.log(cs);
   // const refund = await stripe.refunds.create({
   //   charge: 'ch_3L2TsPBqTtLhCjZj1W2OefW6',
   //   reverse_transfer: true,
   // });
-  // res.json(refund)
+  // res.json(cs)
 
 });
 

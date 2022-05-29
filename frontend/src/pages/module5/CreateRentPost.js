@@ -211,7 +211,7 @@ const CreateRentPost = ({ match, history }) => {
               <Form.Label htmlFor="">Category</Form.Label>
               <Form.Control
                 as="select"
-                onChange={(e) => category(e.target.value)}
+                onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="Electornics">Electornics</option>
                 <option value="Mobile Accessories">Mobile Accessories </option>

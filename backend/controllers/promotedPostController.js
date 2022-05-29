@@ -10,10 +10,29 @@ const stripe = new Stripe(
 // @route   GET /api/products
 // @access  Public
 const getPromotedPosts = asyncHandler(async (req, res) => {
+  let b = []
   const promote = await Promote.find({})
     .populate({ path: "promotedBy", select: "_id name paymentDetails" })
     .populate({ path: "rentPost" })
     .populate({ path: "servicePost" });
+  promote.sort(function (a, b) {
+    return a.price - b.price;
+  });
+  let rentCounter = 0
+  let serviceCounter = 0
+  for (let index = promote.length-1; index > -1; index--) {
+    if(b.length<6){
+      if(promote[index].rentPost!==null && rentCounter<3){
+        b.push(promote[index])
+        rentCounter++
+      }
+      else if(promote[index].servicePost!==null && serviceCounter<3){
+        b.push(promote[index])
+        serviceCounter++
+      }
+    }    
+  }
+  res.json(b)
   res.json({ promote });
 });
 
@@ -22,7 +41,6 @@ const getPromotedPosts = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 const createPromotedPost = asyncHandler(async (req, res) => {
-  console.log("ssss");
   const { postType, rentPost, servicePost, price, promotedBy, name } = req.body;
   // createdBy: req.user._id
   const p = await stripe.products.create({
@@ -56,12 +74,13 @@ const createPromotedPost = asyncHandler(async (req, res) => {
   });
 
   const createdProduct = await product.save();
-  res
-    .status(201)
-    .json({ createdProduct: createdProduct, url: session.url });
+  res.status(201).json({ createdProduct: createdProduct, url: session.url });
 });
 const markAsPaid = asyncHandler(async (req, res) => {
-  const o = await Promote.findOneAndUpdate({priceId:req.params.id},{isPaid:true});
+  const o = await Promote.findOneAndUpdate(
+    { priceId: req.params.id },
+    { isPaid: true }
+  );
 });
 const deletePosts = asyncHandler(async (req, res) => {
   const documentToDelete = await Promote.deleteMany({});

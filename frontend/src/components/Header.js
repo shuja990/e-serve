@@ -63,6 +63,15 @@ const Header = () => {
                 <LinkContainer to="/createcommunityservicepost">
                   <NavDropdown.Item>Add post</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to="/communityservice/offerssent">
+                  <NavDropdown.Item>Offers Sent</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/communityservice/offersreceived">
+                  <NavDropdown.Item>Offers Recieved</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/communityservice/collectedby">
+                  <NavDropdown.Item>Items Collected</NavDropdown.Item>
+                </LinkContainer>
               </NavDropdown>
               {
                 <NavDropdown title="Paid Service">
