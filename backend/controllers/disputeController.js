@@ -20,7 +20,8 @@ const createDispute = asyncHandler(async (req, res) => {
       disputeCreatedBy, 
       disputeCreatedAgainst,
       isOpened: true,
-      disputeOrderId: req.params.id
+      disputeOrderId: req.params.id,
+      adminResponse: null
     });
   console.log(buyerEvidence)
   console.log(sellerEvidence)
@@ -121,6 +122,33 @@ const createDispute = asyncHandler(async (req, res) => {
       throw new Error("Not authorized");
     }
   }); 
+
+  
+  const resolveDispute = asyncHandler(async (req, res) => {
+    const {
+     adminResponse
+    } = req.body;
+  
+    const dispute = await Dispute.findById(req.params.id);
+    // req.user._id.toString() == dispute.disputeCreatedBy.toString() || req.user._id.toString() == dispute.disputeCreatedAgainst.toString()
+    console.log('to updated dispute', dispute)
+    if (true) {
+      if (dispute) {
+        dispute.adminResponse = adminResponse;
+        dispute.isOpened = false;
+        
+        const updatedDispute = await dispute.save();
+        console.log('dispute updated')
+        res.json(updatedDispute);
+      } else {
+        res.status(404);
+        throw new Error("Dispute not found");
+      }
+    } else {
+      res.status(401);
+      throw new Error("Not authorized");
+    }
+  }); 
   
 
   export {
@@ -129,6 +157,7 @@ const createDispute = asyncHandler(async (req, res) => {
     getMyDisputes,
     ifInDisputes,
     getDispute,
-    updateDispute
+    updateDispute,
+    resolveDispute
   };
   

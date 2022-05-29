@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import Loader from '../../components/Loader'
 import axios from 'axios'
-import { disputeOrder, getDispute, ifInDIsputes, isUserService, updateDispute } from '../../actions/disputeActions'
+import { disputeOrder, getDispute, ifInDIsputes, isUserService, resolveDispute, updateDispute } from '../../actions/disputeActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderDetails, listMyOrdersAsBuyer, listMyOrdersAsSeller } from '../../actions/orderActions'
 
@@ -17,6 +17,7 @@ function ConflictScreen({match}) {
   const [sellerEvidence, setSellerEvidence] = useState('')
   const [buyerEvidence, setBuyerEvidence] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [adminResponse, setAdminResponse] = useState('')
 
   const isSellerServiceBool= useSelector(state=> state.isSellerServiceStore.isSellerService)
   const isSellerServiceLoading= useSelector(state=> state.isSellerServiceStore.loading)
@@ -136,10 +137,26 @@ useEffect(()=>{
 
   }
 
+
+  const handleAdminResponse=(e)=>{
+    e.preventDefault()
+
+    dispatch(resolveDispute(
+      {
+        adminResponse
+      },
+        match.params.id
+  ))
+
+
+  }
+
   return (
     <div>
         <h1 className='text-center mb-5' >Conflict Resolution Desk</h1>
-        <div className='d-flex  justify-content-between' >
+        {
+          dispute?.isOpened?
+          <div className='md:d-flex  md:justify-content-between ' >
             <div className="upload-evidence">
             <h2>Upload evidence and open dispute</h2>
             <Form onSubmit={submitHandler}>
@@ -200,7 +217,7 @@ useEffect(()=>{
           }
             </Form>
 
-            <h1>Evidences</h1>
+            <h1 className='text-center' >Evaluation</h1>
             <h1>Seller Evidence</h1>
             {
               dispute?
@@ -211,20 +228,49 @@ useEffect(()=>{
           <h1>Buyer Evidence</h1>
             {
               dispute?
-              <img src={dispute?.buyerEvidence} alt="" />
+              <img style={{maxWidth: '100%', objectFit: 'contain'}} src={dispute?.buyerEvidence} alt="" />
               :''
             }
             </div>
            
 
-           <div className="resolve-dispute d-flex flex-column   ">
-           <h2>Resolve Dispute</h2>
+           <div className="resolve-dispute d-flex flex-column mt-5   ">
+           <h1 className='font-bold' >Resolve Dispute</h1>
            
-           <Button className='align-self-center mt-5'  variant='success'>
+          <form onSubmit={handleAdminResponse} >
+          <Form.Group controlId='name'>
+              <Form.Label>Admin Response</Form.Label>
+              <Form.Control
+                required
+                type='text'
+                placeholder='Enter Dsipute Response'
+                value={adminResponse}
+                onChange={(e) => setAdminResponse(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+          <Button type='submit' className='align-self-center mt-5'  variant='success'>
               Resolve Dispute 
             </Button> 
+            <Button  className='align-self-center mt-5 ml-5'  variant='danger'>
+              Refund Buyer
+            </Button> 
+
+            <Button  className='align-self-center mt-5 ml-5'  variant='danger'>
+              Cancel Subscription
+            </Button>
+          </form>
            </div>
         </div> 
+          : <div>
+            <h1>Resolved</h1>
+            <h1 style={{color: 'green', textAlign: 'center'}} >Admin Response</h1>
+            <p className='text-center' >{dispute?.adminResponse}</p>
+            <div className='d-flex justify-content-center' >
+              <img src={`https://i.gifer.com/7efs.gif`} alt="" />
+            </div>
+          </div>
+        }
     </div>
   )
 }

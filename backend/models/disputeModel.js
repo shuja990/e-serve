@@ -65,6 +65,11 @@ const disputeSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
   },
+  adminResponse:{
+    type: String,
+   
+    default: null
+  },
   // disputeAgainstOrder:{
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: "Order"
