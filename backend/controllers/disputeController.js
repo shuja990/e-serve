@@ -136,6 +136,7 @@ const createDispute = asyncHandler(async (req, res) => {
       if (dispute) {
         dispute.adminResponse = adminResponse;
         dispute.isOpened = false;
+        dispute.disputeStatus="Resolved"
         
         const updatedDispute = await dispute.save();
         console.log('dispute updated')
