@@ -8,13 +8,15 @@ export const getWebVisits = () => async (
       
   
       const { data } = await axios.get(
-        `http://localhost:5000/api/visits/622e85501477ae4268ee7d27`
+        `http://localhost:5000/api/visits/62256a16baea893c142a52ff`
       )
-        // alert("WEBVISITS: " + (JSON.stringify(data.webVisits.numOfVisits)));
+        // alert("WEBVISITS: " + (JSON.stringify(data.webVisits.numOfVisits)))
+        console.log(data);
       dispatch({
         type: GET_WEB_VISIT_COUNTS,
         payload: data.webVisits.numOfVisits,
       })
+    
     } catch (error) {
       dispatch({
         type: WEB_VISIT_FAIL,

@@ -69,7 +69,8 @@ const App = () => {
     const visited= sessionStorage.getItem('visitSession')
 
     if(!visited){
-      // dispatch(addWebVisits())
+      dispatch(addWebVisits())
+     
     
 
       // dispatch(addWebVisits())
