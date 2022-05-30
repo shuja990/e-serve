@@ -78,7 +78,7 @@ const createRentProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateRentProduct = asyncHandler(async (req, res) => {
-    const { title,price,thumbnailImage,images,location,category,description,isMovable, clicks, whatsappShares, emailShares, twitterShares, fbShares } = req.body
+    const { title,price,thumbnailImage,images,location,coordinates,category,description,isMovable, clicks, whatsappShares, emailShares, twitterShares, fbShares } = req.body
 
 
   const product = await Rent.findById(req.params.id)
@@ -86,7 +86,7 @@ const updateRentProduct = asyncHandler(async (req, res) => {
         if (product) {
             product.title = title
             product.price = price
-            product.coordinates = coordinates
+            product.coordinates = coordinates 
             product.thumbnailImage = thumbnailImage
             product.images = images
             product.location = location

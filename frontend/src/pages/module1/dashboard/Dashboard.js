@@ -135,12 +135,31 @@ const Dashboard = ({ history }) => {
                       >
                         <i className="fas fa-trash"></i>
                       </Button>
+                      
                     )}
                   </td>
                   <td>
-                  <Button variant='light' className='btn-sm' onClick={()=>history.push(`/promoterentpost/${product._id}`)}>
+
+                    <Button
+                      variant="light"
+                      className="btn-sm"
+                      onClick={() =>
+                        history.push(`/promoterentpost/${product._id}`)
+                      }
+                    >
                       Promote Post
                     </Button>
+                    <Button
+                          variant="primary"
+                          className="btn-sm"
+                          onClick={() =>
+                            history.push(
+                              `rentposts/${product._id}/edit`
+                            )
+                          }
+                        >
+                          <i className="fas fa-pen"></i>
+                        </Button>
                   </td>
                 </tr>
               ))}
@@ -173,20 +192,39 @@ const Dashboard = ({ history }) => {
                   <td>{product.twitterShares}</td>
                   <td>
                     {" "}
-                    {psloading ? (   
+                    {psloading ? (
                       <Loader />
                     ) : (
-                      <Button
-                        variant="danger"
-                        className="btn-sm"
-                        onClick={() => deletePSPost(product._id)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </Button>
+                      <>
+                        <Button
+                          variant="danger"
+                          className="btn-sm"
+                          onClick={() => deletePSPost(product._id)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </Button>
+                        <Button
+                          variant="primary"
+                          className="btn-sm"
+                          onClick={() =>
+                            history.push(
+                              `paidservice/${product._id}/edit`
+                            )
+                          }
+                        >
+                          <i className="fas fa-pen"></i>
+                        </Button>
+                      </>
                     )}
                   </td>
                   <td>
-                  <Button variant='light' className='btn-sm' onClick={()=>history.push(`/promotepaidservice/${product._id}`)}>
+                    <Button
+                      variant="light"
+                      className="btn-sm"
+                      onClick={() =>
+                        history.push(`/promotepaidservice/${product._id}`)
+                      }
+                    >
                       Promote Post
                     </Button>
                   </td>
@@ -209,20 +247,33 @@ const Dashboard = ({ history }) => {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.title}</td>
-                  <td>{product.available? "Availble":"Not Avaiable"}</td>
+                  <td>{product.available ? "Availble" : "Not Avaiable"}</td>
 
                   <td>
                     {" "}
                     {csloading ? (
                       <Loader />
                     ) : (
-                      <Button
-                        variant="danger"
-                        className="btn-sm"
-                        onClick={() => deleteCSPost(product._id)}
-                      >
-                        <i className="fas fa-trash"></i>
-                      </Button>
+                      <>
+                        <Button
+                          variant="danger"
+                          className="btn-sm"
+                          onClick={() => deleteCSPost(product._id)}
+                        >
+                          <i className="fas fa-trash"></i>
+                        </Button>
+                        <Button
+                          variant="primary"
+                          className="btn-sm"
+                          onClick={() =>
+                            history.push(
+                              `communityserviceposts/${product._id}/edit`
+                            )
+                          }
+                        >
+                          <i className="fas fa-pen"></i>
+                        </Button>
+                      </>
                     )}
                   </td>
                 </tr>

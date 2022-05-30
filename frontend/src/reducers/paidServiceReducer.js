@@ -86,7 +86,7 @@ export const paidServiceUpdateReducer = (
     case PAID_SERVICE_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     case PAID_SERVICE_UPDATE_RESET:
-      return { paidService: {} };
+      return { paidService: {}, success:false }; 
     default:
       return state;
   }
