@@ -10,9 +10,8 @@ export const communityServicePostsList = () => async (
     dispatch({ type: COMMUNITY_SERVICE_LIST_REQUEST })
 
     const { data } = await axios.get(
-      `/api/communityservice`
+      `http://localhost:5000/api/communityservice`
     )
-      console.log("paid services from db: " +  JSON.stringify(data));
     dispatch({
       type: COMMUNITY_SERVICE_LIST_SUCCESS,
       payload: data.products,
@@ -46,7 +45,7 @@ export const addcommunityServicePost = (data) => async (dispatch, getState) => {
           Authorization: `Bearer ${userInfo.token}`,
         },
       }
-      const { dbData } = await axios.post(`/api/communityservice`, data, config)
+      const { dbData } = await axios.post(`http://localhost:5000/api/communityservice`, data, config)
       // const { data } = await axios.post(`/api/paidservice`, data, config)
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
@@ -93,7 +92,7 @@ export const addcommunityServicePost = (data) => async (dispatch, getState) => {
         },
       }
   
-      await axios.delete(`/api/communityservice/${id}`, config)
+      await axios.delete(`http://localhost:5000/api/communityservice/${id}`, config)
   
       dispatch({
         type: COMMUNITY_SERVICE_DELETE_SUCCESS,
@@ -129,7 +128,7 @@ export const addcommunityServicePost = (data) => async (dispatch, getState) => {
         },
       }
   
-      await axios.delete(`/api/communityservice/admin/${id}`, config)
+      await axios.delete(`http://localhost:5000/api/communityservice/admin/${id}`, config)
   
       dispatch({
         type: COMMUNITY_SERVICE_DELETE_SUCCESS,
@@ -156,7 +155,7 @@ export const listcommunityServicePostDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: COMMUNITY_SERVICE_DETAILS_REQUEST })
 
-    const { data } = await axios.get(`/api/communityservice/${id}`)
+    const { data } = await axios.get(`http://localhost:5000/api/communityservice/${id}`)
 // console.log("ss",data);
     dispatch({
       type: COMMUNITY_SERVICE_DETAILS_SUCCESS,
@@ -192,7 +191,7 @@ export const listcommunityServicePostDetails = (id) => async (dispatch) => {
       }
   
       const { data } = await axios.put(
-        `/api/communityservice/${communityServicepost._id}`,
+        `http://localhost:5000/api/communityservice/${communityServicepost._id}`,
         communityServicepost,
         config
       )

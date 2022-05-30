@@ -47,6 +47,7 @@ const OffersRecieved = ({ history }) => {
           },
         }
         const { data } = await axios.post(`http://localhost:5000/api/rentcontract`,{
+            offerId:offer._id,
             price:offer.price,
             title:offer.title,
             noOfMonths:offer.noOfMonths,

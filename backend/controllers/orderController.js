@@ -170,6 +170,7 @@ const makePayment = asyncHandler(async (req, res) => {
       },
     });
     order.paymentResult = session.id || order.paymentResult;
+    order.paymentIntent = session.payment_intent || order.paymentIntent
   }
   const updatedOrder = await order.save();
   res.json({
@@ -180,7 +181,17 @@ const makePayment = asyncHandler(async (req, res) => {
 const markAsPaid = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
   if (order) {
+    const charges = await stripe.charges.list({
+    });
+    let c = {}
+    charges.data.forEach(element => {
+      if(element.payment_intent===order.paymentIntent){
+        c=element
+      }
+    });
     order.isPaid = true;
+    order.chargeId = c.id
+    order.invoice = c.receipt_url
   }
   const updatedOrder = await order.save();
   res.json(updatedOrder);

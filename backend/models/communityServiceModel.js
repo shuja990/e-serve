@@ -34,7 +34,7 @@ const CommunityServiceSchema = mongoose.Schema(
     },
     collectedBy : {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     },
     createdBy : {
       type: mongoose.Schema.Types.ObjectId,

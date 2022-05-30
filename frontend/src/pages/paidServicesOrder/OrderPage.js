@@ -22,12 +22,21 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
 } from "../../constants/orderConstants";
+import { createUserReview } from "../../actions/userActions";
 
 const OrderPage = ({ match, history }) => {
   const orderId = match.params.id;
+  const productReviewCreate = useSelector((state) => state.productReviewCreate);
+
+  const {
+    success: successProductReview,
+    loading: loadingProductReview,
+    error: errorProductReview,
+  } = productReviewCreate;
 
   const dispatch = useDispatch();
-
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
   const [uploading, setUploading] = useState(false);
   const [img, setImg] = useState("");
 
@@ -107,7 +116,15 @@ const OrderPage = ({ match, history }) => {
       setUploading(false);
     }
   };
-
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      createUserReview(order.seller._id, {
+        rating,
+        comment,
+      })
+    );
+  };
   return loading ? (
     <Loader />
   ) : error ? (
@@ -198,13 +215,64 @@ const OrderPage = ({ match, history }) => {
                 </ListGroup>
               )}
             </ListGroup.Item>
+            <ListGroup.Item>
+              <h2>Write a Customer Review</h2>
+              {successProductReview && (
+                <Message variant="success">
+                  Review submitted successfully
+                </Message>
+              )}
+              {loadingProductReview && <Loader />}
+              {errorProductReview && (
+                <Message variant="danger">{errorProductReview}</Message>
+              )}
+              {userInfo && order.orderStatus === "Complete" ? (
+                <Form onSubmit={submitHandler}>
+                  <Form.Group controlId="rating">
+                    <Form.Label>Rating</Form.Label>
+                    <Form.Control
+                      as="select"
+                      value={rating}
+                      onChange={(e) => setRating(e.target.value)}
+                    >
+                      <option value="">Select...</option>
+                      <option value="1">1 - Poor</option>
+                      <option value="2">2 - Fair</option>
+                      <option value="3">3 - Good</option>
+                      <option value="4">4 - Very Good</option>
+                      <option value="5">5 - Excellent</option>
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Group controlId="comment">
+                    <Form.Label>Comment</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      row="3"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Button
+                    disabled={loadingProductReview}
+                    type="submit"
+                    variant="primary"
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              ) : (
+                <Message>
+                  Please <Link to="/login">sign in</Link> to write a review{" "}
+                </Message>
+              )}
+            </ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={4}>
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
-                <h2>Order Summary</h2> 
+                <h2>Order Summary</h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
@@ -218,7 +286,7 @@ const OrderPage = ({ match, history }) => {
                     type="button"
                     className="btn btn-block"
                     onClick={makePayment}
-                    disabled={order.seller._id===userInfo._id}
+                    disabled={order.seller._id === userInfo._id}
                   >
                     Make Payment
                   </Button>
@@ -240,6 +308,15 @@ const OrderPage = ({ match, history }) => {
                     </Button>
                   </ListGroup.Item>
                 )}
+              {order.isPaid && (
+                <Button
+                  type="button"
+                  className="btn btn-block"
+                  onClick={() => window.open(order.invoice, "_blank").focus()}
+                >
+                  View Invoice
+                </Button>
+              )}
             </ListGroup>
           </Card>
         </Col>

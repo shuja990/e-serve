@@ -16,7 +16,7 @@ const  getRentProducts = asyncHandler(async (req, res) => {
 // @route   GET /api/products/:id
 // @access  Public
 const getRentProductById = asyncHandler(async (req, res) => {
-  const product = await Rent.findById(req.params.id).populate({path:"createdBy",select:"name _id"})
+  const product = await Rent.findById(req.params.id).populate({path:"createdBy",select:"name _id review"})
 
   if (product) {
     res.json(product)

@@ -80,7 +80,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/rentcontract/${id}`, config);
+    const { data } = await axios.get(`http://localhost:5000/api/rentcontract/${id}`, config);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -120,7 +120,7 @@ export const payOrder =
       };
 
       const { data } = await axios.post(
-        `/api/rentcontract/pay/${orderId}`,
+        `http://localhost:5000/api/rentcontract/pay/${orderId}`,
         paymentResult,
         config
       );
@@ -278,7 +278,7 @@ export const listOrders = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/rentcontract`, config);
+    const { data } = await axios.get(`http://localhost:5000/api/rentcontract`, config);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,

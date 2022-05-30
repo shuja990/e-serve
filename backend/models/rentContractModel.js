@@ -50,7 +50,7 @@ const rentContractSchema = mongoose.Schema(
     },
     paymentResult: {
       type:String
-    }
+    },
   },
   {
     timestamps: true,

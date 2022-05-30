@@ -1,27 +1,21 @@
-import asyncHandler from 'express-async-handler'
-import generateToken from '../utils/generateToken.js'
-import dotenv from 'dotenv'
-import stream, {connect} from 'getstream';
-import crypto from 'crypto';
-import {StreamChat} from'stream-chat'
-import bcrypt from 'bcryptjs'
+import asyncHandler from "express-async-handler";
+import generateToken from "../utils/generateToken.js";
+import dotenv from "dotenv";
+import stream, { connect } from "getstream";
+import crypto from "crypto";
+import { StreamChat } from "stream-chat";
+import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 import Stripe from "stripe";
 
-
-
-
 // import StreamChat from ('stream-chat').StreamChat;
 
-
 // require('dotenv').config();
-dotenv.config()
+dotenv.config();
 
 const api_key = process.env.STREAM_API_KEY;
 const api_secret = process.env.STREAM_API_SECRET;
 const app_id = process.env.STREAM_APP_ID;
-
-
 
 const stripe = new Stripe(
   "sk_test_51GvpJkBqTtLhCjZjfCL0xAlkOPdCoDdaLkdpVV1Dkg5qpB12oQqkAn0YgibmK8sdsvSIvV3e4MSYUWyNmSN9QVnL00xrX1AtDJ"
@@ -31,58 +25,59 @@ const stripe = new Stripe(
 // @route   POST /api/users/login
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
-  const { email, username, password } = req.body
+  const { email, username, password } = req.body;
 
-  const user = await User.findOne({ email })
-console.log(user);
+  const user = await User.findOne({ email });
+  console.log(user);
   if (user && (await user.matchPassword(password))) {
-    
-  // chat auth start
-   const serverClient = stream.connect(api_key, api_secret, app_id);
-   const client = StreamChat.getInstance(api_key, api_secret, app_id);
- 
-   const { users } = await client.queryUsers({ name: username });
- 
-   if(!users.length) return res.status(400).json({ message: 'User not found' });
- 
-   const success = await bcrypt.compare(password, users[0].password);
-   console.log(success);
- 
-   const streamToken = serverClient.createUserToken(users[0].id);
+    // chat auth start
+    const serverClient = stream.connect(api_key, api_secret, app_id);
+    const client = StreamChat.getInstance(api_key, api_secret, app_id);
 
-  
- 
-   if(success) {
-client.connectUser({name:users[0].name, email:email, password: users[0].password, contact:users[0].name, cnic:users[0].name, address:users[0].address, username, id: users[0].id})
+    const { users } = await client.queryUsers({ name: username });
 
-     
- 
+    if (!users.length)
+      return res.status(400).json({ message: "User not found" });
 
+    const success = await bcrypt.compare(password, users[0].password);
+    console.log(success);
 
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      contact: user.contact,
-      cnic: user.cnic,
-      favorites: user.favorites,
-      itemsRented: user.itemsRented,
-      itemsRentedOut: user.itemsRentedOut,
-      collectionRequestsSent: user.collectionRequestsSent,
-      itemsCollected: user.itemsCollected,
-      servicesOrdered: user.servicesOrdered,
-      paymentDetails: user.paymentDetails,
-      paymentsEnabled:user.paymentsEnabled,
-      address: user.address,
-      token: generateToken(user._id),
-      streamToken,
-      username,
-      userId: users[0].id
+    const streamToken = serverClient.createUserToken(users[0].id);
 
-    })
-  }
-   
+    if (success) {
+      client.connectUser({
+        name: users[0].name,
+        email: email,
+        password: users[0].password,
+        contact: users[0].name,
+        cnic: users[0].name,
+        address: users[0].address,
+        username,
+        id: users[0].id,
+      });
+
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        contact: user.contact,
+        cnic: user.cnic,
+        favorites: user.favorites,
+        itemsRented: user.itemsRented,
+        itemsRentedOut: user.itemsRentedOut,
+        collectionRequestsSent: user.collectionRequestsSent,
+        itemsCollected: user.itemsCollected,
+        servicesOrdered: user.servicesOrdered,
+        paymentDetails: user.paymentDetails,
+        paymentsEnabled: user.paymentsEnabled,
+        address: user.address,
+        token: generateToken(user._id),
+        streamToken,
+        username,
+        userId: users[0].id,
+      });
+    }
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -93,8 +88,7 @@ client.connectUser({name:users[0].name, email:email, password: users[0].password
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, contact, cnic, address, username} = req.body
-  
+  const { name, email, password, contact, cnic, address, username } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -102,23 +96,28 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User already exists");
   }
-// try
+  // try
 
-// try end
-const userId = crypto.randomBytes(16).toString('hex');
+  // try end
+  const userId = crypto.randomBytes(16).toString("hex");
 
-const serverClient = connect(api_key, api_secret, app_id);
-let p= password
-const hashedPassword = await bcrypt.hash(p, 10);
+  const serverClient = connect(api_key, api_secret, app_id);
+  let p = password;
+  const hashedPassword = await bcrypt.hash(p, 10);
 
-const token = serverClient.createUserToken(userId);
-const chatClient = StreamChat.getInstance(api_key, api_secret, app_id);
-// chatClient.disconnectUser({id: userId})
-chatClient.connectUser({name, email, password: hashedPassword, contact, cnic, address, username, id: userId})
-
-
-
-
+  const token = serverClient.createUserToken(userId);
+  const chatClient = StreamChat.getInstance(api_key, api_secret, app_id);
+  // chatClient.disconnectUser({id: userId})
+  chatClient.connectUser({
+    name,
+    email,
+    password: hashedPassword,
+    contact,
+    cnic,
+    address,
+    username,
+    id: userId,
+  });
 
   const account = await stripe.accounts.create({ type: "express" });
   const accountLink = await stripe.accountLinks.create({
@@ -127,11 +126,10 @@ chatClient.connectUser({name, email, password: hashedPassword, contact, cnic, ad
     return_url: "http://localhost:3000/onboardsuccess",
     type: "account_onboarding",
   });
-  const update = await stripe.accounts.update(
-    account.id,
-    {settings: {payouts: {schedule: {interval: 'manual'}}}}
-  );
-  let paymentDetails = account.id
+  const update = await stripe.accounts.update(account.id, {
+    settings: { payouts: { schedule: { interval: "manual" } } },
+  });
+  let paymentDetails = account.id;
   const user = await User.create({
     name,
     username,
@@ -142,41 +140,37 @@ chatClient.connectUser({name, email, password: hashedPassword, contact, cnic, ad
     address,
     hashedPassword,
 
-    paymentDetails
+    paymentDetails,
   });
 
   console.log(accountLink.url);
 
   if (user) {
-    
     res.status(201).json({
       _id: user._id,
       name: user.name,
       username: user.username,
-      email: user.email, 
-     
-      isAdmin: user.isAdmin, 
+      email: user.email,
+
+      isAdmin: user.isAdmin,
       contact: user.contact,
       cnic: user.cnic,
-      favorites: user.favorites,   
+      favorites: user.favorites,
       itemsRented: user.itemsRented,
       itemsRentedOut: user.itemsRentedOut,
       collectionRequestsSent: user.collectionRequestsSent,
-      itemsCollected: user.itemsCollected, 
+      itemsCollected: user.itemsCollected,
       servicesOrdered: user.servicesOrdered,
       paymentDetails: user.paymentDetails,
       address: user.address,
       paymentsEnabled: user.paymentsEnabled,
-      redirectUrl:accountLink.url,
+      redirectUrl: accountLink.url,
       token: generateToken(user._id),
       streamToken: token,
-      userId:userId, 
-      hashedPassword:hashedPassword,
-      fullName: user.name, 
-
-    })
-    
-   
+      userId: userId,
+      hashedPassword: hashedPassword,
+      fullName: user.name,
+    });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
@@ -203,10 +197,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
       collectionRequestsSent: user.collectionRequestsSent,
       itemsCollected: user.itemsCollected,
       servicesOrdered: user.servicesOrdered,
-      paymentDetails: user.paymentDetails, 
-      address: user.address
-   
-     
+      paymentDetails: user.paymentDetails,
+      address: user.address,
     });
   } else {
     res.status(404);
@@ -230,7 +222,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.cnic = user.cnic;
     user.address = req.body.address || user.address;
     user.paymentDetails = req.body.paymentDetails || user.paymentDetails;
-    user.paymentsEnabled = req.body.paymentsEnabled || user.paymentsEnabled
+    user.paymentsEnabled = req.body.paymentsEnabled || user.paymentsEnabled;
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -252,7 +244,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       servicesOrdered: updatedUser.servicesOrdered,
       paymentDetails: updatedUser.paymentDetails,
       address: updatedUser.address,
-      paymentsEnabled:user.paymentsEnabled,
+      paymentsEnabled: user.paymentsEnabled,
       token: generateToken(updatedUser._id),
     });
   } else {
@@ -381,28 +373,6 @@ const getFavorites = asyncHandler(async (req, res) => {
   res.json(favorites);
 });
 
-const createUserReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
-
-  const user = await User.findById(req.params.id);
-
-  if (user) {
-    const review = {
-      name: req.user.name,
-      rating: Number(rating),
-      comment,
-      ratedBy: req.user._id,
-    };
-
-    user.review.push(review);
-    await user.save();
-    res.status(201).json({ message: "Review added" });
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-});
-
 // @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
@@ -425,9 +395,45 @@ const addAdmin = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
   if (user) {
-    user.isAdmin = true;
-    user.save();
+    const u = await User.findByIdAndUpdate(user._id, { isAdmin: true });
     res.json({ message: "User added as admin" });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+const createUserReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const product = await User.findById(req.params.id);
+
+  if (product) {
+    // const alreadyReviewed = product.review.find(
+    //   (r) => r.user.toString() === req.user._id.toString()
+    // );
+    const alreadyReviewed = false;
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("User already reviewed");
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.review.push(review);
+
+    product.numReviews = product.review.length;
+
+    product.rating =
+      product.review.reduce((acc, item) => item.rating + acc, 0) /
+      product.review.length;
+
+    await product.save();
+    res.status(201).json(product);
   } else {
     res.status(404);
     throw new Error("User not found");

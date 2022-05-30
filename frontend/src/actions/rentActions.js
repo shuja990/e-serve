@@ -324,7 +324,7 @@ console.log("ss",data);
       }
   
       const { data } = await axios.put(
-        `/api/rent/${rentpost._id}`,
+        `http://localhost:5000/api/rent/${rentpost._id}`,
         rentpost,
         config
       )

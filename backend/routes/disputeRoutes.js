@@ -1,5 +1,6 @@
 import express from "express";
-import { createDispute, getDispute, getMyDisputes, ifInDisputes, isUserService, resolveDispute, updateDispute } from "../controllers/disputeController.js";
+
+import { cancelSubscription, createDispute, getDispute, getMyDisputes, ifInDisputes, isUserService, refundOrder, updateDispute, resolveDispute } from "../controllers/disputeController.js";
 import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
@@ -10,6 +11,8 @@ router.route("/:id/isuserservice").get(protect, isUserService);
 router.route("/ifindisputes/:id").get(protect, ifInDisputes);
 router.route("/update/:id").post(protect, updateDispute);
 router.route("/resolve/:id").post(protect, resolveDispute);
+router.route("/refund/:id").post(protect, refundOrder);
+router.route("/cacncel/:id").post(protect, cancelSubscription);
 
 
 export default router;
