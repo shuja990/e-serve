@@ -200,6 +200,7 @@ const Dashboard = ({ history }) => {
               <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -208,6 +209,8 @@ const Dashboard = ({ history }) => {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.title}</td>
+                  <td>{product.available? "Availble":"Not Avaiable"}</td>
+
                   <td>
                     {" "}
                     {csloading ? (

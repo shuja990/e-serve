@@ -48,8 +48,8 @@ const RentContracts = ({ history }) => {
             {orders?.rent?.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>
-                <td>{order.rentedBy.name}</td>
-                <td>{order.rentedFrom.name}</td>
+                <td>{order.rentedBy?.name}</td>
+                <td>{order.rentedFrom?.name}</td>
                 <td>${order.price}</td>
                 <td>
                   {order.isPaid ? (

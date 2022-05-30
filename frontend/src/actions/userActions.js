@@ -252,7 +252,7 @@ export const createUserReview =
         },
       };
 
-      await axios.post(`/api/users/review/${productId}`, review, config);
+      await axios.post(`http://localhost:5000/api/users/review/${productId}`, review, config);
 
       dispatch({
         type: PRODUCT_CREATE_REVIEW_SUCCESS,
@@ -288,7 +288,7 @@ export const listUsers = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users`, config);
+    const { data } = await axios.get(`http://localhost:5000/api/users`, config);
 
     dispatch({
       type: USER_LIST_SUCCESS,

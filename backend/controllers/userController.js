@@ -395,8 +395,7 @@ const addAdmin = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
   if (user) {
-    user.isAdmin = true;
-    user.save();
+    const u = await User.findByIdAndUpdate(user._id, { isAdmin: true });
     res.json({ message: "User added as admin" });
   } else {
     res.status(404);
@@ -412,7 +411,7 @@ const createUserReview = asyncHandler(async (req, res) => {
     // const alreadyReviewed = product.review.find(
     //   (r) => r.user.toString() === req.user._id.toString()
     // );
-    const alreadyReviewed = false
+    const alreadyReviewed = false;
     if (alreadyReviewed) {
       res.status(400);
       throw new Error("User already reviewed");
