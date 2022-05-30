@@ -155,6 +155,41 @@ const deletePaidServiceAdmin = asyncHandler(async (req, res) => {
   }
 })
 
+
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
+const updateClicksPaidProduct = asyncHandler(async (req, res) => {
+  const {  clicks, whatsappShares, emailShares, twitterShares, fbShares  } = req.body
+
+
+const product = await PaidService.findById(req.params.id)
+
+  if(true){
+      if (product) {
+         
+          product.clicks= clicks || product.clicks
+          product.whatsappShares= whatsappShares || product.whatsappShares
+          product.emailShares= emailShares || product.emailShares
+          product.twitterShares= twitterShares || product.twitterShares
+          product.fbShares= fbShares || product.fbShares
+      
+          const updatedProduct = await product.save()
+          res.json(updatedProduct)
+        } else {
+          res.status(404)
+          throw new Error('Product not found')
+        }
+  }
+  else{
+    res.status(401)
+    throw new Error('Not authorized')
+
+  }
+
+})
+
+
 export {
   getPaidServiceById,
   getPaidServices,
@@ -162,5 +197,6 @@ export {
   createPaidService,
   updatePaidService,
   getUserPaidService,
-  deletePaidServiceAdmin
+  deletePaidServiceAdmin,
+  updateClicksPaidProduct
 }

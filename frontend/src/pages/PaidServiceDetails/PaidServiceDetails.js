@@ -219,7 +219,7 @@ const PaidServiceDetails = ({ history, match }) => {
 
           {/* review section */}
 
-          <Row>
+          {/* <Row>
             <Col md={6}>
               <h2>Reviews</h2>
               {paidService?.createdBy?.review.length === 0 && <Message>No Reviews</Message>}
@@ -233,7 +233,7 @@ const PaidServiceDetails = ({ history, match }) => {
                 ))}
               </ListGroup>
             </Col>
-          </Row>
+          </Row> */}
         </>
       )}
     </>

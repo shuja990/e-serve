@@ -78,10 +78,11 @@ const createRentProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateRentProduct = asyncHandler(async (req, res) => {
-    const { title,price,thumbnailImage,images,location,category,description,isMovable, clicks, whatsappShares, emailShares, twitterShares, fbShares } = req.body
+    const { title,price,thumbnailImage,images,location,category,description,isMovable, clicks, whatsappShares, emailShares, twitterShares, fbShares,coordinates  } = req.body
 
 
   const product = await Rent.findById(req.params.id)
+  
     if(req.user._id.toString() == product.createdBy.toString()){
         if (product) {
             product.title = title
@@ -114,6 +115,7 @@ const updateRentProduct = asyncHandler(async (req, res) => {
   
 })
 
+
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Admin
@@ -144,6 +146,41 @@ const deleteRentProductAdmin = asyncHandler(async (req, res) => {
   }
 })
 
+
+// @desc    Update a product
+// @route   PUT /api/products/:id
+// @access  Private/Admin
+const updateClicksRentProduct = asyncHandler(async (req, res) => {
+  const {  clicks, whatsappShares, emailShares, twitterShares, fbShares  } = req.body
+
+
+const product = await Rent.findById(req.params.id)
+
+  if(true){
+      if (product) {
+         
+          product.clicks= clicks || product.clicks
+          product.whatsappShares= whatsappShares || product.whatsappShares
+          product.emailShares= emailShares || product.emailShares
+          product.twitterShares= twitterShares || product.twitterShares
+          product.fbShares= fbShares || product.fbShares
+      
+          const updatedProduct = await product.save()
+          res.json(updatedProduct)
+        } else {
+          res.status(404)
+          throw new Error('Product not found')
+        }
+  }
+  else{
+    res.status(401)
+    throw new Error('Not authorized')
+
+  }
+
+})
+
+
 export {
   getRentProducts,
   getRentProductById,
@@ -151,5 +188,6 @@ export {
   createRentProduct,
   updateRentProduct,
   getUserPosts,
-  deleteRentProductAdmin
+  deleteRentProductAdmin,
+  updateClicksRentProduct
 }

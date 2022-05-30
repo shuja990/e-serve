@@ -161,7 +161,7 @@ const RentPostsPage = ({ match }) => {
             </Col>
           </Row>
           <Row>
-            <Col md={6}>
+            {/* <Col md={6}>
               <h2>Reviews</h2>
               {rentPost?.createdBy?.review.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
@@ -169,13 +169,13 @@ const RentPostsPage = ({ match }) => {
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
-                    {/* <p>{review.createdAt.substring(0, 10)}</p> */}
+                  
                     <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))}
 
               </ListGroup>
-            </Col>
+            </Col> */}
           </Row>
         </>
       )}

@@ -199,7 +199,7 @@ export const createPaidService = (data) => async (dispatch, getState) => {
       paidService.clicks= paidService.clicks+1
   
       const { data } = await axios.put(
-        `http://localhost:5000/api/paidservice/${paidService._id}`,
+        `http://localhost:5000/api/paidservice/updateclicks/${paidService._id}`,
         paidService,
         config
       )
@@ -256,7 +256,7 @@ export const createPaidService = (data) => async (dispatch, getState) => {
       }
   
       const { data } = await axios.put(
-        `http://localhost:5000/api/paidservice/${paidService._id}`,
+        `http://localhost:5000/api/paidservice/updateclicks/${paidService._id}`,
         paidService,
         config
       )

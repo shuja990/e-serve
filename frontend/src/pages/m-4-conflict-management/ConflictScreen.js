@@ -174,6 +174,23 @@ function ConflictScreen({ match }) {
     );
   };
 
+  const handleRefund=async ()=>{
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`
+      },
+    };
+
+   
+    const { data } = await axios.post(
+      `http://localhost:5000/api/dispute/refund/${orderDetails?.order._id}`,
+      {paymentIntent: orderDetails?.order.paymentIntent },
+      config
+    );
+  }
+
+  
   return (
     <div>
       <h1 className="text-center mb-5">Conflict Resolution Desk</h1>
@@ -290,13 +307,13 @@ function ConflictScreen({ match }) {
               >
                 Resolve Dispute
               </Button>
-              <Button className="align-self-center mt-5 ml-5" variant="danger">
+              <Button onClick={handleRefund} className="align-self-center mt-5 ml-5" variant="danger">
                 Refund Buyer
               </Button>
 
-              <Button className="align-self-center mt-5 ml-5" variant="danger">
+              {/* <Button className="align-self-center mt-5 ml-5" variant="danger">
                 Cancel Subscription
-              </Button>
+              </Button> */}
             </form>
           </div>
                :''

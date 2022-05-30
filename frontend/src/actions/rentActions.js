@@ -188,7 +188,7 @@ export const addRentPost = (data) => async (dispatch, getState) => {
       dispatch({
         type: RENT_UPDATE_REQUEST,
       })
-  
+      
       const {
         userLogin: { userInfo },
       } = getState()
@@ -200,13 +200,13 @@ export const addRentPost = (data) => async (dispatch, getState) => {
         },
       }
       rentpost.clicks= rentpost.clicks+1
-
-  
+     
       const { data } = await axios.put(
-        `/api/rent/${rentpost._id}`,
+        `/api/rent/updateclicks/${rentpost._id}`,
         rentpost,
         config
       )
+      console.log('clicks: ',data)
       dispatch({
         type: RENT_UPDATE_SUCCESS,
         payload: data,
@@ -259,7 +259,7 @@ export const addRentPost = (data) => async (dispatch, getState) => {
 
   
       const { data } = await axios.put(
-        `/api/rent/${rentpost._id}`,
+        `/api/rent/updateclicks/${rentpost._id}`,
         rentpost,
         config
       )

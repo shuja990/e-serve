@@ -3,6 +3,12 @@ import Dispute from "../models/disputeModel.js";
 import PaidService from '../models/paidServiceModel.js'
 import Rent from '../models/rentModel.js'
 import Order from "../models/orderModel.js";
+import Stripe from "stripe";
+import RentContract from "../models/rentContractModel.js";
+
+const stripe = new Stripe(
+  "sk_test_51GvpJkBqTtLhCjZjfCL0xAlkOPdCoDdaLkdpVV1Dkg5qpB12oQqkAn0YgibmK8sdsvSIvV3e4MSYUWyNmSN9QVnL00xrX1AtDJ"
+);
 
 
 
@@ -152,7 +158,7 @@ const createDispute = asyncHandler(async (req, res) => {
     }
   }); 
   
-  const refundOrder = async () => {
+  const refundOrder = async (req, res) => {
     const charges = await stripe.charges.list({
     });
     let cs = ""
@@ -166,12 +172,20 @@ const createDispute = asyncHandler(async (req, res) => {
       charge: cs,
       reverse_transfer: true,
     });
+    const order= await Order.findByIdAndUpdate(req.params.id, {
+      orderStatus: "cancelled"
+    })
+    
     res.json(refund)
   }
-  const cancelSubscription = async () => {
+  const cancelSubscription = async (req,res) => {
     const deleted = await stripe.subscriptions.del(
       req.body.paymentResult
       );
+      const rent= await RentContract.findByIdAndUpdate(req.params.id, {
+        contractStatus: 'cancelled'
+      })
+      res.json(deleted)
   }
 
   export {

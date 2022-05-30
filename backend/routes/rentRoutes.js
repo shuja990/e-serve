@@ -7,7 +7,8 @@ import {
   createRentProduct,
   updateRentProduct,
   getUserPosts,
-  deleteRentProductAdmin
+  deleteRentProductAdmin,
+  updateClicksRentProduct
 } from '../controllers/rentController.js'
 import { protect,admin } from '../middleware/authMiddleware.js'
 
@@ -23,4 +24,7 @@ router
 router
   .route('/admin/:id')
   .delete(protect,admin,deleteRentProductAdmin)
+
+router.route('/updateclicks/:id').put(updateClicksRentProduct)
+
 export default router

@@ -7,7 +7,8 @@ import {
     createPaidService,
     updatePaidService,
     getUserPaidService,
-    deletePaidServiceAdmin
+    deletePaidServiceAdmin,
+    updateClicksPaidProduct
 } from '../controllers/paidServiceController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
@@ -19,6 +20,7 @@ router
   .put(protect, updatePaidService)
 router.route('/admin/:id').delete(protect,admin,deletePaidServiceAdmin)
 router.route('/myposts/:id').get(protect, getUserPaidService)
+router.route('/updateclicks/:id').put(updateClicksPaidProduct)
 
 // router.route('/').get(getPaidServices).post(protect, admin, createPaidService)
 // router.route('/:id/reviews').post(protect, createProductReview)
