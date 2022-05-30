@@ -15,6 +15,7 @@ import adminRoutes from './routes/adminRoutes.js'
 import paidServiceRoutes from './routes/paidServiceRoutes.js'
 import webAppVisitRoutes from './routes/webAppVisitRoutes.js'
 import disputeRoutes from './routes/disputeRoutes.js'
+import feedbackRoutes from './routes/feedbackRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import rentContractRoutes from './routes/rentContractRoutes.js'
@@ -23,7 +24,7 @@ import promotedRoutes from './routes/promotedPostRoutes.js'
 import { deletePosts } from './controllers/promotedPostController.js'
 import Stripe from "stripe";
 
-
+ 
 dotenv.config()
 connectDB()
 
@@ -67,6 +68,10 @@ app.use('/api/rentcontract', rentContractRoutes)
 
 // dispute
 app.use('/api/dispute', disputeRoutes)
+
+// feedback
+app.use('/api/feedback', feedbackRoutes)
+
 
 
 

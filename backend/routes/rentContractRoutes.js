@@ -7,8 +7,10 @@ import { protect, admin } from "../middleware/authMiddleware.js";
 
 router.route("/").get(getRentContracts).post(protect, createRentContract);
 router.route("/:id").get(getRentContractById);
+// ma warkari de
 router.route("/rentedby/:id").get(protect, getRentedByContracts);
-router.route("/rentedfrom/:id").get(protect, getRentedFromContracts);
+//from aghsti de
+router.route("/rentedfrom/:id").get(protect, getRentedFromContracts); 
 router.route("/contract/:id").post(protect, uploadContract);
 
 router.route("/pay/:id").post( makePayment);

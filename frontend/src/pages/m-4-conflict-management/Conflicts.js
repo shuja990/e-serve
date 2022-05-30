@@ -47,6 +47,7 @@ function Conflicts({history}) {
     if (userInfo) {
      
       dispatch(getMyDisputes(userInfo._id)) 
+    
   
         // alert(JSON.stringify(myDisputesStoreList))
     } else {
@@ -100,7 +101,7 @@ function Conflicts({history}) {
                  <td>{order.disputeStatus}</td>
                  <td>{order.title}</td>
                  <td>{order?.createdAt}</td>
-                 <td>  <LinkContainer to={`/conflict/${order._id}`}>
+                 <td>  <LinkContainer to={ order.disputeType=="rental"?`/conflictrent/${order._id}` :`/conflict/${order._id}`}>
                     <Button variant='light' className='btn-sm'>
                       Open Dispute
                     </Button>
@@ -110,7 +111,7 @@ function Conflicts({history}) {
                    {disputesLoading ? (
                      <Loader />
                    ) : (
-                    <LinkContainer to={`/order/${order._id}`}>
+                    <LinkContainer to={`/order/${order.disputeOrderId}`}>
                     <Button variant='light' className='btn-sm'>
                       Details
                     </Button>

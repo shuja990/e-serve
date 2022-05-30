@@ -40,7 +40,7 @@ const MyProductsRented = ({ history }) => {
               <th>Price</th>
               <th>PAID</th>
               <th>Contract Status</th>
-              <th></th>
+              <th colSpan={2} >Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +60,14 @@ const MyProductsRented = ({ history }) => {
                 <td>
                     {order.contractStatus}
                 </td>
+                <td>
+                  <LinkContainer to={`/createrentconflict/${order._id}`}>
+                    <Button variant='light' className='btn-sm'>
+                      Create Dispute
+                    </Button>
+                  </LinkContainer>
+                </td>
+
                 <td>
                   <LinkContainer to={`/rentcontract/${order._id}`}>
                     <Button variant='light' className='btn-sm'>

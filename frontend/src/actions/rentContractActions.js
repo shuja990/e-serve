@@ -246,6 +246,7 @@ export const listMyRentedFromItems = () => async (dispatch, getState) => {
       type: ORDER_LIST_MY_SUCCESS,
       payload: data,
     });
+    console.log('rented from', data)
   } catch (error) {
     const message =
       error.response && error.response.data.message

@@ -126,6 +126,9 @@ const Header = () => {
                   <LinkContainer to="/dashboard">
                     <NavDropdown.Item>Dashboard</NavDropdown.Item>
                   </LinkContainer>
+                  <LinkContainer to="/feedback">
+                    <NavDropdown.Item>Feedback</NavDropdown.Item>
+                  </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
@@ -162,6 +165,7 @@ const Header = () => {
                   </LinkContainer>
                 </NavDropdown>
               )}
+              
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -54,6 +54,7 @@ const createDispute = asyncHandler(async (req, res) => {
     const service = await Dispute.find(
       {$or:[{disputeCreatedAgainst: req.params.id},{disputeCreatedBy: req.params.id }]}
       )
+      // .populate({ path: "disputeService", select: "_id" })
     // const service = await Dispute.find({disputeCreatedBy: req.params.id})
     // const rentService = await Rent.findById(req.params.id).populate('createdBy', 'name')
     console.log(service)

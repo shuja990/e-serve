@@ -56,6 +56,9 @@ import PromoteRentPost from './pages/PromotePost/PromotRentPost'
 import RentContracts from './pages/module3/RentContracts'
 import ServiceOrders from './pages/module3/ServiceOrders'
 import CreateConflict from './pages/m-4-conflict-management/CreateConflict'
+import FeedbackForm from './pages/m-10-feedback/FeedbackForm'
+import CreateConflictRent from './pages/m-4-conflict-management/CreateConflictRent'
+import ConflictRentScreen from './pages/m-4-conflict-management/ConflictRentScreen'
 const App = () => {
   
   const dispatch= useDispatch()
@@ -158,14 +161,21 @@ const App = () => {
           <Route path='/chat' component={ChatScreen} exact />
           {/* conflict screen */}
           <Route path='/conflict/:id' component={ConflictScreen} exact />
+          <Route path='/conflictrent/:id' component={ConflictRentScreen} exact />
           {/* buyers order history */}
           <Route path='/buyersorderhistory' component={OrdersHistory} exact />
           {/* sellers order history */}
           <Route path='/sellersorderhistory' component={SellersOrdersHistory} exact />
           {/* create conflict */}
           <Route path='/createconflict/:id' component={CreateConflict} exact />
+          <Route path='/createrentconflict/:id' component={CreateConflictRent} exact />
           {/* my conflicts */}
+          
           <Route path='/myconflicts/:id' component={Conflicts} exact />
+          
+          {/* feedback */}
+          <Route path='/feedback' component={FeedbackForm} exact />
+
         </Container>
       </main>
       <Footer />

@@ -15,6 +15,7 @@ const MyRentedProducts = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+
   useEffect(() => {
     if (userInfo) {
       dispatch(listMyRentedFromItems())
@@ -40,7 +41,7 @@ const MyRentedProducts = ({ history }) => {
               <th>Price</th>
               <th>PAID</th>
               <th>Contract Status</th>
-              <th></th>
+              <th colSpan={2} >Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -61,12 +62,21 @@ const MyRentedProducts = ({ history }) => {
                     {order.contractStatus}
                 </td>
                 <td>
+                  <LinkContainer to={`/createrentconflict/${order._id}`}>
+                    <Button variant='light' className='btn-sm'>
+                      Create Dispute
+                    </Button>
+                  </LinkContainer>
+                </td>
+
+                <td>
                   <LinkContainer to={`/rentcontract/${order._id}`}>
                     <Button variant='light' className='btn-sm'>
                       Details
                     </Button>
                   </LinkContainer>
                 </td>
+                
               </tr>
             ))}
           </tbody>
