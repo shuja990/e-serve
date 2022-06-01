@@ -39,7 +39,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/rentcontract`, order, config);
+    const { data } = await axios.post(`http://localhost:5000/api/rentcontract`, order, config);
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,

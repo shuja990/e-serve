@@ -82,12 +82,12 @@ export const addRentPost = (data) => async (dispatch, getState) => {
       console.log("paid service data: "+ JSON.stringify(data));
       dispatch({
         type: RENT_CREATE_SUCCESS,
-        payload: data,
+        payload: dbData,
       })
 
       dispatch({
         type: RENT_LIST_ADD,
-        payload: data,
+        payload: dbData,
       })
       // console.log("db data paid service creation: "+ dbData);
 
@@ -202,7 +202,7 @@ export const addRentPost = (data) => async (dispatch, getState) => {
       rentpost.clicks= rentpost.clicks+1
      
       const { data } = await axios.put(
-        `/api/rent/updateclicks/${rentpost._id}`,
+        `http://localhost:5000/api/rent/updateclicks/${rentpost._id}`,
         rentpost,
         config
       )
@@ -259,7 +259,7 @@ export const addRentPost = (data) => async (dispatch, getState) => {
 
   
       const { data } = await axios.put(
-        `/api/rent/updateclicks/${rentpost._id}`,
+        `http://localhost:5000/api/rent/updateclicks/${rentpost._id}`,
         rentpost,
         config
       )

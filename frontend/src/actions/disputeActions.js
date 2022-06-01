@@ -61,7 +61,7 @@ export const updateDispute = (dispute, id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.post(`/api/dispute/update/${id}`, dispute, config)
+    const { data } = await axios.post(`http://localhost:5000/api/dispute/update/${id}`, dispute, config)
 console.log('controller dispute updated: ', data)
     dispatch({
       type: DISPUTE_UPDATE_SUCCESS,
@@ -103,7 +103,7 @@ export const resolveDispute = (dispute, id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.post(`/api/dispute/resolve/${id}`, dispute, config)
+    const { data } = await axios.post(`http://localhost:5000/api/dispute/resolve/${id}`, dispute, config)
 console.log('controller dispute updated: ', data)
     dispatch({
       type: DISPUTE_RESOLVE_SUCCESS,
@@ -231,7 +231,7 @@ export const ifInDIsputes = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/api/dispute/ifindisputes/${id}`, config)
+    const { data } = await axios.get(`http://localhost:5000/api/dispute/ifindisputes/${id}`, config)
 
     dispatch({
       type: IF_IN_DISPUTES_GET_SUCCESS,
@@ -275,7 +275,7 @@ export const getDispute = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/api/dispute/disputes/${id}`, config)
+    const { data } = await axios.get(`http://localhost:5000/api/dispute/disputes/${id}`, config)
 console.log(data);
     dispatch({
       type: DISPUTE_GET_SUCCESS,

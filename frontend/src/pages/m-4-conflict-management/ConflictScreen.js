@@ -21,9 +21,10 @@ function ConflictScreen({ match }) {
   const [thumbnailImage, setThumbnailImage] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [disputeType, setDisputeType] = useState("rental");
+  const [disputeType, setDisputeType] = useState("paid service");
   const [serviceType, setServiceType] = useState("");
   const [disputeCreatedBy, setDisputeCreatedBy] = useState("");
+  const [refund, setRefund] = useState(false);
   const [sellerEvidence, setSellerEvidence] = useState("");
   const [buyerEvidence, setBuyerEvidence] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -77,7 +78,7 @@ function ConflictScreen({ match }) {
         `${dispute?.disputeOrderId ? dispute?.disputeOrderId : match.params.id}`
       )
     );
-  }, [dispatch, dispute]);
+  }, [dispatch, dispute, refund]);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -157,6 +158,9 @@ function ConflictScreen({ match }) {
         match.params.id
       )
     );
+    setTitle("")
+    setDisputeType("paid service")
+    setDescription("")
 
     // history.push('/paidservices')
   };
@@ -174,23 +178,27 @@ function ConflictScreen({ match }) {
     );
   };
 
-  const handleRefund=async ()=>{
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`
-      },
-    };
+  const handleRefund = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-   
-    const { data } = await axios.post(
-      `http://localhost:5000/api/dispute/refund/${orderDetails?.order._id}`,
-      {paymentIntent: orderDetails?.order.paymentIntent },
-      config
-    );
-  }
+      const { data } = await axios.post(
+        `http://localhost:5000/api/dispute/refund/${orderDetails?.order._id}`,
+        { paymentIntent: orderDetails?.order.paymentIntent },
+        config
+      );
+      setRefund(true);
+      alert("Amount Refunded");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
-  
   return (
     <div>
       <h1 className="text-center mb-5">Conflict Resolution Desk</h1>
@@ -234,16 +242,6 @@ function ConflictScreen({ match }) {
                 {uploading && <Loader />}
               </Form.Group>
 
-              <Form.Group className="mb-3 mt-4">
-                <Form.Label htmlFor="">Dispute Type</Form.Label>
-                <Form.Select
-                  id=""
-                  onChange={(e) => setDisputeType(e.target.value)}
-                >
-                  <option value="rental">Rental</option>
-                  <option value="paid service">Paid Service</option>
-                </Form.Select>
-              </Form.Group>
 
               {dispute?.isOpened ? (
                 <Button
@@ -283,42 +281,45 @@ function ConflictScreen({ match }) {
           </div>
 
           {/* admin funct */}
-          {
-               userInfo.isAdmin === true?
-               <div className="resolve-dispute d-flex flex-column mt-5   ">
-            <h1 className="font-bold">Resolve Dispute</h1>
+          {userInfo.isAdmin === true ? (
+            <div className="resolve-dispute d-flex flex-column mt-5   ">
+              <h1 className="font-bold">Resolve Dispute</h1>
 
-            <form onSubmit={handleAdminResponse}>
-              <Form.Group controlId="name">
-                <Form.Label>Admin Response</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Enter Dsipute Response"
-                  value={adminResponse}
-                  onChange={(e) => setAdminResponse(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+              <form onSubmit={handleAdminResponse}>
+                <Form.Group controlId="name">
+                  <Form.Label>Admin Response</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Enter Dsipute Response"
+                    value={adminResponse}
+                    onChange={(e) => setAdminResponse(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-              <Button
-                type="submit"
-                className="align-self-center mt-5"
-                variant="success"
-              >
-                Resolve Dispute
-              </Button>
-              <Button onClick={handleRefund} className="align-self-center mt-5 ml-5" variant="danger">
-                Refund Buyer
-              </Button>
+                <Button
+                  type="submit"
+                  className="align-self-center mt-5"
+                  variant="success"
+                >
+                  Resolve Dispute
+                </Button>
+                <Button
+                  onClick={handleRefund}
+                  className="align-self-center mt-5 ml-5"
+                  variant="danger"
+                >
+                  Refund Buyer
+                </Button>
 
-              {/* <Button className="align-self-center mt-5 ml-5" variant="danger">
+                {/* <Button className="align-self-center mt-5 ml-5" variant="danger">
                 Cancel Subscription
               </Button> */}
-            </form>
-          </div>
-               :''
-            }
-          
+              </form>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <div>

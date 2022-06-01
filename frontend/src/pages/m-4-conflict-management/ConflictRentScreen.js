@@ -11,12 +11,7 @@ import {
   updateDispute,
 } from "../../actions/disputeActions";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getOrderDetails
- 
-} from "../../actions/rentContractActions";
-
-
+import { getOrderDetails } from "../../actions/rentContractActions";
 
 function ConflictRentScreen({ match }) {
   const [thumbnailImage, setThumbnailImage] = useState("");
@@ -29,7 +24,7 @@ function ConflictRentScreen({ match }) {
   const [buyerEvidence, setBuyerEvidence] = useState("");
   const [uploading, setUploading] = useState(false);
   const [adminResponse, setAdminResponse] = useState("");
-
+  const [cancel, setCancel] = useState(false);
   const isSellerServiceBool = useSelector(
     (state) => state.isSellerServiceStore.isSellerService
   );
@@ -78,7 +73,7 @@ function ConflictRentScreen({ match }) {
         `${dispute?.disputeOrderId ? dispute?.disputeOrderId : match.params.id}`
       )
     );
-  }, [dispatch, dispute]);
+  }, [dispatch, dispute, cancel]);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -115,7 +110,8 @@ function ConflictRentScreen({ match }) {
           disputeType,
           buyerEvidence:
             dispute?.buyerEvidence == null &&
-            orderDetails?.order.rentedBy._id.toString() === userInfo._id.toString()
+            orderDetails?.order.rentedBy._id.toString() ===
+              userInfo._id.toString()
               ? thumbnailImage
               : dispute?.buyerEvidence,
           sellerEvidence:
@@ -158,7 +154,9 @@ function ConflictRentScreen({ match }) {
         match.params.id
       )
     );
-
+    setTitle("")
+    setDisputeType("rental")
+    setDescription("")
     // history.push('/paidservices')
   };
 
@@ -175,22 +173,26 @@ function ConflictRentScreen({ match }) {
     );
   };
 
-  
-  const handleCancelSub=async ()=>{
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+  const handleCancelSub = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-   
-    const { data } = await axios.post(
-      `http://localhost:5000/api/dispute/cacncel/${orderDetails?.order._id}`,
-      {paymentResult: orderDetails?.order.paymentResult },
-      config
-    );
-  }
+      const { data } = await axios.post(
+        `http://localhost:5000/api/dispute/cacncel/${orderDetails?.order._id}`,
+        { paymentResult: orderDetails?.order.paymentResult },
+        config
+      );
+      setCancel(true);
+      alert("Subscription cancelled");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div>
@@ -235,16 +237,7 @@ function ConflictRentScreen({ match }) {
                 {uploading && <Loader />}
               </Form.Group>
 
-              <Form.Group className="mb-3 mt-4">
-                <Form.Label htmlFor="">Dispute Type</Form.Label>
-                <Form.Select
-                  id=""
-                  onChange={(e) => setDisputeType(e.target.value)}
-                >
-                  <option value="rental">Rental</option>
-                  <option value="paid service">Paid Service</option>
-                </Form.Select>
-              </Form.Group>
+
 
               {dispute?.isOpened ? (
                 <Button
@@ -284,40 +277,42 @@ function ConflictRentScreen({ match }) {
           </div>
 
           {/* admin funct */}
-          {
-               userInfo.isAdmin === true?
-               <div className="resolve-dispute d-flex flex-column mt-5   ">
-            <h1 className="font-bold">Resolve Dispute</h1>
+          {userInfo.isAdmin === true ? (
+            <div className="resolve-dispute d-flex flex-column mt-5   ">
+              <h1 className="font-bold">Resolve Dispute</h1>
 
-            <form onSubmit={handleAdminResponse}>
-              <Form.Group controlId="name">
-                <Form.Label>Admin Response</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  placeholder="Enter Dsipute Response"
-                  value={adminResponse}
-                  onChange={(e) => setAdminResponse(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+              <form onSubmit={handleAdminResponse}>
+                <Form.Group controlId="name">
+                  <Form.Label>Admin Response</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Enter Dsipute Response"
+                    value={adminResponse}
+                    onChange={(e) => setAdminResponse(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-              <Button
-                type="submit"
-                className="align-self-center mt-5"
-                variant="success"
-              >
-                Resolve Dispute
-              </Button>
-             
+                <Button
+                  type="submit"
+                  className="align-self-center mt-5"
+                  variant="success"
+                >
+                  Resolve Dispute
+                </Button>
 
-              <Button onClick={handleCancelSub} className="align-self-center mt-5 ml-5" variant="danger">
-                Cancel Subscription
-              </Button>
-            </form>
-          </div>
-               :''
-            }
-          
+                <Button
+                  onClick={handleCancelSub}
+                  className="align-self-center mt-5 ml-5"
+                  variant="danger"
+                >
+                  Cancel Subscription
+                </Button>
+              </form>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <div>

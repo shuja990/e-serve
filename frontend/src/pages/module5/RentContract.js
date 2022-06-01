@@ -345,7 +345,7 @@ const RentContractPage = ({ match, history }) => {
                   {order.invoices.map((order, idx) => (
                     <tr key={idx + 1}>
                       <td>{idx + 1}</td>
-                      <td>${order.amount / 1000}</td>
+                      <td>${order.amount / 100}</td>
                       <td>{order.paidAt}</td>
                       <td>
                         {order.isPaid ? (
